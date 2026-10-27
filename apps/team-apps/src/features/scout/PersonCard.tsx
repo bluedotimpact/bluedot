@@ -411,7 +411,7 @@ const TimelineRow: React.FC<{
   when, kind, detail, opinion, status, inlineLink, links = [], current = false, quiet = false, more: details,
 }) => {
   const [open, setOpen] = useState(false);
-  const more = (details ?? links.some((l) => l.url)) && <div className="flex flex-col gap-2"><Links links={links} />{details}</div>;
+  const more = (!!details || links.some((l) => l.url)) && <div className="flex flex-col gap-2"><Links links={links} />{details}</div>;
   // The whole row toggles the details; links, the chevron and the opened details keep their own clicks.
   const onRowClick = (e: React.MouseEvent) => {
     if (!(e.target as HTMLElement).closest('a, button, [data-details]')) setOpen((o) => !o);
@@ -422,17 +422,19 @@ const TimelineRow: React.FC<{
       onClick={more ? onRowClick : undefined}
       className={cn('col-span-full grid grid-cols-subgrid items-center gap-y-1 py-1.5', more && 'cursor-pointer hover:bg-tint', current && '-mx-2 rounded-surface bg-info-bg/50 px-2 font-medium text-primary', quiet && 'text-disabled')}
     >
-      <span className="tabular-nums">{when}</span>
+      <span className="flex items-center gap-2 tabular-nums">
+        {more && (
+          <button type="button" aria-expanded={open} aria-label={open ? 'Hide details' : 'Show details'} className="flex shrink-0 items-center text-disabled" onClick={() => setOpen((o) => !o)}>
+            <FaChevronRight aria-hidden className={cn('size-2.5 transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
+          </button>
+        )}
+        {when}
+      </span>
       <span>{kind}</span>
       <span className="min-w-0 break-words">{detail}</span>
       <span>{opinion && <OpinionBadge opinion={opinion} />}</span>
       <span>{status && <Badge className={TONE_CLASS[status.tone]}>{status.label}</Badge>}</span>
       <span className="flex items-center justify-end gap-1">
-        {more && (
-          <button type="button" aria-expanded={open} aria-label={open ? 'Hide details' : 'Show details'} className="flex size-6 items-center justify-center rounded-surface text-secondary" onClick={() => setOpen((o) => !o)}>
-            <FaChevronRight aria-hidden className={cn('size-2.5 transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
-          </button>
-        )}
         {inlineLink?.url && <A href={inlineLink.url} target="_blank" className="whitespace-nowrap no-underline">{inlineLink.label} ↗</A>}
       </span>
       {open && more && <div data-details className="col-span-full cursor-auto pb-1 pl-[4.5rem] text-primary">{more}</div>}

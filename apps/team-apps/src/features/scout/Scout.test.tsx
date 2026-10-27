@@ -324,7 +324,9 @@ test('a lead\'s shortlist shows first, then their first card; their backlog and 
   await waitFor(() => expect(mockFetch.mock.calls.some(([path]) => pathOf(path).endsWith('/queue?courses=Technical%20AI%20Safety%2CTechnical%20AI%20Safety%20Project&part=all'))).toBe(true));
   expect(mockFetch.mock.calls.some(([path]) => pathOf(path).endsWith('/queue?courses=Biosecurity&part=backlog'))).toBe(true);
   const paths = mockFetch.mock.calls.map(([path]) => pathOf(path));
-  expect(paths.indexOf(paths.find((path) => path.endsWith(`/person/${shortlisted.id}`))!)).toBeLessThan(paths.findIndex((path) => path.includes('courses=')));
+  const firstCard = paths.findIndex((path) => path.endsWith(`/person/${shortlisted.id}`));
+  expect(firstCard).toBeGreaterThanOrEqual(0);
+  expect(firstCard).toBeLessThan(paths.findIndex((path) => path.includes('courses=')));
   await waitFor(() => expect(screen.queryByText('Loading the backlog…')).toBeNull());
   expect(screen.getByText('1 to review →')).toBeTruthy();
   await waitFor(() => expect(screen.getByRole('button', { name: 'Technical AI Safety' }).hasAttribute('disabled')).toBe(false));

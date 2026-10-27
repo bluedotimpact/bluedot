@@ -76,6 +76,10 @@ export const goalLine = (invited: number) => {
 // A decision waits this long before it is saved, so it can be undone. Exported for tests.
 export const UNDO_SECONDS = 5;
 const PRELOAD_AHEAD = 5;
+const FIRST_CARD_WAIT_MS = 5000;
+const wait = (ms: number) => new Promise<void>((resolve) => {
+  setTimeout(resolve, ms);
+});
 
 // The Monday (UTC) a week starts on, as the server counts invites
 const weekOf = (now = new Date()) => new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - ((now.getUTCDay() + 6) % 7))).toISOString().slice(0, 10);
@@ -390,7 +394,8 @@ const Scout = () => {
       later.forEach(({ part }) => (part === 'backlog' ? setBacklogLoading : setOthersLoading)(true));
       // The server queues Airtable reads, so the lead's first card goes before the backlog and other courses
       const first = courses.filter((course) => data.leadCourses?.includes(course)).map((course) => mustLookFor(data.items, course)).find((list) => list.length > 0)?.[0];
-      if (first) await loadPerson(first.id);
+      // Capped, so a card that hangs doesn't hold the rest back
+      if (first) await Promise.race([loadPerson(first.id), wait(FIRST_CARD_WAIT_MS)]);
       if (queueGeneration !== generation.current) return;
       // The lead's backlog and the other courses, side by side. A failure says so on the page;
       // a reply from an older load is dropped.

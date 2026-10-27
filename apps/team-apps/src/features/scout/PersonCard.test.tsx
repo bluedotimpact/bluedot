@@ -61,6 +61,12 @@ test('an opened course row links its record first, then the project submitted fo
   expect(screen.getAllByRole('link').map((link) => link.textContent).filter((text) => /record|^Project/.test(text ?? ''))).toEqual(['Course record ↗', 'Project: Sample brief ↗']);
 });
 
+test('an eval call with no notes still opens to its record', () => {
+  render(<PersonCard person={{ ...person, calls: [{ id: 'recCallSample0001', recordUrl: 'https://airtable.example.org/recCallSample0001', createdAt: '2026-06-01' }] }} showName />);
+  fireEvent.click(screen.getByText('Eval call'));
+  expect(screen.getByRole('link', { name: 'Call record ↗' })).toBeTruthy();
+});
+
 test('openNextSection walks the top-level sections one at a time: closes the open one, opens the next, then starts over', () => {
   render(<PersonCard person={person} showName />);
   const tops = () => [...document.querySelectorAll('details')].filter((d) => !d.parentElement?.closest('details'));
