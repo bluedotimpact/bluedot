@@ -23,7 +23,7 @@ Use these before you build anything. Browse them in [Storybook](https://storyboo
 | --- | --- | --- |
 | Button or CTA link | `Button` | Styled `<a>`/`<button>`; className colour overrides (use `variant`/`tone`) |
 | Icon-only action | `IconButton` | `Button` with only an icon |
-| Low-emphasis text action (Show more, Clear, Undo) | `Button variant="link"`, `tone="accent"` for the blue one | Underlined `<button className>` |
+| Low-emphasis text action (Show more, Clear, Undo) | `Button variant="link"`; `tone="accent"` for the blue one, `tone="warning"` inside warning surfaces | Underlined `<button className>` |
 | Unstyled clickable wrapper | `ClickTarget` | Hand-rolled link-or-button switch |
 | Headings, body text, links | `H1`–`H4`, `P`, `A` | Raw `<h2 className="text-...">` |
 | Small label above a heading | `Eyebrow` | Uppercase `<span>` with custom tracking |

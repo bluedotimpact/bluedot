@@ -145,7 +145,7 @@ const FacilitatorFeedbackPage = () => {
   };
   const alreadySubmitted = formData?.existingCourseFeedback?.completed === true;
   const submitIdleLabel = alreadySubmitted ? 'Update feedback' : 'Submit feedback';
-  const submitAnywayIdleLabel = alreadySubmitted ? 'Update anyway' : 'Submit anyway';
+  const submitAnywayLabel = alreadySubmitted ? 'Update anyway' : 'Submit anyway';
 
   const handleParticipantSaved = (data: ParticipantFeedbackData) => {
     if (!selectedParticipant) return;
@@ -331,7 +331,7 @@ const FacilitatorFeedbackPage = () => {
                   },
                 })}
               >
-                {submitFeedback.isPending ? 'Saving...' : submitAnywayIdleLabel}
+                {submitAnywayLabel}
               </Button>
             </>
           ) : (

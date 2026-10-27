@@ -132,7 +132,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       navigationControls={(
         <>
           <Button
-            variant="link"
+            variant="ghost"
+            size="small"
             disabled={isFirstChunk && !prevUnit}
             onClick={handlePrevClick}
             aria-label="Previous"
@@ -141,7 +142,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             ← Prev
           </Button>
           <Button
-            variant="link"
+            variant="ghost"
+            size="small"
             disabled={isLastChunk && !nextUnit}
             onClick={handleNextClick}
             aria-label="Next"

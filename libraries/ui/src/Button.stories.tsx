@@ -53,13 +53,14 @@ export const Variants: Story = {
   ),
 };
 
-// `tone` recolours primary/secondary, and `accent` recolours link; other variants ignore it
+// `tone` recolours primary/secondary, and `accent`/`warning` recolour link; other variants ignore it
 export const Tones: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
       {TONES.map((tone) => <StateRow key={tone} variant="primary" tone={tone} />)}
       {TONES.map((tone) => <StateRow key={tone} variant="secondary" tone={tone} />)}
       <StateRow variant="link" tone="accent" />
+      <StateRow variant="link" tone="warning" />
     </div>
   ),
 };

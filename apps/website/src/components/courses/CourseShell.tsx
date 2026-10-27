@@ -234,7 +234,8 @@ const CourseShell: React.FC<CourseShellProps> = ({
               {/* Left section: Hide/Show Toggle */}
               <div className="flex items-center gap-2">
                 <Button
-                  variant="link"
+                  variant="ghost"
+                  size="small"
                   onClick={() => setIsSidebarHidden(!isSidebarHidden)}
                   aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
                 >

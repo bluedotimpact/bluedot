@@ -313,7 +313,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             )}
           </div>
           {isMoved ? (
-            <Button variant="link" className="shrink-0" disabled={pendingWrites > 0} onClick={() => undoMove(r.id)}>
+            <Button variant="link" tone="warning" className="shrink-0" disabled={pendingWrites > 0} onClick={() => undoMove(r.id)}>
               Undo move
             </Button>
           ) : (

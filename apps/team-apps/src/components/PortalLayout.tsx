@@ -202,7 +202,8 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
         <div className="mt-auto space-y-2 pt-6">
           {auth && (
             <div className="flex items-center rounded-surface">
-              <IconButton onClick={signOut} aria-label="Sign out" title="Sign out" className="text-secondary"><PortalIcon name="logout" /></IconButton>
+              {/* ml-1.5 centres the 32px button on the same axis as the 44px nav rows above */}
+              <IconButton onClick={signOut} aria-label="Sign out" title="Sign out" className="ml-1.5 text-secondary"><PortalIcon name="logout" /></IconButton>
               {!collapsed && <div className="min-w-0 flex-1"><p className="text-size-xs font-medium">{preview ? 'Local preview' : 'Signed in'}</p><p className="truncate text-size-xs text-secondary" title={auth.email}>{auth.email}</p></div>}
             </div>
           )}

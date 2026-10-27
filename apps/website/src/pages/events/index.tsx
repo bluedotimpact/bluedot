@@ -104,7 +104,7 @@ const EventsPage = () => {
                     <Button
                       variant="link"
                       tone="accent"
-                      className="mt-5"
+                      className="mx-auto mt-5"
                       onClick={() => {
                         setFilter('all');
                         setLocation('all');

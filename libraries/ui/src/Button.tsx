@@ -26,6 +26,13 @@ const SIZE_STYLES = {
   large: 'min-h-[50px] px-5 text-size-sm font-medium',
 } as const;
 
+// Link is inline text, so it drops the button chrome (padding, min height) and only keeps the type size
+const LINK_SIZE_STYLES = {
+  small: 'text-size-xs font-medium',
+  medium: 'text-size-xs font-medium',
+  large: 'text-size-sm font-medium',
+} as const;
+
 const VARIANT_STYLES: Record<ButtonVariant, string> = {
   primary:
     'bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover',
@@ -33,7 +40,7 @@ const VARIANT_STYLES: Record<ButtonVariant, string> = {
     'border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover',
   ghost:
     'text-secondary hover:bg-tint hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark',
-  link: 'underline text-secondary hover:text-primary on-dark:text-on-dark on-dark:hover:text-on-dark-hover',
+  link: 'whitespace-normal underline underline-offset-2 text-secondary hover:text-primary on-dark:text-on-dark-link on-dark:hover:text-on-dark-link-hover',
   'outline-black': 'border border-strong font-medium text-primary hover:bg-tint',
   unstyled: '', // No colour/hover styles: fully controlled by className/style
 };
@@ -52,6 +59,7 @@ const TONE_STYLES: Partial<Record<ButtonVariant, Partial<Record<ButtonTone, stri
   },
   link: {
     accent: 'text-link hover:text-link-hover',
+    warning: 'text-warning-fg hover:text-warning-fg-hover',
   },
 };
 
@@ -69,7 +77,7 @@ export const Button: React.FC<ButtonProps> = ({
     <ClickTarget
       className={cn(
         BASE_STYLES,
-        SIZE_STYLES[size],
+        variant === 'link' ? LINK_SIZE_STYLES[size] : SIZE_STYLES[size],
         VARIANT_STYLES[variant],
         tone && TONE_STYLES[variant]?.[tone],
         className,

@@ -314,7 +314,7 @@ const CopyEmail: React.FC<{ email: string }> = ({ email }) => {
     <Button
       variant="link"
       title="Copy email"
-      className="min-w-0 whitespace-normal px-0"
+      className="min-w-0"
       onClick={() => {
         void navigator.clipboard.writeText(email).then(() => {
           setCopied(true);

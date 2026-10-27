@@ -32,6 +32,11 @@ describe('Button', () => {
     expect(screen.getByRole('button').className).includes(token);
   });
 
+  test('link variant drops button chrome', () => {
+    render(<Button variant="link">Click me</Button>);
+    expect(screen.getByRole('button').className).not.toMatch(/\bpx-|\bmin-h-/);
+  });
+
   test('unstyled variant adds no colour classes', () => {
     render(<Button variant="unstyled">Click me</Button>);
     const button = screen.getByRole('button');
