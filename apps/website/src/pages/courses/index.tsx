@@ -81,7 +81,7 @@ const CoursesPage = () => {
 
       <MarketingHero
         title="Online courses"
-        subtitle="From a two-hour introduction to multi-week courses and project sprints, all designed to help you contribute to a better future with AI."
+        subtitle="From a 90-minute introduction to multi-week courses and project sprints, all designed to help you contribute to a better future with AI."
       />
       <Breadcrumbs route={ROUTES.courses} />
 
