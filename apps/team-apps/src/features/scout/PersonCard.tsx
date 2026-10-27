@@ -95,6 +95,9 @@ const plain = (text: string) => text
   .replace(/\n{3,}/g, '\n\n')
   .trim();
 
+// What people wrote is shown in quotation marks; a model's text is not
+const quoted = (text: string, ai: boolean) => (ai ? text : `“${text}”`);
+
 // Amber with an "AI" mark means a model wrote it; everything else is what people wrote
 const AiMark: React.FC = () => <span className="mr-1.5 rounded-sm bg-warning-bg px-1 py-px text-size-xxs font-semibold text-warning-fg">AI</span>;
 const Caption: React.FC<{ children: ReactNode; ai?: boolean; red?: boolean }> = ({ children, ai = false, red = false }) => (
@@ -109,10 +112,10 @@ const Answer: React.FC<{ label: string; text?: string; defaultOpen?: boolean; ai
       defaultOpen={defaultOpen}
       summary={<Caption ai={ai}>{label}</Caption>}
       summaryClassName="flex flex-col gap-1 py-1 [&>span]:flex-nowrap [&>span]:items-start"
-      preview={<span className="line-clamp-2 pl-[22px] text-size-sm leading-snug text-primary">{plain(text).replace(/\s+/g, ' ')}</span>}
+      preview={<span className="line-clamp-2 pl-[22px] text-size-sm leading-snug text-primary">{quoted(plain(text).replace(/\s+/g, ' '), ai)}</span>}
       bodyClassName="pl-[22px] pt-1"
     >
-      <P className="whitespace-pre-wrap text-size-sm leading-relaxed">{plain(text)}</P>
+      <P className="whitespace-pre-wrap text-size-sm leading-relaxed">{quoted(plain(text), ai)}</P>
     </Disclosure>
   ) : null
 );
@@ -440,7 +443,7 @@ const More: React.FC<{ label: string; text?: string; ai?: boolean; always?: bool
   return (
     <div className="flex flex-col gap-1">
       <Caption ai={ai} red={red}>{label}</Caption>
-      {text ? <P className="whitespace-pre-wrap text-size-sm leading-relaxed">{plain(text)}</P> : <span className="text-size-sm text-disabled">–</span>}
+      {text ? <P className="whitespace-pre-wrap text-size-sm leading-relaxed">{quoted(plain(text), ai)}</P> : <span className="text-size-sm text-disabled">–</span>}
     </div>
   );
 };

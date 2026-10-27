@@ -1,7 +1,7 @@
-import type { Decision } from '../types';
+import type { Course, Decision } from '../types';
 import * as airtable from './airtable';
 
-export const fetchQueue = () => airtable.fetchQueue();
+export const fetchQueue = (courses?: readonly Course[]) => airtable.fetchQueue(courses);
 export const fetchLead = (email: string) => airtable.fetchLead(email);
 export const fetchInvitedThisWeek = () => airtable.fetchInvitedThisWeek();
 export const fetchPerson = (id: string) => airtable.fetchPerson(id);

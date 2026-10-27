@@ -103,6 +103,7 @@ const DISCUSSION = {
 
 // Stamped by the invite automations; read for the weekly count and the double-invite guard
 const REG_INVITE_DATE = 'fld9YWOaYvSauL5sV';
+const REG_STATUS_CHANGED_AT = 'fldM7qsx4bwtPwno4';
 
 // Course leads: who leads which courses, as a comma-separated list of course names.
 const LEAD = {
@@ -441,17 +442,19 @@ export const fetchGrantsUnderOtherEmail = async (name: string, email: string): P
     .map((r) => ({ recordUrl: recordLink(GRANTS_URL, r.id), email: str(r.fields[GRANT.email]) }));
 };
 
-export const fetchQueue = async (): Promise<QueueItem[]> => {
-  const [records, rounds, alreadySupported] = await Promise.all([
-    fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID }, QUEUE_FIELDS),
+// One read per course, side by side: a single read of the whole view pages through it one
+// request at a time
+export const fetchQueue = async (wanted: readonly Course[] = COURSES): Promise<QueueItem[]> => {
+  const [pages, rounds, alreadySupported] = await Promise.all([
+    Promise.all(wanted.map((course) => fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID, filterByFormula: `ARRAYJOIN({[>] Course text})='${course}'` }, QUEUE_FIELDS))),
     getRounds(),
     fetchAlreadySupportedEmails(),
   ]);
   const items: QueueItem[] = [];
-  for (const r of records) {
+  for (const r of pages.flat()) {
     const round = rounds.get(first(r.fields[REG.round]) ?? '');
     const course = courseOf(round);
-    if (!course) continue;
+    if (!course || !wanted.includes(course)) continue;
     const email = str(r.fields[REG.email]);
     if (email && alreadySupported.has(normaliseEmail(email))) continue;
     items.push({
@@ -1003,21 +1006,36 @@ const REG_EMAIL_SENT_IN_APPLICATIONS = 'fldBPgPLpZ1oL4KiT';
 
 const WAITING_FOR_REVIEW = 'Waiting for review';
 
-export type WriteResult = { ok: true } | { ok: false; reason: string };
+// `already` and `on` say what someone else did first, so the lead can be told
+export type WriteResult = { ok: true } | { ok: false; reason: string; already?: string; on?: string };
 export type InviteResult = WriteResult;
 
 // Refuses anyone already contacted or already given a status, so a decision is
 // checked against live Airtable state right before the write.
-const untouchedOrReason = async (id: string): Promise<{ ok: true; fields: Record<string, unknown> } | { ok: false; reason: string }> => {
+const untouchedOrReason = async (id: string): Promise<{ ok: true; fields: Record<string, unknown> } | Extract<WriteResult, { ok: false }>> => {
+  // Both reads at once; the queue check only matters if the record itself is untouched
+  const eligibleCheck = fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID, filterByFormula: `RECORD_ID()='${id}'` }, [REG.round]);
+  eligibleCheck.catch(() => undefined);
   const record = await fetchOne(REGISTRATIONS_URL, id, []);
   if (!record) return { ok: false, reason: 'Registration not found' };
   const f = record.fields;
   const alreadyContacted = [REG_INVITE_DATE, REG_EMAIL_SENT, REG_EMAIL_SENT_IN_APPLICATIONS, REG.sendInviteEmail].some((field) => !!f[field]);
-  if (alreadyContacted) return { ok: false, reason: 'This person has already been invited to a call' };
+  const changedOn = str(f[REG_STATUS_CHANGED_AT]);
+  if (alreadyContacted) {
+    return {
+      ok: false, reason: 'This person has already been invited to a call', already: 'Invited', on: str(f[REG_INVITE_DATE]) ?? changedOn,
+    };
+  }
+
   // "Waiting for review" is set by the AI take and still leaves the decision to the lead
   const status = str(f[REG.scoutingStatus]);
-  if (status && status !== WAITING_FOR_REVIEW) return { ok: false, reason: `This person already has the status "${status}"` };
-  const eligible = await fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID, filterByFormula: `RECORD_ID()='${id}'` }, [REG.round]);
+  if (status && status !== WAITING_FOR_REVIEW) {
+    return {
+      ok: false, reason: `This person already has the status "${status}"`, already: status, on: changedOn,
+    };
+  }
+
+  const eligible = await eligibleCheck;
   if (eligible.length === 0 || !courseOf((await getRounds()).get(first(f[REG.round]) ?? ''))) {
     return { ok: false, reason: 'This participant is no longer in the review queue. Refresh the queue to continue.' };
   }

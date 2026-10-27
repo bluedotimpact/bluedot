@@ -32,15 +32,15 @@ const person: Person = {
 
 test('a timeline row with details opens on a click anywhere on it; the link and the opened details keep their own clicks', () => {
   render(<PersonCard person={person} showName />);
-  expect(screen.queryByText('Sample project')).toBeNull();
+  expect(screen.queryByText('“Sample project”')).toBeNull();
   fireEvent.click(screen.getByText('Rapid grant'));
-  expect(screen.getByText('Sample project')).toBeTruthy();
-  fireEvent.click(screen.getByText('Sample project'));
-  expect(screen.getByText('Sample project')).toBeTruthy();
+  expect(screen.getByText('“Sample project”')).toBeTruthy();
+  fireEvent.click(screen.getByText('“Sample project”'));
+  expect(screen.getByText('“Sample project”')).toBeTruthy();
   fireEvent.click(screen.getByTitle('Open the record in Airtable'));
-  expect(screen.getByText('Sample project')).toBeTruthy();
+  expect(screen.getByText('“Sample project”')).toBeTruthy();
   fireEvent.click(screen.getByRole('button', { name: 'Hide details' }));
-  expect(screen.queryByText('Sample project')).toBeNull();
+  expect(screen.queryByText('“Sample project”')).toBeNull();
 });
 
 test('openNextSection walks the top-level sections one at a time: closes the open one, opens the next, then starts over', () => {
@@ -109,9 +109,9 @@ test('a dropped-out course shows their reason when the row is opened, and a dash
     }}
     showName
   />);
-  expect(screen.queryByText('Started a new job')).toBeNull();
+  expect(screen.queryByText('“Started a new job”')).toBeNull();
   fireEvent.click(screen.getByText('Dropped out'));
-  expect(screen.getByText('Started a new job')).toBeTruthy();
+  expect(screen.getByText('“Started a new job”')).toBeTruthy();
 
   cleanup();
   render(<PersonCard

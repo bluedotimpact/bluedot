@@ -69,6 +69,13 @@ test('the queue carries the courses led by the signed-in email and their first n
   expect(res._getStatusCode()).toBe(200);
   expect(fetchLead).toHaveBeenCalledWith('staff@bluedot.org');
   expect(res._getJSONData()).toMatchObject({ leadCourses: ['Biosecurity'], leadName: 'Sample' });
+  // The lead's own course first; the page asks for the rest next
+  expect(fetchQueue).toHaveBeenLastCalledWith(['Biosecurity']);
+  expect(res._getJSONData().laterCourses).toEqual(['Technical AI Safety', 'Technical AI Safety Project', 'AGI Strategy', 'Frontier AI Governance']);
+  const rest = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers, query: { courses: 'AGI Strategy,Not a course' } });
+  await queue(rest.req, rest.res);
+  expect(fetchQueue).toHaveBeenLastCalledWith(['AGI Strategy']);
+  expect(rest.res._getJSONData().laterCourses).toEqual([]);
 
   const viewing = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers, query: { viewAs: 'lead@example.org' } });
   await queue(viewing.req, viewing.res);

@@ -69,8 +69,8 @@ const CourseBox = ({
 // The lead's own courses, then the rest as a quiet row of names that open one course at a time.
 // Someone who leads no course sees every course as their own.
 export const RoundPicker = ({
-  items, leadCourses, onSelect, onSelectMustLook,
-}: Pick & { items: QueueItem[]; leadCourses: readonly Course[] }) => {
+  items, leadCourses, othersLoading = false, othersFailed = false, onSelect, onSelectMustLook,
+}: Pick & { items: QueueItem[]; leadCourses: readonly Course[]; othersLoading?: boolean; othersFailed?: boolean }) => {
   const [openOther, setOpenOther] = useState<Course>();
   const own = leadCourses.length === 0 ? courses : courses.filter((course) => leadCourses.includes(course));
   const others = courses.filter((course) => !own.includes(course));
@@ -82,9 +82,11 @@ export const RoundPicker = ({
           <p className="text-size-xs text-secondary">Browse other courses</p>
           <div className="flex flex-wrap justify-center gap-2">
             {others.map((course) => (
-              <button key={course} type="button" aria-pressed={openOther === course} onClick={() => setOpenOther(openOther === course ? undefined : course)} className={`min-h-9 rounded-full border px-3 text-size-xs ${openOther === course ? 'border-primary font-semibold text-primary' : 'border-subtle bg-raised text-secondary hover:text-primary'}`}>{course}</button>
+              <button key={course} type="button" disabled={othersLoading} aria-pressed={openOther === course} onClick={() => setOpenOther(openOther === course ? undefined : course)} className={`min-h-9 rounded-full border px-3 text-size-xs disabled:border-dashed disabled:text-disabled ${openOther === course ? 'border-primary font-semibold text-primary' : 'border-subtle bg-raised text-secondary hover:text-primary'}`}>{course}</button>
             ))}
           </div>
+          {othersLoading && <p role="status" className="text-size-xs text-disabled">Loading other courses…</p>}
+          {othersFailed && <p role="alert" className="text-size-xs text-secondary">Other courses didn’t load. Refresh to try again.</p>}
         </nav>
       )}
       {openOther && <CourseBox items={items} course={openOther} onSelect={onSelect} onSelectMustLook={onSelectMustLook} onClose={() => setOpenOther(undefined)} />}
