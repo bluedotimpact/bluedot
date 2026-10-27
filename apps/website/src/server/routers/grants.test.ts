@@ -2,7 +2,7 @@ import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
-  type CareerTransitionGrant, careerTransitionGrantApplicationTable, careerTransitionGrantTable, rapidGrantApplicationTable, rapidGrantTable, publishedRapidGrantTable, grantProgramStatsTable, type GrantProgramStats,
+  type CareerTransitionGrant, careerTransitionGrantApplicationTable, careerTransitionGrantTable, publishedRapidGrantTable, grantProgramStatsTable, type GrantProgramStats,
 } from '@bluedot/db';
 import { createCaller, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 
@@ -136,27 +136,14 @@ describe('grants.getAllPublicRapidGrantees', () => {
     ]);
   });
 
-  test('reads only the migrated feed and preserves anonymous names and pseudonyms', async () => {
-    await testDb.insert(rapidGrantTable, {
-      granteeName: 'Legacy Only', projectTitle: 'Old Feed', amountUsd: 1000,
-    });
-    await Promise.all(['Anonymous', 'Public Pseudonym'].map(async (granteeName) => {
-      // The old feed remains populated during rollout but must not duplicate the new feed.
-      const grant = { granteeName, projectTitle: `${granteeName} Project`, amountUsd: 500 };
-      await Promise.all([testDb.insert(rapidGrantTable, grant), testDb.insert(publishedRapidGrantTable, grant)]);
-    }));
+  test('preserves anonymous names and pseudonyms', async () => {
+    await Promise.all(['Anonymous', 'Public Pseudonym'].map((granteeName) => testDb.insert(publishedRapidGrantTable, {
+      granteeName, projectTitle: `${granteeName} Project`, amountUsd: 500,
+    })));
 
     const result = await createCaller().grants.getAllPublicRapidGrantees();
 
     expect(result.map(({ granteeName }) => granteeName)).toEqual(['Anonymous', 'Public Pseudonym']);
-  });
-
-  test('does not fall back to legacy records when the migrated feed is empty', async () => {
-    await testDb.insert(rapidGrantTable, {
-      granteeName: 'Legacy Only', projectTitle: 'Old Feed', amountUsd: 1000,
-    });
-
-    expect(await createCaller().grants.getAllPublicRapidGrantees()).toEqual([]);
   });
 });
 
@@ -349,9 +336,6 @@ describe('grants.getRapidGrantStats', () => {
     await testDb.insert(grantProgramStatsTable, {
       name: 'Career Transition Grants', approvedCount: 100, awardedAmountUsd: 500000, averageDaysToDecision: 50, timedDecisionCount: 1000,
     });
-    await testDb.insert(rapidGrantApplicationTable, {
-      grantDecision: 'Accept', grantedAmountUsd: 99999, createdAt: '2026-04-01T00:00:00Z', decidedAt: '2026-04-02T00:00:00Z',
-    });
     await testDb.insert(publishedRapidGrantTable, { amountUsd: 99999 });
 
     expect(await createCaller().grants.getRapidGrantStats()).toEqual({
@@ -397,12 +381,9 @@ describe('grants.getRapidGrantStats', () => {
     expect(await createCaller().grants.getRapidGrantStats()).toBeNull();
   });
 
-  test('does not show partial totals or fall back to old applications when a program is missing', async () => {
+  test('does not show partial totals when a program is missing', async () => {
     await updateRapid({ approvedCount: 1, awardedAmountUsd: 500 });
     await testDb.remove(grantProgramStatsTable, eventsId);
-    await testDb.insert(rapidGrantApplicationTable, {
-      grantDecision: 'Accept', grantedAmountUsd: 99999, createdAt: '2026-04-01T00:00:00Z', decidedAt: '2026-04-02T00:00:00Z',
-    });
     expect(await createCaller().grants.getRapidGrantStats()).toBeNull();
     await testDb.remove(grantProgramStatsTable, rapidId);
     expect(await createCaller().grants.getRapidGrantStats()).toBeNull();
