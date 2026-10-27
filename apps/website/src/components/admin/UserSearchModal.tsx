@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   ErrorSection, Modal, ProgressDots, SearchInput, useCurrentTimeMs,
 } from '@bluedot/ui';
@@ -22,6 +22,7 @@ export const UserSearchModal = ({
   onSelectUser,
 }: UserSearchModalProps) => {
   const [searchTermInput, setSearchTermInput] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
   const currentTimeMs = useCurrentTimeMs();
 
   useEffect(() => {
@@ -47,6 +48,7 @@ export const UserSearchModal = ({
     <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title={title}>
       <div className="flex flex-col gap-4">
         <SearchInput
+          ref={inputRef}
           value={searchTermInput}
           onChange={setSearchTermInput}
           placeholder="Search by name or email..."
