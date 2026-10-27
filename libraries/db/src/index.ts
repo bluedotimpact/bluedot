@@ -15,6 +15,7 @@ export {
   posthogEmittedEventsTable,
   calendarConnectionTable,
   calendarPairWithoutCalendarTable,
+  emailChangeRequestTable,
   exerciseResponsePgTable,
   courseTable,
   formConfigurationTable,
