@@ -81,7 +81,7 @@ export const getQuickApplyEligibleCourseIds = async (userId: string): Promise<st
     const assigned = meetPersonByRegId.get(reg.id)?.expectedDiscussionsFacilitator ?? [];
     if (assigned.length === 0) continue; // cohort not started / no schedule yet
     const futureCount = assigned.filter((id) => (endById.get(id) ?? 0) > nowSec).length;
-    if (futureCount <= 1) eligibleCourseIds.add(reg.courseId);
+    if (futureCount <= 1 && reg.courseId) eligibleCourseIds.add(reg.courseId);
   }
 
   return [...eligibleCourseIds];
@@ -272,7 +272,7 @@ export const facilitatorApplicationsRouter = router({
     const roundById = new Map(rounds.map((r) => [r.id, r] as const));
 
     return registrations.map((r) => {
-      const course = courseById.get(r.courseId) ?? null;
+      const course = r.courseId ? (courseById.get(r.courseId) ?? null) : null;
       const round = r.roundId ? (roundById.get(r.roundId) ?? null) : null;
       return {
         id: r.id,
