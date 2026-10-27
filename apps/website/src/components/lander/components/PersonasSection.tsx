@@ -118,7 +118,7 @@ const PersonasSection = ({
                           <Eyebrow className="text-secondary mb-2">
                             What this looks like
                           </Eyebrow>
-                          <P className="text-primary">
+                          <P>
                             {persona.valueProposition}
                           </P>
                         </div>

@@ -68,7 +68,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           <Button
             variant="primary"
             url={getLoginUrl(router.asPath, true)}
-            className="!w-auto !whitespace-normal text-center min-w-0"
+            className="whitespace-normal text-center min-w-0"
           >
             Create a free account to save your answers
             <FaChevronRight aria-hidden className="size-4 shrink-0" />

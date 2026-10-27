@@ -373,7 +373,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
         />
       )}
       <div>
-        <H1 className="text-size-lg text-primary">{(() => {
+        <H1 className="text-size-lg">{(() => {
           if (roundComplete) return 'You\'ve evaluated all the applications for the round!';
           if (rated.length === 0 && totalLoaded === 0) return filtered ? 'No matching applications' : 'No scored applications available';
           if (rated.length === 0) return 'You haven\'t reviewed any applications';

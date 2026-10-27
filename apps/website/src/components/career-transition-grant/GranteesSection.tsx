@@ -31,7 +31,7 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
         </div>
       </div>
       {plan && (
-        <P className="mt-4 text-size-xs leading-relaxed text-primary">
+        <P className="mt-4 text-size-xs">
           {plan}
         </P>
       )}

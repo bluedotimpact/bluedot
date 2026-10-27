@@ -244,7 +244,7 @@ const ApplicationLoader: React.FC<ApplicationLoaderProps> = ({
   if (loading) {
     return (
       <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas flex items-center justify-center">
-        <ProgressDots className="text-accent" />
+        <ProgressDots />
       </div>
     );
   }
@@ -617,7 +617,7 @@ const SpeedReviewPage = () => {
     // toast reachable so acting on the last card stays reversible meanwhile.
     return (
       <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas flex items-center justify-center">
-        <ProgressDots className="text-accent" />
+        <ProgressDots />
         {undoToastElement}
       </div>
     );

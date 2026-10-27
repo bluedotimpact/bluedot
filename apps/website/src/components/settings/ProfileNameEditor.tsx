@@ -114,7 +114,6 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
               variant="primary"
               onClick={handleSave}
               disabled={isSaving}
-              className="whitespace-nowrap"
               aria-label="Save profile name changes"
             >
               {/* Both labels are laid out so the button is already wide enough for "Saving..." */}

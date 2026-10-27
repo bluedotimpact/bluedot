@@ -281,7 +281,7 @@ const GroupDiscussionBanner = ({
                   <OverflowMenu
                     aria-label="More discussion options"
                     // 'ghost' variant styling
-                    buttonClassName="ml-auto border-none px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
+                    buttonClassName="ml-auto border-none px-3 h-9 text-size-xs font-medium whitespace-nowrap"
                     items={desktopOverflowButtons.map((button): OverflowMenuItemProps => ({
                       id: button.id,
                       label: button.overflowIcon ? (
@@ -379,7 +379,7 @@ const GroupDiscussionBanner = ({
                 <OverflowMenu
                   aria-label="More discussion options"
                   // 'secondary' variant styling
-                  buttonClassName="flex-1 border border-info-border w-full px-3 py-2.5 h-9 text-size-xs font-medium"
+                  buttonClassName="flex-1 border-info-border w-full px-3 h-9 text-size-xs font-medium"
                   items={overflowButtons.map((button): OverflowMenuItemProps => ({
                     id: button.id,
                     label: button.overflowIcon ? (
