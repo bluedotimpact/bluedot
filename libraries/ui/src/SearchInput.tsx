@@ -1,4 +1,4 @@
-import { forwardRef, useRef } from 'react';
+import { useRef } from 'react';
 import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
 import { IconButton } from './IconButton';
 import { Input } from './Input';
@@ -9,29 +9,26 @@ export type SearchInputProps = {
   placeholder?: string;
   'aria-label'?: string;
   disabled?: boolean;
+  autoFocus?: boolean;
   /** Applied to the root. */
   className?: string;
 };
 
-export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(({
-  value, onChange, placeholder, 'aria-label': ariaLabel, disabled, className,
-}, ref) => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const setRefs = (node: HTMLInputElement | null) => {
-    inputRef.current = node;
-    if (typeof ref === 'function') ref(node);
-    else if (ref) ref.current = node;
-  };
+export const SearchInput = ({
+  value, onChange, placeholder, 'aria-label': ariaLabel, disabled, autoFocus, className,
+}: SearchInputProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <Input
-      ref={setRefs}
+      ref={inputRef}
       type="search"
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       aria-label={ariaLabel}
       disabled={disabled}
+      autoFocus={autoFocus}
       className={className}
       leading={<FaMagnifyingGlass aria-hidden />}
       trailing={(
@@ -51,5 +48,4 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(({
       )}
     />
   );
-});
-SearchInput.displayName = 'SearchInput';
+};
