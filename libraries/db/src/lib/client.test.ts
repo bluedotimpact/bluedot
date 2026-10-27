@@ -258,6 +258,16 @@ describe('pgConnectionConfig', () => {
     expect(config.ssl?.ca).toContain(VULTR_PROJECT_CA);
     expect(config.ssl).not.toHaveProperty('rejectUnauthorized');
   });
+
+  test('drops SSL params that would let node-postgres replace the Vultr CA', () => {
+    const config = pgConnectionConfig(
+      'postgres://user:pass@db.vultrdb.com:16751/app?sslmode=verify-full&sslrootcert=/tmp/evil.pem&ssl=1&sslcert=/c&sslkey=/k&application_name=x',
+      { nodeEnv: 'production' },
+    );
+
+    expect(config.connectionString).toBe('postgres://user:pass@db.vultrdb.com:16751/app?application_name=x');
+    expect(config.ssl?.ca).toContain(VULTR_PROJECT_CA);
+  });
 });
 
 describe('db.insert (mock field defaults)', () => {

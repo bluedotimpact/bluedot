@@ -70,7 +70,12 @@ export const pgConnectionConfig = (connString: string, { nodeEnv }: { nodeEnv: s
     return { connectionString: connString };
   }
 
-  url.searchParams.delete('sslmode');
+  // node-postgres lets SSL params parsed from the connection string replace the `ssl` config below,
+  // so drop them all, or an `sslrootcert` (say) would swap out the Vultr CA.
+  for (const param of ['sslmode', 'ssl', 'sslrootcert', 'sslcert', 'sslkey']) {
+    url.searchParams.delete(param);
+  }
+
   return {
     connectionString: url.toString(),
     ssl: { ca: [VULTR_PROJECT_CA, ...tls.rootCertificates] },
