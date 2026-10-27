@@ -307,7 +307,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                           e.target.value = '';
                         }}
                       />
-                      <Button variant="ghost" size="small" onClick={() => fileInputRef.current?.click()}>
+                      <Button variant="ghost" size="small" className="whitespace-normal text-left" onClick={() => fileInputRef.current?.click()}>
                         <FaPaperclip aria-hidden className="size-3.5 shrink-0" />
                         Add, drag, or paste attachments here
                       </Button>
