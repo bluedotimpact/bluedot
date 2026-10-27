@@ -51,6 +51,8 @@ export type Registration = {
   application?: Application;
   projectIds?: string[];
   projects?: Project[];
+  invitedOn?: string;
+  passedOn?: string;
 };
 
 // Facilitator's private feedback on a participant (Course runner › Peer feedback)

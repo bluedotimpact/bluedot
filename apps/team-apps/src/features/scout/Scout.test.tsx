@@ -344,6 +344,26 @@ test('on the main page the first person on the lead\'s shortlist loads before th
   await waitFor(() => expect(mockFetch.mock.calls.some(([path]) => pathOf(path).endsWith(`/person/${shortlisted.id}`))).toBe(true));
 });
 
+test('the shortlist opens once its first card has loaded, so the first click never waits', async () => {
+  const shortlisted = { ...realQueue[3]!, mustLook: true, pickReason: 'strong yes' as const };
+  let releaseCard = () => {};
+  const cardHeld = new Promise<void>((resolve) => {
+    releaseCard = resolve;
+  });
+  mockFetch.mockImplementation(async (path) => {
+    if (pathOf(path).includes('/queue')) return response({ items: [shortlisted], leadCourses: ['Biosecurity'], leadName: 'Sample' });
+    if (pathOf(path).endsWith(`/person/${shortlisted.id}`)) await cardHeld;
+    return read(path);
+  });
+  render(<Scout />);
+  const button = await screen.findByTestId('choose-must-look-Biosecurity');
+  expect(button.hasAttribute('disabled')).toBe(true);
+  expect(screen.getByText('Getting the first person ready…')).toBeTruthy();
+  releaseCard();
+  await waitFor(() => expect(button.hasAttribute('disabled')).toBe(false));
+  expect(screen.getByText('1 to review →')).toBeTruthy();
+});
+
 test('a held decision counts as unsaved until it is saved, and closing the page sends it at once', async () => {
   mockFetch.mockImplementation(async (path, init) => (init?.method === 'POST' ? response({ ok: true }) : read(path)));
   await start();
