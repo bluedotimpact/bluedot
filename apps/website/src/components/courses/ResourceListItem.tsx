@@ -346,7 +346,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                       Complete
                     </Button>
                   ) : (
-                    <Button variant="link" tone="accent" onClick={() => handleToggleComplete(false)} aria-label="Mark resource as incomplete">
+                    <Button variant="link" tone="accent" size="small" onClick={() => handleToggleComplete(false)} aria-label="Mark resource as incomplete">
                       Completed
                       <FaRotateLeft aria-hidden="true" className="size-4" />
                     </Button>

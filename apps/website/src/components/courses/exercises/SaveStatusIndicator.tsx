@@ -37,7 +37,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
     text: (onRetry) => (
       <span className="flex items-center gap-1">
         <span>Couldn't save answer.</span>
-        <Button variant="link" onClick={onRetry}>
+        <Button variant="link" className="min-h-0" onClick={onRetry}>
           Retry
           <FaRotateLeft aria-hidden="true" className="size-4" />
         </Button>

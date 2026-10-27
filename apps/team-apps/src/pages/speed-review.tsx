@@ -599,6 +599,7 @@ const SpeedReviewPage = () => {
       <span>{undoToast.kind === 'moved' ? 'Moved' : 'Rated'} {undoToast.name}</span>
       <Button
         variant="link"
+        size="small"
         disabled={pendingWrites > 0}
         onClick={() => {
           if (undoToast.kind === 'moved') void handleUndoMove();

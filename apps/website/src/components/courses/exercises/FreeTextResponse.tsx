@@ -90,7 +90,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
               Complete
             </Button>
           ) : (
-            <Button variant="link" tone="accent" onClick={handleMarkIncomplete} aria-label="Mark exercise as incomplete">
+            <Button variant="link" tone="accent" size="small" onClick={handleMarkIncomplete} aria-label="Mark exercise as incomplete">
               Completed
               <FaRotateLeft aria-hidden="true" className="size-4" />
             </Button>
