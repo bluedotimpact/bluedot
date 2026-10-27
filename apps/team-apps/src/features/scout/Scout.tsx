@@ -41,6 +41,11 @@ const request = async <T,>(path: string, body?: unknown): Promise<T> => {
   return data as T;
 };
 
+const decisionBody = (entry: Entry) => {
+  const forFacilitator = endorsers(entry.person).length > 0 ? entry.note?.trim() : '';
+  return { id: entry.person.id, decision: entry.decision, ...(forFacilitator ? { note: forFacilitator } : {}) };
+};
+
 const message = (error: unknown) => (error instanceof Error ? error.message : 'Something went wrong. Please try again.');
 
 // Exported for tests
@@ -142,6 +147,8 @@ const Scout = () => {
   const [people, setPeople] = useState<Record<string, Loaded>>({});
   const requested = useRef(new Set<string>());
   const loadsInFlight = useRef(0);
+  // Bumped whenever a card request settles, current or stale, so loading ahead always resumes
+  const [loadsSettled, setLoadsSettled] = useState(0);
   const generation = useRef(0);
   // Saved decisions; the ones still saving; and the latest one, held for UNDO_SECONDS before saving
   const [done, setDone] = useState<Record<string, Entry>>({});
@@ -187,8 +194,7 @@ const Scout = () => {
     // One save at a time, in the order they were made
     writeChain.current = writeChain.current.then(async () => {
       try {
-        const forFacilitator = endorsers(entry.person).length > 0 ? entry.note?.trim() : '';
-        const result = await request<DecisionResult>('decision', { id, decision: entry.decision, ...(forFacilitator ? { note: forFacilitator } : {}) });
+        const result = await request<DecisionResult>('decision', decisionBody(entry));
         if (!result.ok) {
           setGone((state) => [...state, id]);
           setAlerts((state) => [...state, { id: `${id}-handled`, text: alreadyHandledText(entry.person.name, result), tone: 'error' }]);
@@ -202,6 +208,13 @@ const Scout = () => {
           setFreshInvites((state) => [...state, { course: entry.item.course, week: weekOf() }]);
         }
       } catch {
+        // The "just now" note only counts saved work
+        setSessionNote((summary) => {
+          if (!summary) return summary;
+          return entry.decision === 'invite'
+            ? { ...summary, invited: summary.invited.filter((name) => name !== entry.person.name) }
+            : { ...summary, declined: Math.max(0, summary.declined - 1) };
+        });
         if (entry.fromLookup) {
           setAlerts((state) => [...state, { id: `${id}-failed`, text: failedText(entry.person.name, entry.decision), tone: 'warning' }]);
         } else {
@@ -252,6 +265,33 @@ const Scout = () => {
       setPersonInUrl(pending.item.id);
     }
   }, [setPersonInUrl]);
+
+  // A held decision counts as an unsaved change, so the portal waits for it before signing out
+  const holding = staged !== undefined;
+  useEffect(() => {
+    if (!holding) return undefined;
+    useNavigationState.setState((state) => ({ pendingWrites: state.pendingWrites + 1 }));
+    return () => useNavigationState.setState((state) => ({ pendingWrites: state.pendingWrites - 1 }));
+  }, [holding]);
+
+  // Closing or reloading the tab sends a held decision straight away; keepalive lets it finish
+  useEffect(() => {
+    const onPageHide = () => {
+      const pending = stagedRef.current;
+      if (!pending) return;
+      clearTimeout(stageTimer.current);
+      stagedRef.current = undefined;
+      // A page restored from the back/forward cache shows it as handled, not still held
+      setStaged(undefined);
+      setDone((state) => ({ ...state, [pending.person.id]: pending }));
+      void authFetch('/api/scout/decision', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(decisionBody(pending)), keepalive: true,
+      });
+    };
+
+    window.addEventListener('pagehide', onPageHide);
+    return () => window.removeEventListener('pagehide', onPageHide);
+  }, []);
 
   // A held decision is saved, not dropped, when the page goes away
   useEffect(() => () => {
@@ -405,6 +445,8 @@ const Scout = () => {
 
   const chooseRound = (item: QueueItem, asMustLook = false) => {
     if (confirmation !== undefined || promptOpen) return;
+    // Like leaving the queue, moving to another round saves the held decision
+    flush();
     doneAtOpen.current = new Set(handled.keys());
     setRound(item);
     setMustLook(asMustLook);
@@ -445,6 +487,8 @@ const Scout = () => {
 
     if (lookup?.id === linked) return;
     const item = items.find((entry) => entry.id === linked);
+    // Someone in another course may still be loading
+    if (!item && othersLoading) return;
     if (item && !handled.has(item.id)) {
       setLookup(item);
     } else {
@@ -454,7 +498,7 @@ const Scout = () => {
     }
     // Runs when the URL parameter changes, not on every render that touches lookup or items
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, queueError, linked]);
+  }, [loading, queueError, linked, othersLoading]);
 
   const loadPerson = useCallback((id: string) => {
     if (requested.current.has(id)) return;
@@ -477,6 +521,7 @@ const Scout = () => {
       })
       .finally(() => {
         loadsInFlight.current -= 1;
+        setLoadsSettled((count) => count + 1);
       });
   }, []);
 
@@ -512,7 +557,7 @@ const Scout = () => {
     if (loadsInFlight.current > 0) return;
     const next = ids.find(waiting);
     if (next) loadPerson(next);
-  }, [preloadIds, people, loading, queueError, loadPerson]);
+  }, [preloadIds, people, loadsSettled, loading, queueError, loadPerson]);
 
   // A new person starts at the top of their card, however far down the previous one was read
   const currentId = current?.id;

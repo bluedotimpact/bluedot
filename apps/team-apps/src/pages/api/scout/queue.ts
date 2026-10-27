@@ -11,8 +11,8 @@ export default makeApiRoute({
       name: z.string().optional(), email: z.string().optional(), roundId: z.string().optional(), roundName: z.string(), roundEnd: z.string().optional(), opinion: z.string().optional(),
       hasCertificate: z.boolean(), hasReport: z.boolean(), mustLook: z.boolean(), pickReason: z.enum(PICK_REASONS).optional(),
     })),
-    invitedThisWeek: z.record(z.object({ total: z.number(), viaApp: z.number() })),
-    leadCourses: z.array(z.enum(COURSES)),
+    invitedThisWeek: z.record(z.object({ total: z.number(), viaApp: z.number() })).optional(),
+    leadCourses: z.array(z.enum(COURSES)).optional(),
     leadName: z.string().optional(),
     laterCourses: z.array(z.enum(COURSES)),
   }),
@@ -25,12 +25,8 @@ export default makeApiRoute({
   const asked = typeof raw.req.query.courses === 'string'
     ? raw.req.query.courses.split(',').filter((course): course is Course => (COURSES as readonly string[]).includes(course))
     : undefined;
-  if (asked) {
-    const [items, invitedThisWeek, lead] = await Promise.all([fetchQueue(asked), fetchInvitedThisWeek(), fetchLead(email)]);
-    return {
-      items, invitedThisWeek, leadCourses: lead.courses, leadName: lead.firstName, laterCourses: [],
-    };
-  }
+  // The follow-up read only needs the people; the lead and the weekly count came with the first
+  if (asked) return { items: await fetchQueue(asked), laterCourses: [] };
 
   const lead = await fetchLead(email);
   const now = lead.courses.length > 0 ? lead.courses : COURSES;

@@ -334,6 +334,48 @@ test('on the main page the first person on the lead\'s shortlist loads before th
   await waitFor(() => expect(mockFetch.mock.calls.some(([path]) => pathOf(path).endsWith(`/person/${shortlisted.id}`))).toBe(true));
 });
 
+test('a held decision counts as unsaved until it is saved, and closing the page sends it at once', async () => {
+  mockFetch.mockImplementation(async (path, init) => (init?.method === 'POST' ? response({ ok: true }) : read(path)));
+  await start();
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  await screen.findByText('Sam Chen');
+  expect(useNavigationState.getState().pendingWrites).toBe(1);
+  fireEvent(window, new Event('pagehide'));
+  await waitFor(() => expect(decisions()).toHaveLength(1));
+  expect(decisions()[0]![1]).toMatchObject({ keepalive: true });
+  expect(JSON.parse(decisions()[0]![1]!.body as string)).toEqual({ id: samplePeople[0]!.id, decision: 'invite' });
+  await passUndo();
+  expect(decisions()).toHaveLength(1);
+  await waitFor(() => expect(useNavigationState.getState().pendingWrites).toBe(0));
+});
+
+test('moving to the next round saves the held decision', async () => {
+  const sameCourseOtherRound = { ...realQueue[1]!, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Jun W23) - Part-time' };
+  mockFetch.mockImplementation(async (path, init) => {
+    if (init?.method === 'POST') return response({ ok: true });
+    return pathOf(path).includes('/queue') ? response({ items: [realQueue[0]!, sameCourseOtherRound] }) : read(path);
+  });
+  await start();
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  await screen.findByRole('heading', { name: /Round done/ });
+  fireEvent.click(screen.getByRole('button', { name: /Review next round/ }));
+  await waitFor(() => expect(decisions()).toHaveLength(1));
+  await screen.findByText('Sam Chen');
+});
+
+test('a shared link to someone in a course that loads second still opens their card', async () => {
+  routerQuery.person = 'recScoutSample004';
+  mockFetch.mockImplementation(async (path) => {
+    const url = pathOf(path);
+    if (url.includes('/queue?courses=')) return response({ items: realQueue.filter((item) => item.course === 'Biosecurity'), laterCourses: [] });
+    if (url.includes('/queue')) return response({ items: realQueue.filter((item) => item.course !== 'Biosecurity'), leadCourses: ['Technical AI Safety'], laterCourses: ['Biosecurity'] });
+    return read(path);
+  });
+  render(<Scout />);
+  await screen.findByText('Riley Williams');
+  expect(screen.queryByText('That person is not in the queue right now.')).toBeNull();
+});
+
 test('?viewAs= asks the queue for that lead', async () => {
   routerQuery.viewAs = 'lead@example.org';
   render(<Scout />);
