@@ -783,6 +783,10 @@ export const facilitatorDiscussionSwitchingTable = pgAirtable('facilitator_discu
       pgColumn: text(),
       airtableId: 'fldxn1fWLefkcySaA',
     },
+    substituteCourseRegistrationApplicationsBaseId: {
+      pgColumn: text(),
+      airtableId: 'fld7YnXzGxT74lCu5',
+    },
   },
 });
 
@@ -1417,6 +1421,18 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     isDuplicate: {
       pgColumn: boolean(),
       airtableId: 'fld1KQjHFGoDZKf94',
+    },
+    isSentToCustomerIoSegment: {
+      pgColumn: boolean(),
+      airtableId: 'fldm9TO6Xw73kxikt',
+    },
+    sentConfirmation: {
+      pgColumn: boolean(),
+      airtableId: 'fldXLMURImO7nbOwa',
+    },
+    decisionEmailSent: {
+      pgColumn: boolean(),
+      airtableId: 'fldgseNhrqlQQesiA',
     },
     numGroupsToFacilitate: {
       pgColumn: numeric({ mode: 'number' }),
