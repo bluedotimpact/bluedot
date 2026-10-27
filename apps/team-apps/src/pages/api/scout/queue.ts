@@ -25,7 +25,7 @@ export default makeApiRoute({
   // ?viewAs= shows the picker as another lead sees it; everyone signed in can already see every course
   const viewAs = z.string().email().safeParse(raw.req.query.viewAs);
   const email = viewAs.success ? viewAs.data : auth.email;
-  // ?courses=&part= is one of those follow-up reads: only the people
+  // Follow-up reads (?courses=&part=) only need the people; the lead and the weekly count came with the first read
   const asked = typeof raw.req.query.courses === 'string'
     ? raw.req.query.courses.split(',').filter((course): course is Course => (COURSES as readonly string[]).includes(course))
     : undefined;
