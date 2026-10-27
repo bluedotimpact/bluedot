@@ -20,7 +20,7 @@ const FreeTextResponseWrapper: React.FC<WrapperProps> = ({
       <FreeTextResponse
         {...props}
         exerciseResponse={exerciseResponse}
-        isCompleted={isCompleted}
+        isCompleted={isCompleted || (!!props.autoCompleteOnSave && exerciseResponse.trim().length > 0)}
         onExerciseSubmit={async (response, completed) => {
           setExerciseResponse(response);
           if (completed !== undefined) {
@@ -66,6 +66,14 @@ export const Completed: Story = {
   args: {
     exerciseResponse: 'This is my saved answer.',
     isCompleted: true,
+    isLoggedIn: true,
+  },
+};
+
+export const AutoCompletedOnSave: Story = {
+  args: {
+    exerciseResponse: 'This saved answer already counts toward my course completion.',
+    autoCompleteOnSave: true,
     isLoggedIn: true,
   },
 };

@@ -13,6 +13,7 @@ export type FreeTextResponseProps = {
   onExerciseSubmit: (exerciseResponse: string, complete?: boolean) => Promise<void>;
   exerciseResponse?: string;
   isCompleted?: boolean;
+  autoCompleteOnSave?: boolean;
   isLoggedIn?: boolean;
   onTextChange?: (text: string) => void;
 };
@@ -20,6 +21,7 @@ export type FreeTextResponseProps = {
 const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   exerciseResponse,
   isCompleted = false,
+  autoCompleteOnSave = false,
   isLoggedIn,
   onExerciseSubmit,
   onTextChange,
@@ -80,7 +82,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
       {showCompleteButton && (
         // Keep focus in the editor so the pending autosave fires before the completion toggle
         <div onMouseDown={(e) => e.preventDefault()}>
-          {!isCompleted ? (
+          {!isCompleted && (
             <Button
               size="small"
               onClick={handleMarkComplete}
@@ -89,7 +91,13 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
             >
               Complete
             </Button>
-          ) : (
+          )}
+          {isCompleted && autoCompleteOnSave && hasText && (
+            <span className="flex items-center h-[30px] font-medium text-size-xs text-accent" role="status">
+              Completed
+            </span>
+          )}
+          {isCompleted && !(autoCompleteOnSave && hasText) && (
             <button
               type="button"
               onClick={handleMarkIncomplete}

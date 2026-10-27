@@ -7,6 +7,7 @@ import {
 import { server, trpcMsw } from '../../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../../__tests__/trpcProvider';
 import Exercise from './Exercise';
+import { FOAI_COURSE_ID, FOAI_COURSE_SLUG } from '../../../lib/constants';
 
 // Mock next/router
 vi.mock('next/router', () => ({
@@ -61,6 +62,31 @@ afterEach(() => {
 });
 
 describe('Exercise', () => {
+  test('a FoAI autosaved answer renders completed without an ineffective unmark action', async () => {
+    server.use(
+      trpcMsw.exercises.getExercise.query(() => ({ ...freeTextExercise, courseId: FOAI_COURSE_ID })),
+      trpcMsw.exercises.getExerciseResponse.query(() => ({
+        id: 'resp-foai', exerciseId: 'ex1', response: 'Saved reflection', completedAt: null, createdAt: null, userId: null,
+      })),
+    );
+    render(<Exercise exerciseId="ex1" courseSlug={FOAI_COURSE_SLUG} />, { wrapper: TrpcProvider });
+    expect(await screen.findByText('Completed')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Mark exercise as incomplete' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Mark as incomplete' })).not.toBeInTheDocument();
+  });
+
+  test('a blank FoAI answer is not completed', async () => {
+    server.use(
+      trpcMsw.exercises.getExercise.query(() => ({ ...freeTextExercise, courseId: FOAI_COURSE_ID })),
+      trpcMsw.exercises.getExerciseResponse.query(() => ({
+        id: 'resp-foai', exerciseId: 'ex1', response: '  ', completedAt: null, createdAt: null, userId: null,
+      })),
+    );
+    render(<Exercise exerciseId="ex1" courseSlug={FOAI_COURSE_SLUG} />, { wrapper: TrpcProvider });
+    expect(await screen.findByRole('button', { name: 'Mark exercise as complete' })).toBeDisabled();
+    expect(screen.queryByText('Completed')).not.toBeInTheDocument();
+  });
+
   test('renders free text exercise with title and description', async () => {
     render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
 

@@ -17,6 +17,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const Default: Story = {
+  args: {
+    url: '/images/content/foai-2026-10/lesson-3-3-risks-merged.webp',
+    alt: 'Risks from misuse and loss of control',
+  },
+};
+
 export const YouTubeEmbed: Story = {
   name: 'YouTube Embed',
   args: {

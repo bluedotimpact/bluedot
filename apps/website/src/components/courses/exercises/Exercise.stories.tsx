@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { loggedInStory, loggedOutStory } from '@bluedot/ui/src/utils/storybook';
 import { trpcStorybookMsw } from '../../../__tests__/trpcMswSetup.browser';
 import Exercise from './Exercise';
+import { FOAI_COURSE_ID, FOAI_COURSE_SLUG } from '../../../lib/constants';
 
 const EXERCISE_ID = 'exercise-1';
 
@@ -132,6 +133,20 @@ export const FreeTextWithSavedResponse: Story = {
   parameters: {
     msw: {
       handlers: [
+        trpcStorybookMsw.exercises.getExerciseResponse.query(() => savedResponse),
+        ...defaultHandlers,
+      ],
+    },
+  },
+};
+
+export const FoaiAutosavedResponse: Story = {
+  ...loggedInStory(),
+  args: { courseSlug: FOAI_COURSE_SLUG },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.exercises.getExercise.query(() => ({ ...freeTextExercise, courseId: FOAI_COURSE_ID })),
         trpcStorybookMsw.exercises.getExerciseResponse.query(() => savedResponse),
         ...defaultHandlers,
       ],

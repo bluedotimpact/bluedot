@@ -14,6 +14,7 @@ import Embed from './Embed';
 import { CollapsibleCallout } from './CollapsibleCallout';
 
 import Exercise from './exercises/Exercise';
+import { CourseCaption, CourseFigure, CourseImageRow } from './CourseFigure';
 
 /**
  * A remark plugin that unescapes backslashed characters in MDX component attribute values.
@@ -79,6 +80,9 @@ export const getSupportedComponents = () => ({
   // Authored course content uses the <Callout> tag
   Callout: CollapsibleCallout,
   Exercise,
+  CourseFigure,
+  CourseImageRow,
+  CourseCaption,
   a: Link,
 });
 
@@ -108,7 +112,7 @@ const preprocessAirtableContent = (content: string): string => {
   const escapedComponentPattern = supportedComponents.map((name) => `\\/${name}`).join('|');
 
   // Fix Escape < that aren't part of JSX components
-  // Preserves: <Embed>, <Callout>, <Exercise>, <Collapsible>, <Greeting>
+  // Preserves supported course components, including figures and captions
   // Escapes everything else: <2000 → \<2000
   const regex = new RegExp(
     `<(?!(${componentPattern}|${escapedComponentPattern})\\b)`,

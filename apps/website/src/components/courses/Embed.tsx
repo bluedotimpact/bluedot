@@ -1,17 +1,21 @@
 import clsx from 'clsx';
 import type React from 'react';
+import { Button } from '@bluedot/ui';
 import { FaArrowUpRightFromSquare, FaMusic } from 'react-icons/fa6';
 
 type EmbedProps = {
   url: string;
   className?: string;
+  alt?: string;
 };
 
 const Embed: React.FC<EmbedProps> = ({
   url,
   className,
+  alt = '',
 }) => {
   const isYouTube = url.startsWith('https://www.youtube.com/') || url.startsWith('https://www.youtube-nocookie.com/');
+  const youtubeVideoId = isYouTube ? new URL(url).searchParams.get('v') ?? new URL(url).pathname.split('/').pop() : undefined;
   const isImage = url.endsWith('.png') || url.endsWith('.jpg') || url.endsWith('.jpeg') || url.endsWith('.gif') || url.endsWith('.webp') || url.endsWith('.svg');
 
   // Check if it's any Suno URL
@@ -68,19 +72,27 @@ const Embed: React.FC<EmbedProps> = ({
 
   return (
     isImage ? (
-      <img src={url} alt="" className={clsx('embed rounded-lg', className)} />
+      <img src={url} alt={alt} className={clsx('embed rounded-lg', className)} />
     ) : (
-
-      <iframe
-        src={isYouTube ? `${url.replace('https://www.youtube.com/', 'https://www.youtube-nocookie.com/')}${url.includes('?') ? '&rel=0' : '?rel=0'}` : url}
-        // Width and height should be overriden in css
-        width="100%"
-        height="100%"
-        frameBorder="0"
-        allowFullScreen
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        className={clsx('embed rounded-lg', isYouTube ? 'aspect-video h-auto' : 'min-h-[450px]', className)}
-      />
+      <>
+        <iframe
+          src={isYouTube ? `${url.replace('https://www.youtube.com/', 'https://www.youtube-nocookie.com/')}${url.includes('?') ? '&rel=0' : '?rel=0'}` : url}
+          // Width and height should be overriden in css
+          width="100%"
+          height="100%"
+          frameBorder="0"
+          title={isYouTube ? 'Course video' : 'Embedded course resource'}
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          className={clsx('embed rounded-lg', isYouTube ? 'aspect-video h-auto' : 'min-h-[450px]', className)}
+        />
+        {isYouTube && (
+          <Button variant="ghost" className="mx-auto mt-2" url={`https://www.youtube.com/watch?v=${youtubeVideoId}`} target="_blank">
+            Watch on YouTube <FaArrowUpRightFromSquare aria-hidden="true" />
+          </Button>
+        )}
+      </>
     )
   );
 };

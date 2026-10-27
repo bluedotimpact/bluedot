@@ -11,7 +11,8 @@ import { ProjectSubmission } from './ProjectSubmission';
 
 import GroupResponses from './GroupResponses';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
-import { FOAI_COURSE_SLUG } from '../../../lib/constants';
+import { FOAI_COURSE_ID, FOAI_COURSE_SLUG } from '../../../lib/constants';
+import { isFoaiExerciseComplete } from '../../../lib/foaiExerciseCompletion';
 import { trpc } from '../../../utils/trpc';
 import { optimisticallyUpdateCourseProgress, rollbackCourseProgress } from '../../../utils/optimisticCourseProgress';
 
@@ -96,7 +97,18 @@ const Exercise: React.FC<ExerciseProps> = ({
         userId: previousResponse?.userId ?? null,
       });
 
-      const previousCourseProgress = newData.completed !== undefined && exerciseData?.status === 'Core' ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.completed ? 1 : -1) : undefined;
+      let completionDelta: -1 | 0 | 1 = 0;
+      if (exerciseData?.courseId === FOAI_COURSE_ID) {
+        const wasComplete = isFoaiExerciseComplete(exerciseData.type, previousResponse);
+        const willBeComplete = isFoaiExerciseComplete(exerciseData.type, { response: newData.response, completedAt: newCompletedAt });
+        if (wasComplete !== willBeComplete) completionDelta = willBeComplete ? 1 : -1;
+      } else if (newData.completed !== undefined) {
+        completionDelta = newData.completed ? 1 : -1;
+      }
+
+      const previousCourseProgress = completionDelta !== 0 && exerciseData?.status === 'Core'
+        ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, completionDelta)
+        : undefined;
       return { previousResponse, previousCourseProgress };
     },
     onError(_err, _variables, mutationResult) {
@@ -112,7 +124,10 @@ const Exercise: React.FC<ExerciseProps> = ({
   // Concurrent saves can happen e.g. when a blur and click event both trigger saves
   const isSavingRef = useRef(false);
 
-  const isCompleted = responseData?.completedAt != null;
+  const isFoaiFreeText = exerciseData?.courseId === FOAI_COURSE_ID && exerciseData.type === 'Free text';
+  const isCompleted = exerciseData?.courseId === FOAI_COURSE_ID
+    ? isFoaiExerciseComplete(exerciseData.type, responseData)
+    : responseData?.completedAt != null;
 
   const handleExerciseSubmit = async (exerciseResponse: string, completed?: boolean) => {
     if (isSavingRef.current) {
@@ -157,7 +172,7 @@ const Exercise: React.FC<ExerciseProps> = ({
   // Free text completion checkbox (positioned outside the card)
   const hasResponse = editorHasText || !!(responseData?.response?.trim());
   const checkboxDisabled = !isCompleted && !hasResponse;
-  const showCheckbox = !!auth && exerciseData.type === 'Free text' && !showGroupResponses;
+  const showCheckbox = !!auth && exerciseData.type === 'Free text' && !showGroupResponses && !isFoaiFreeText;
 
   const renderContent = () => {
     if (showGroupResponses) {
@@ -174,6 +189,7 @@ const Exercise: React.FC<ExerciseProps> = ({
           <FreeTextResponse
             exerciseResponse={responseData?.response}
             isCompleted={isCompleted}
+            autoCompleteOnSave={isFoaiFreeText}
             isLoggedIn={!!auth}
             onExerciseSubmit={handleExerciseSubmit}
             onTextChange={handleEditorTextChange}

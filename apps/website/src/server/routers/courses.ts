@@ -21,6 +21,8 @@ import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../lib/api/utils';
+import { FOAI_COURSE_ID } from '../../lib/constants';
+import { isFoaiExerciseComplete } from '../../lib/foaiExerciseCompletion';
 import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
@@ -101,7 +103,7 @@ export const getAllActiveCourses = async () => {
   return courses;
 };
 
-const getUserCompletions = async (coreResourceIds: string[], requiredExerciseIds: string[], userId: string) => {
+const getUserCompletions = async (coreResourceIds: string[], requiredExerciseIds: string[], userId: string, isFoaiCourse: boolean) => {
   const [rawResourceCompletions, rawExerciseCompletions] = await Promise.all([
     db.pg
       .select()
@@ -117,12 +119,16 @@ const getUserCompletions = async (coreResourceIds: string[], requiredExerciseIds
       .select({
         exerciseId: exerciseResponsePgTable.pg.exerciseId,
         completedAt: exerciseResponsePgTable.pg.completedAt,
+        response: exerciseResponsePgTable.pg.response,
+        exerciseType: exerciseTable.pg.type,
       })
       .from(exerciseResponsePgTable.pg)
+      .innerJoin(exerciseTable.pg, eq(exerciseResponsePgTable.pg.exerciseId, exerciseTable.pg.id))
       .where(and(
         arrayContains(exerciseResponsePgTable.pg.userId, [userId]),
         inArray(exerciseResponsePgTable.pg.exerciseId, requiredExerciseIds),
-        isNotNull(exerciseResponsePgTable.pg.completedAt), // Only fetch completed exercises
+        // FoAI must inspect the latest answer, including cleared or autosaved answers.
+        isFoaiCourse ? undefined : isNotNull(exerciseResponsePgTable.pg.completedAt),
       ))
       .orderBy(desc(exerciseResponsePgTable.pg.createdAt)),
   ]);
@@ -153,7 +159,7 @@ const getUserCompletions = async (coreResourceIds: string[], requiredExerciseIds
     }
 
     seenExerciseIds.add(response.exerciseId);
-    return true;
+    return !isFoaiCourse || isFoaiExerciseComplete(response.exerciseType, response);
   });
 
   return { resourceCompletions, exerciseCompletions };
@@ -362,7 +368,7 @@ export const coursesRouter = router({
   getCourseProgress: protectedProcedure
     .input(z.object({ courseSlug: z.string().min(1) }))
     .query(async ({ input: { courseSlug }, ctx }) => {
-      const { units } = await getCourseData(courseSlug);
+      const { course, units } = await getCourseData(courseSlug);
       const unitIds = units.map((u) => u.id);
 
       const allChunks = await db.pg
@@ -378,6 +384,7 @@ export const coursesRouter = router({
         coreResourceIds,
         requiredExerciseIds,
         user.id,
+        course.id === FOAI_COURSE_ID,
       );
 
       // Build Sets for faster lookup

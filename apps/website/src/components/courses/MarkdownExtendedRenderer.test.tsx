@@ -1,8 +1,38 @@
-import { render, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 
 describe('MarkdownExtendedRenderer', () => {
+  test('renders authored figures with Markdown captions, links, and small timing labels', async () => {
+    render(<MarkdownExtendedRenderer>{`<CourseFigure width="600" align="center">
+
+<CourseImageRow widths="300,200" gap="8">
+<Embed url="/first.webp" alt="First illustration" />
+<Embed url="/second.webp" alt="Second illustration" />
+</CourseImageRow>
+
+<CourseCaption align="center">
+
+An **important** result. Source: [Research](https://example.com/research).
+
+</CourseCaption>
+</CourseFigure>
+
+<CourseCaption size="small">
+
+**Suggested time:** 5 minutes
+
+</CourseCaption>`}</MarkdownExtendedRenderer>);
+
+    expect(await screen.findByRole('img', { name: 'First illustration' })).toHaveAttribute('src', '/first.webp');
+    expect(screen.getByRole('img', { name: 'Second illustration' })).toHaveAttribute('src', '/second.webp');
+    expect(screen.getByRole('figure')).toHaveStyle({ width: '600px' });
+    expect(screen.getByRole('link', { name: 'Research' })).toHaveAttribute('href', 'https://example.com/research');
+    expect(screen.getByText('important').tagName).toBe('STRONG');
+    expect(screen.getByText('Suggested time:').tagName).toBe('STRONG');
+  });
+
   test('renders nothing when children is undefined', () => {
     const { container } = render(<MarkdownExtendedRenderer />);
     const element = container.querySelector('.markdown-extended-renderer');

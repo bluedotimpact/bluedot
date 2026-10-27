@@ -21,6 +21,7 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import { verifyPublicToken } from '../../lib/api/utils';
 import { FOAI_COURSE_ID, ONE_DAY_MS } from '../../lib/constants';
+import { isFoaiExerciseComplete } from '../../lib/foaiExerciseCompletion';
 import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
@@ -59,12 +60,7 @@ async function areAllFoaiExercisesComplete(userId: string): Promise<boolean> {
 
   // Free-text answers autosave with completedAt null unless the learner clicks "Complete", so a
   // typed answer counts for the certificate even without the explicit click.
-  return requiredExercises.every((exercise) => {
-    const resp = responseByExerciseId.get(exercise.id);
-    return (
-      resp != null && (resp.completedAt != null || (exercise.type === 'Free text' && resp.response.trim().length > 0))
-    );
-  });
+  return requiredExercises.every((exercise) => isFoaiExerciseComplete(exercise.type, responseByExerciseId.get(exercise.id)));
 }
 
 export async function issueFoaiCertificateIfComplete(userId: string): Promise<boolean> {
