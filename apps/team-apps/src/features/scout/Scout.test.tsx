@@ -401,6 +401,19 @@ test('search opens one registration, a decision on it returns to the start and r
   expect(decisions()).toHaveLength(1);
 });
 
+test('search keeps focus while typing and after clearing', async () => {
+  render(<Scout />);
+  const box = await screen.findByLabelText('Find a participant in the queue');
+  box.focus();
+  expect(screen.getByLabelText('Clear search').hidden).toBe(true);
+  fireEvent.change(box, { target: { value: 'j' } });
+  expect(document.activeElement).toBe(box);
+  expect(screen.getByLabelText('Find a participant in the queue')).toBe(box);
+  fireEvent.click(screen.getByRole('button', { name: 'Clear search' }));
+  expect(box.getAttribute('value')).toBe('');
+  expect(document.activeElement).toBe(box);
+});
+
 test('back to search starts with an empty box; a ?person= link opens the card directly', async () => {
   render(<Scout />);
   fireEvent.change(await screen.findByLabelText('Find a participant in the queue'), { target: { value: 'example.org' } });
