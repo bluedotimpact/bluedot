@@ -368,8 +368,22 @@ type Round = { id: string; name: string; start?: string; end?: string; course?: 
 let roundsCache: { at: number; rounds: Map<string, Round> } | undefined;
 const ROUNDS_TTL_MS = 10 * 60 * 1000;
 
+// Callers arriving while the rounds are being read share that read
+let roundsLoading: Promise<Map<string, Round>> | undefined;
 const getRounds = async (): Promise<Map<string, Round>> => {
   if (roundsCache && Date.now() - roundsCache.at < ROUNDS_TTL_MS) return roundsCache.rounds;
+  roundsLoading ??= loadRounds().finally(() => {
+    roundsLoading = undefined;
+  });
+  return roundsLoading;
+};
+
+// Starts reading the rounds early, so a later getRounds() joins the read already under way
+export const warmRounds = () => {
+  getRounds().catch(() => undefined);
+};
+
+const loadRounds = async (): Promise<Map<string, Round>> => {
   const records = await fetchAll(ROUNDS_URL, {}, Object.values(ROUND));
   const rounds = new Map<string, Round>();
   for (const r of records) {
@@ -442,13 +456,29 @@ export const fetchGrantsUnderOtherEmail = async (name: string, email: string): P
     .map((r) => ({ recordUrl: recordLink(GRANTS_URL, r.id), email: str(r.fields[GRANT.email]) }));
 };
 
+// The shortlist alone is a short read, so a lead's first screen asks for it before the backlog
+export type QueuePart = 'shortlist' | 'backlog' | 'all';
+const PART_FILTER: Record<QueuePart, string | undefined> = {
+  shortlist: '{[*] Talent scouting must look formula}',
+  backlog: 'NOT({[*] Talent scouting must look formula})',
+  all: undefined,
+};
+
+// Started before the lead is known, so it runs alongside the lead lookup
+export const startSupportedCheck = () => fetchAlreadySupportedEmails();
+
 // One read per course, side by side: a single read of the whole view pages through it one
 // request at a time
-export const fetchQueue = async (wanted: readonly Course[] = COURSES): Promise<QueueItem[]> => {
+export const fetchQueue = async (wanted: readonly Course[] = COURSES, part: QueuePart = 'all', supported = fetchAlreadySupportedEmails()): Promise<QueueItem[]> => {
+  const filterFor = (course: Course) => {
+    const byCourse = `ARRAYJOIN({[>] Course text})='${course}'`;
+    return PART_FILTER[part] ? `AND(${byCourse},${PART_FILTER[part]})` : byCourse;
+  };
+
   const [pages, rounds, alreadySupported] = await Promise.all([
-    Promise.all(wanted.map((course) => fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID, filterByFormula: `ARRAYJOIN({[>] Course text})='${course}'` }, QUEUE_FIELDS))),
+    Promise.all(wanted.map((course) => fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID, filterByFormula: filterFor(course) }, QUEUE_FIELDS))),
     getRounds(),
-    fetchAlreadySupportedEmails(),
+    supported,
   ]);
   const items: QueueItem[] = [];
   for (const r of pages.flat()) {
