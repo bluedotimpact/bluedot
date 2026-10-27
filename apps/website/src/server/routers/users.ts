@@ -1,5 +1,5 @@
 import {
-  and, courseRegistrationTable, emailChangeRequestTable, eq, sql, userTable,
+  and, courseRegistrationTable, emailChangeRequestTable, eq, isNull, sql, userTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import { randomUUID } from 'crypto';
@@ -59,7 +59,7 @@ async function sendEmailChangeConfirmation(
   // Replacing the stored id cancels any earlier link for this user
   const tokenId = randomUUID();
   await db.pg.insert(emailChangeRequestTable.pg).values({ userId: user.id, tokenId })
-    .onConflictDoUpdate({ target: emailChangeRequestTable.pg.userId, set: { tokenId } });
+    .onConflictDoUpdate({ target: emailChangeRequestTable.pg.userId, set: { tokenId, claimedAt: null } });
 
   const token = await createEmailChangeToken({
     userId: user.id, oldEmail: user.email, newEmail, tokenId,
@@ -330,9 +330,11 @@ export const usersRouter = router({
       }
 
       // The account's email alone can't tell a used link apart, because it may since have been changed back to oldEmail
-      // Claiming the link with one atomic delete stops two concurrent clicks from both applying the change
-      const [claimedRequest] = await db.pg.delete(emailChangeRequestTable.pg)
-        .where(and(eq(emailChangeRequestTable.pg.userId, user.id), eq(emailChangeRequestTable.pg.tokenId, payload.tokenId)))
+      // Claiming the link with one atomic update stops two concurrent clicks from both applying the change
+      const thisRequest = and(eq(emailChangeRequestTable.pg.userId, user.id), eq(emailChangeRequestTable.pg.tokenId, payload.tokenId));
+      const [claimedRequest] = await db.pg.update(emailChangeRequestTable.pg)
+        .set({ claimedAt: sql`now()` })
+        .where(and(thisRequest, isNull(emailChangeRequestTable.pg.claimedAt)))
         .returning();
       if (!claimedRequest) {
         throw linkNoLongerValid();
@@ -357,10 +359,12 @@ export const usersRouter = router({
           throw error;
         }
       } catch (error) {
-        // Hand the link back so the user can retry, unless a newer request has replaced it meanwhile
-        await db.pg.insert(emailChangeRequestTable.pg).values(claimedRequest).onConflictDoNothing();
+        // Hand the link back so the user can retry. Matching on tokenId leaves it cancelled if a newer request replaced it meanwhile.
+        await db.pg.update(emailChangeRequestTable.pg).set({ claimedAt: null }).where(thisRequest);
         throw error;
       }
+
+      await db.pg.delete(emailChangeRequestTable.pg).where(thisRequest);
 
       logger.info(`[EmailChange] confirmed for user ${user.id}: ${payload.oldEmail} -> ${payload.newEmail}`);
 

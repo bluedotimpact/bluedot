@@ -509,7 +509,7 @@ const seedTarget = (email = 'old@example.com') => testDb.insert(userTable, {
 
 const mintToken = async () => {
   await db.pg.insert(emailChangeRequestTable.pg).values({ userId: 'target-id', tokenId: 'token-1' })
-    .onConflictDoUpdate({ target: emailChangeRequestTable.pg.userId, set: { tokenId: 'token-1' } });
+    .onConflictDoUpdate({ target: emailChangeRequestTable.pg.userId, set: { tokenId: 'token-1', claimedAt: null } });
   return createEmailChangeToken({
     userId: 'target-id', oldEmail: 'old@example.com', newEmail: 'new@example.com', tokenId: 'token-1',
   });
@@ -1032,6 +1032,38 @@ describe('users.confirmEmailChange', () => {
 
     await expect(anonCaller().users.confirmEmailChange({ token: lastSentToken() }))
       .resolves.toMatchObject({ newEmail: 'other@example.com' });
+  });
+
+  test('an older link that fails while a newer one is being confirmed stays cancelled', async () => {
+    await seedAdmin();
+    await seedTarget();
+    const admin = callerAs('admin-sub');
+
+    await admin.users.requestEmailChange({ userId: 'target-id', newEmail: 'new@example.com' });
+    const olderToken = lastSentToken();
+
+    let releaseNewer!: () => void;
+    let newerConfirmation!: Promise<unknown>;
+    vi.mocked(updateKeycloakEmail)
+      // The older confirmation has claimed its link and is waiting on Keycloak when a newer request is made and confirmed
+      .mockImplementationOnce(async () => {
+        await admin.users.requestEmailChange({ userId: 'target-id', newEmail: 'other@example.com' });
+        newerConfirmation = anonCaller().users.confirmEmailChange({ token: lastSentToken() });
+        await vi.waitFor(() => expect(updateKeycloakEmail).toHaveBeenCalledTimes(2));
+        throw new Error('Keycloak timed out');
+      })
+      // The newer confirmation has claimed its link and fails only after the older one has handed its link back
+      .mockImplementationOnce(() => new Promise((_, reject) => {
+        releaseNewer = () => reject(new Error('Keycloak timed out'));
+      }));
+
+    await expect(anonCaller().users.confirmEmailChange({ token: olderToken })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+    releaseNewer();
+    await expect(newerConfirmation).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+
+    await expect(anonCaller().users.confirmEmailChange({ token: olderToken }))
+      .rejects.toMatchObject({ code: 'BAD_REQUEST', message: 'This link is no longer valid' });
+    expect((await testDb.get(userTable, { id: 'target-id' })).email).toBe('old@example.com');
   });
 
   test('reports success without side effects when the change was already applied', async () => {
