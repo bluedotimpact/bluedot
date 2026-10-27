@@ -157,6 +157,22 @@ export const calendarPairWithoutCalendarTable = deprecationSafePgTable('calendar
   ],
 });
 
+/**
+ * The one email-change confirmation link per user that is still allowed to be used.
+ * NOTE: This is a Postgres-only table, NOT synced from Airtable. A new request replaces the row and a confirmed change deletes it,
+ * so older links stop working.
+ */
+export const emailChangeRequestTable = deprecationSafePgTable('email_change_request', {
+  columns: {
+    // Points at userTable
+    userId: text().primaryKey(),
+    // The `jti` of the newest confirmation link sent to this user
+    tokenId: text().notNull(),
+    // Set while a confirmation is applying this link, so a second click can't apply it too. Cleared if that attempt fails.
+    claimedAt: timestamp({ mode: 'string', withTimezone: true }),
+  },
+});
+
 export const courseTable = pgAirtable('course', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tbl6nq5AVLKINBJ73',
