@@ -76,6 +76,10 @@ export const goalLine = (invited: number) => {
 // A decision waits this long before it is saved, so it can be undone. Exported for tests.
 export const UNDO_SECONDS = 5;
 const PRELOAD_AHEAD = 5;
+const FIRST_CARD_WAIT_MS = 5000;
+const wait = (ms: number) => new Promise<void>((resolve) => {
+  setTimeout(resolve, ms);
+});
 
 // The Monday (UTC) a week starts on, as the server counts invites
 const weekOf = (now = new Date()) => new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - ((now.getUTCDay() + 6) % 7))).toISOString().slice(0, 10);
@@ -318,6 +322,31 @@ const Scout = () => {
     return () => clearInterval(timer);
   }, [staged]);
 
+  const loadPerson = useCallback((id: string): Promise<void> | undefined => {
+    if (requested.current.has(id)) return undefined;
+    requested.current.add(id);
+    loadsInFlight.current += 1;
+    const requestedGeneration = generation.current;
+    setPeople((state) => {
+      const next = { ...state };
+      delete next[id];
+      return next;
+    });
+    return request<{ person: Person }>(`person/${id}`)
+      .then((data) => {
+        if (requestedGeneration === generation.current) setPeople((state) => ({ ...state, [id]: { person: data.person } }));
+      })
+      .catch((error: unknown) => {
+        if (requestedGeneration !== generation.current) return;
+        requested.current.delete(id);
+        setPeople((state) => ({ ...state, [id]: { error: message(error) } }));
+      })
+      .finally(() => {
+        loadsInFlight.current -= 1;
+        setLoadsSettled((count) => count + 1);
+      });
+  }, []);
+
   const loadQueue = useCallback(async () => {
     flush();
     generation.current += 1;
@@ -360,12 +389,19 @@ const Scout = () => {
       setPeople({});
       requested.current.clear();
       setLoading(false);
+      const later = data.later ?? [];
+      // Shown as loading from now, so a shared link to someone in them waits for them
+      later.forEach(({ part }) => (part === 'backlog' ? setBacklogLoading : setOthersLoading)(true));
+      // The server queues Airtable reads, so the lead's first card goes before the backlog and other courses
+      const first = courses.filter((course) => data.leadCourses?.includes(course)).map((course) => mustLookFor(data.items, course)).find((list) => list.length > 0)?.[0];
+      // Capped, so a card that hangs doesn't hold the rest back
+      if (first) await Promise.race([loadPerson(first.id), wait(FIRST_CARD_WAIT_MS)]);
+      if (queueGeneration !== generation.current) return;
       // The lead's backlog and the other courses, side by side. A failure says so on the page;
       // a reply from an older load is dropped.
-      await Promise.all((data.later ?? []).map(async ({ courses: wanted, part }) => {
+      await Promise.all(later.map(async ({ courses: wanted, part }) => {
         const setPartLoading = part === 'backlog' ? setBacklogLoading : setOthersLoading;
         const setPartFailed = part === 'backlog' ? setBacklogFailed : setOthersFailed;
-        setPartLoading(true);
         try {
           const rest = await request<QueueResponse>(withViewAs(`queue?courses=${encodeURIComponent(wanted.join(','))}&part=${part}`));
           if (queueGeneration === generation.current) setItems((state) => mergeItems(state, rest.items));
@@ -381,7 +417,7 @@ const Scout = () => {
         setLoading(false);
       }
     }
-  }, [viewAs, flush]);
+  }, [viewAs, flush, loadPerson]);
   useEffect(() => {
     void loadQueue();
   }, [loadQueue]);
@@ -517,31 +553,6 @@ const Scout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, queueError, linked, othersLoading, backlogLoading]);
 
-  const loadPerson = useCallback((id: string) => {
-    if (requested.current.has(id)) return;
-    requested.current.add(id);
-    loadsInFlight.current += 1;
-    const requestedGeneration = generation.current;
-    setPeople((state) => {
-      const next = { ...state };
-      delete next[id];
-      return next;
-    });
-    void request<{ person: Person }>(`person/${id}`)
-      .then((data) => {
-        if (requestedGeneration === generation.current) setPeople((state) => ({ ...state, [id]: { person: data.person } }));
-      })
-      .catch((error: unknown) => {
-        if (requestedGeneration !== generation.current) return;
-        requested.current.delete(id);
-        setPeople((state) => ({ ...state, [id]: { error: message(error) } }));
-      })
-      .finally(() => {
-        loadsInFlight.current -= 1;
-        setLoadsSettled((count) => count + 1);
-      });
-  }, []);
-
   // Cards load one at a time ahead of the lead: the person on screen first, then the next few in
   // the queue, or on the main page the top of their shortlists
   let preload: QueueItem[] = [];
@@ -567,13 +578,13 @@ const Scout = () => {
     const [first] = ids;
     // The first person never waits behind a background load
     if (first && waiting(first)) {
-      loadPerson(first);
+      void loadPerson(first);
       return;
     }
 
     if (loadsInFlight.current > 0) return;
     const next = ids.find(waiting);
-    if (next) loadPerson(next);
+    if (next) void loadPerson(next);
   }, [preloadIds, people, loadsSettled, loading, queueError, loadPerson]);
 
   // A new person starts at the top of their card, however far down the previous one was read

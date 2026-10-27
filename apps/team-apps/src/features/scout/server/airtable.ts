@@ -148,6 +148,7 @@ const USER_FULL_NAME = 'fldTnRgrJCcfhdbdV';
 const PROJECT = {
   title: 'fldSEaFkf5t8a4ppA',
   url: 'fldzIGtGZGde6xxVR',
+  attachment: 'fldfjIxRtBx1AtbGX',
   evaluation: 'fldlDvd6hM5gMar3m',
   evalNotes1: 'fldUFLAlImwRU4dxe',
   evalNotes2: 'fldqQP2Sp4Tky3sqd',
@@ -156,7 +157,7 @@ const PROJECT = {
   scores1: ['fld20BuYU0L2KdyAh', 'fldkWT2K2MkqSSutv', 'fld46ZHKG5eY3WmK7'],
   scores2: ['fldQNXddJ8viNGYsx', 'fldgIyxbSGzitjn0P', 'fldZO8JguwpTz1EaK'],
 } as const;
-const PROJECT_FIELDS = [PROJECT.title, PROJECT.url, PROJECT.evaluation, PROJECT.evalNotes1, PROJECT.evalNotes2, PROJECT.privateNotes1, PROJECT.privateNotes2, ...PROJECT.scores1, ...PROJECT.scores2];
+const PROJECT_FIELDS = [PROJECT.title, PROJECT.url, PROJECT.attachment, PROJECT.evaluation, PROJECT.evalNotes1, PROJECT.evalNotes2, PROJECT.privateNotes1, PROJECT.privateNotes2, ...PROJECT.scores1, ...PROJECT.scores2];
 
 const FEEDBACK = {
   submittedAt: 'fldU1lnBjth2Fxban',
@@ -279,6 +280,9 @@ const url = (v: unknown): string | undefined => {
   if (!s) return undefined;
   return s.startsWith('http://') || s.startsWith('https://') ? s : `https://${s}`;
 };
+
+// The first file of an attachment field. Airtable's file links expire after a few hours, fine for a card read just now.
+const attachmentUrl = (v: unknown): string | undefined => (Array.isArray(v) ? url((v[0] as { url?: unknown } | undefined)?.url) : undefined);
 
 const airtableError = (response: Response, what: string) => Object.assign(
   new Error(`Airtable ${what} failed (${response.status}).`),
@@ -651,7 +655,8 @@ const toProject = (r: AirtableRecord): Project => {
     id: r.id,
     recordUrl: recordLink(PROJECTS_URL, r.id),
     title: str(r.fields[PROJECT.title]),
-    url: url(r.fields[PROJECT.url]),
+    // About 1 in 9 submissions is an uploaded file with no link
+    url: url(r.fields[PROJECT.url]) ?? attachmentUrl(r.fields[PROJECT.attachment]),
     evaluation: str(r.fields[PROJECT.evaluation]),
     scores: [scoresOf(PROJECT.scores1), scoresOf(PROJECT.scores2)].filter((xs) => xs.length > 0),
     evalNotes: present([str(r.fields[PROJECT.evalNotes1]), str(r.fields[PROJECT.evalNotes2])]),
@@ -794,7 +799,7 @@ const toApplication = (r: AirtableRecord): Application => {
   };
 };
 
-const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreatedAt, REG.droppedOut, REG.applicationId, REG.numAttended, REG.numExpected];
+const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreatedAt, REG.droppedOut, REG.applicationId, REG.numAttended, REG.numExpected, REG.projects];
 
 const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
   id: r.id,
@@ -870,6 +875,7 @@ export const toHistoryRow = (r: AirtableRecord, rounds: Map<string, { name: stri
     isCurrent: r.id === currentId,
     attended: num(r.fields[REG.numAttended]),
     expected: num(r.fields[REG.numExpected]),
+    projectIds: strList(r.fields[REG.projects]),
   };
 };
 
@@ -903,7 +909,8 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     email ? fetchAll(CALLS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(CALL)) : Promise.resolve([]),
     fetchMany(REPORTS_URL, strList(f[REG.reports]), Object.values(REPORT)),
     fetchMany(PEER_FEEDBACK_URL, strList(f[REG.peerFeedback]), Object.values(PEER)),
-    fetchMany(PROJECTS_URL, strList(f[REG.projects]), PROJECT_FIELDS),
+    // Every course's projects in one read, so past courses can link theirs
+    fetchMany(PROJECTS_URL, [...new Set([...strList(f[REG.projects]), ...history.flatMap((h) => h.projectIds ?? [])])], PROJECT_FIELDS),
     fetchMany(FEEDBACK_URL, strList(f[REG.feedback]), Object.values(FEEDBACK)),
     applicationId ? fetchOne(APPLICATION_REGISTRATIONS_URL, applicationId, Object.values(APP)) : Promise.resolve(undefined),
     email ? fetchCrmPersonId(email) : Promise.resolve(undefined),
@@ -911,6 +918,8 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     optional(fetchMany(APPLICATION_REGISTRATIONS_URL, pastApplicationIds, Object.values(APP)), []),
   ]);
   const applicationById = new Map(pastApplications.map((r) => [r.id, toApplication(r)]));
+  const projectById = new Map(projects.map((r) => [r.id, toProject(r)]));
+  const projectsOf = (ids: string[]) => ids.map((projectId) => projectById.get(projectId)).filter((x): x is Project => !!x);
   const applications = [...(application ? [application] : []), ...pastApplications];
   const dropOuts = await optional(fetchMany(DROP_OUTS_URL, applications.flatMap((r) => strList(r.fields[APP.dropOuts])), Object.values(DROP_OUT)), []);
   const reasonByApplication = dropOutReasons(applications, dropOuts);
@@ -943,7 +952,9 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     lookedUpOn: str(f[REG.lookedUpOn]),
     aiSummary: nonEmpty(str(f[REG.aiSummary])),
     aiTake: nonEmpty(str(f[REG.aiTake])),
-    history: attachPastApplications(history, applicationById).map((h) => ({ ...h, dropOutReason: h.droppedOut && h.applicationId ? reasonByApplication.get(h.applicationId) : undefined })),
+    history: attachPastApplications(history, applicationById).map((h) => ({
+      ...h, dropOutReason: h.droppedOut && h.applicationId ? reasonByApplication.get(h.applicationId) : undefined, projects: projectsOf(h.projectIds ?? []),
+    })),
     otherApplications,
     grants: grants.map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     rapidGrants: rapidGrants.map(toRapidGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
@@ -951,7 +962,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     reports: reports.map(toReport(rounds, facilitators)).sort((a, b) => (a.date ?? '').localeCompare(b.date ?? '')),
     facilitatorFeedback,
     sessions,
-    projects: projects.map(toProject),
+    projects: projectsOf(strList(f[REG.projects])),
     feedback: feedback.map(toFeedback),
     application: application ? toApplication(application) : undefined,
   };
