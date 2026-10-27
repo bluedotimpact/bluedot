@@ -195,7 +195,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       </div>
 
       {/* Main content section */}
-      <Section className="!border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 !px-0 lg:max-xl:!px-6">
+      <Section className="pt-0 md:max-w-none px-0 lg:max-xl:px-6">
         <div className="flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-4 sm:px-spacing-x pt-6 md:pt-8">
           <div>
             <Eyebrow className="mb-2">Unit {unit.unitNumber}: {unit.title}</Eyebrow>

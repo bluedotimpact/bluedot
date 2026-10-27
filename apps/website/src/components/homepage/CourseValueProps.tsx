@@ -10,7 +10,7 @@ const Header = () => (
       >
         Start making an impact today
       </h2>
-      <P className="md:text-size-md leading-relaxed text-secondary max-w-4xl">
+      <P className="md:text-size-md text-secondary max-w-4xl">
         Do you want to help build an awesome, safe future with AI? Apply to one of our free courses today.
         We'll help you ensure that humanity safely navigates the transition to transformative AI.
       </P>
@@ -34,7 +34,7 @@ const ValueProp = ({ iconType, title, description }: { iconType: 'career' | 'net
         <IconComponent className="size-8 text-primary" />
       </div>
       <div className="flex flex-col gap-2">
-        <H4 className="text-size-md font-medium">{title}</H4>
+        <H4 className="font-medium">{title}</H4>
         <P className="text-secondary">{description}</P>
       </div>
     </div>

@@ -22,7 +22,7 @@ const SpecialProjectsTeam = () => {
           <li key={member.name} className="flex flex-1 items-center gap-3">
             <Avatar name={member.name} imageSrc={member.imageUrl} size="medium" />
             <div className="flex flex-col gap-1">
-              <P className="text-size-sm">
+              <P>
                 {member.url ? <A href={member.url} className="inline-flex min-h-11 items-center">{member.name}</A> : member.name}
               </P>
               <P className="text-size-xs text-secondary">{member.jobTitle}</P>

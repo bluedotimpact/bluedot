@@ -101,7 +101,7 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect, notice }) =>
   if (loading || filtersLoading) {
     return (
       <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas flex items-center justify-center">
-        <ProgressDots className="text-accent" />
+        <ProgressDots />
       </div>
     );
   }

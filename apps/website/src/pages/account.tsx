@@ -49,7 +49,7 @@ const AccountSettingsPage = () => {
 
             <div className="mb-6">
               <P className="font-semibold mb-2">Email*</P>
-              <P className="text-primary">{user.email}</P>
+              <P>{user.email}</P>
             </div>
 
             <div className="border-t my-6" />

@@ -223,7 +223,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
               <H1>
                 {PAGE_TITLE}
               </H1>
-              <P className="text-size-md leading-relaxed text-secondary">
+              <P className="text-size-md text-secondary">
                 {PAGE_SUBTITLE}
               </P>
             </div>
@@ -246,10 +246,10 @@ const PuzzleTechnicalAiSafetyPage = () => {
           <div className={SECTION_PADDING_CLASS}>
             <div className="max-w-text mx-auto">
               <h2><Eyebrow className="text-secondary">The puzzle</Eyebrow></h2>
-              <P className="mt-4 text-size-md leading-relaxed">
+              <P className="mt-4 text-size-md">
                 We trained a model on short text inputs to predict eight binary features simultaneously (e.g. contains a person&rsquo;s name, mentions a food, phrased as a question). After a particular layer of this model, seven of these features are represented linearly, where a single direction in the activation space describes that feature. However, one feature is represented in a different way.
               </P>
-              <P className="mt-4 text-size-md leading-relaxed">
+              <P className="mt-4 text-size-md">
                 Your job is to figure out which feature it is and how it is represented.
               </P>
             </div>
@@ -282,7 +282,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
                 <Button
                   url={PUZZLE_URL}
                   size="small"
-                  className="min-h-11 lg:min-h-12 px-6 lg:px-7 text-size-sm font-semibold rounded-md text-on-dark hover:brightness-110"
+                  className="min-h-11 lg:min-h-12 px-6 lg:px-7 text-size-sm hover:brightness-110"
                   style={{ backgroundColor: TAS.full }}
                 >
                   See the puzzle

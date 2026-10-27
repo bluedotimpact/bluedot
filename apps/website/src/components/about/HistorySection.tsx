@@ -21,7 +21,7 @@ const HistoryEvent = ({ year, children }: { year: string; children: React.ReactN
     <div className="flex-1">
       <div className="flex flex-col gap-space-between">
         <div className="w-full flex gap-2">
-          <P className="bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min">{year}</P>
+          <P className="bg-accent rounded-full px-4 py-2 text-on-dark font-bold w-min">{year}</P>
           <div className="relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0" />
         </div>
         <P className="mr-12">{children}</P>

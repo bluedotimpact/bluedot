@@ -26,11 +26,11 @@ const Error404Page = () => {
         {pageMetaTags({ title: `${currentRoute.title} | BlueDot Impact` })}
         <meta name="robots" content="noindex" />
       </Head>
-      <HeroSection className="404-hero overflow-hidden">
+      <HeroSection className="overflow-hidden">
         {/* The background on the Rive animation slightly mismatches the HeroSection
             background. The box-shadow here is to blend the two together */}
         <div
-          className="404-hero__animation-container w-[400px] max-w-[80vw] aspect-2/1 shadow-[0_0_120px_120px_#011664]"
+          className="w-[400px] max-w-[80vw] aspect-2/1 shadow-[0_0_120px_120px_#011664]"
         >
           <Rive
             src="/animations/herobluedot_hero.riv"

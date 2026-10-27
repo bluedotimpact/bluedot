@@ -60,7 +60,6 @@ const ContextWeekProgramPage = ({ programName }: ProgramDetailPageProps) => {
               variant="primary"
               url={applicationUrl}
               target="_blank"
-              className="min-h-11"
             >
               Express interest
               <FaChevronRight aria-hidden className="size-4" />

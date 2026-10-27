@@ -126,7 +126,7 @@ const GranteesListSection = ({
             </H2>
           )}
           {subtitle && (
-            <P className="bd-md:text-size-md leading-relaxed text-secondary mt-4">
+            <P className="bd-md:text-size-md text-secondary mt-4">
               {subtitle}
             </P>
           )}

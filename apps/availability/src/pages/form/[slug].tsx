@@ -89,7 +89,7 @@ const Form: React.FC<{
 
   return (
     <main className="min-h-screen bg-bluedot-darker flow-root px-8 py-12">
-      <Section className="border-b-0 py-16 px-12 bg-canvas rounded-lg max-w-3xl">
+      <Section className="py-16 px-12 bg-canvas rounded-lg max-w-3xl">
         <Eyebrow>Time availability form</Eyebrow>
         <H1 className="text-size-lg">{title}</H1>
         <div className="space-y-2 mt-4">
@@ -114,7 +114,7 @@ const Form: React.FC<{
           />
         </label>
         <div className="mt-6">
-          {submitting && <ProgressDots className="w-full" />}
+          {submitting && <ProgressDots />}
           {!submitting && (
             <>
               <P className={`text-size-xs text-error-fg mb-2 ${formState.isDirty ? 'font-bold' : ''}`}>
@@ -192,7 +192,7 @@ const FormWrapper: React.FC = () => {
 
   if (!info || info.type === 'loading') {
     return (
-      <ProgressDots className="w-full h-screen" />
+      <ProgressDots className="h-screen" />
     );
   }
 

@@ -100,7 +100,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                               </span>
                             </a>
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent hover:text-link"
                               href="/courses"
                               tabindex="0"
                             >
@@ -160,7 +160,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                               Career Transition Grants
                             </a>
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent hover:text-link"
                               href="/grants"
                               tabindex="0"
                             >
@@ -222,7 +222,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                               AI Security Bootcamp
                             </a>
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent hover:text-link"
                               href="/programs?utm_source=website&utm_campaign=nav"
                               tabindex="0"
                             >
@@ -342,7 +342,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         </span>
                       </a>
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-link hover:text-link"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] hover:text-link"
                         href="/courses"
                         tabindex="0"
                       >
@@ -402,7 +402,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         Career Transition Grants
                       </a>
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-link hover:text-link"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] hover:text-link"
                         href="/grants"
                         tabindex="0"
                       >
@@ -464,7 +464,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         AI Security Bootcamp
                       </a>
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-link hover:text-link"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] hover:text-link"
                         href="/programs?utm_source=website&utm_campaign=nav"
                         tabindex="0"
                       >
