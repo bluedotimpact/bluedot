@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import {
-  ErrorSection, Input, Modal, ProgressDots, useCurrentTimeMs,
+  ErrorSection, Modal, ProgressDots, SearchInput, useCurrentTimeMs,
 } from '@bluedot/ui';
-import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
 import { formatDateTimeRelative } from '../../lib/utils';
 import type { UserSearchResult } from '../../server/routers/admin';
@@ -23,7 +22,6 @@ export const UserSearchModal = ({
   onSelectUser,
 }: UserSearchModalProps) => {
   const [searchTermInput, setSearchTermInput] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
   const currentTimeMs = useCurrentTimeMs();
 
   useEffect(() => {
@@ -48,27 +46,11 @@ export const UserSearchModal = ({
   return (
     <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title={title}>
       <div className="flex flex-col gap-4">
-        <Input
-          ref={inputRef}
-          type="search"
+        <SearchInput
           value={searchTermInput}
-          onChange={(e) => setSearchTermInput(e.target.value)}
+          onChange={setSearchTermInput}
           placeholder="Search by name or email..."
           aria-label="Search by name or email"
-          leading={<FaMagnifyingGlass aria-hidden />}
-          trailing={searchTermInput ? (
-            <button
-              type="button"
-              aria-label="Clear search"
-              onClick={() => {
-                setSearchTermInput('');
-                inputRef.current?.focus();
-              }}
-              className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
-            >
-              <FaXmark aria-hidden />
-            </button>
-          ) : undefined}
         />
 
         <div className="md:h-[400px] overflow-y-auto">
