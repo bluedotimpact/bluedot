@@ -32,9 +32,11 @@ describe('Button', () => {
     expect(screen.getByRole('button').className).includes(token);
   });
 
-  test('link variant drops button chrome', () => {
+  test('link variant keeps the size height but drops horizontal padding', () => {
     render(<Button variant="link">Click me</Button>);
-    expect(screen.getByRole('button').className).not.toMatch(/\bpx-|\bmin-h-/);
+    const { className } = screen.getByRole('button');
+    expect(className).includes('min-h-11');
+    expect(className).not.toMatch(/\bpx-/);
   });
 
   test('unstyled variant adds no colour classes', () => {
