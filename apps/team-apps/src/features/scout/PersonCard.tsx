@@ -526,10 +526,11 @@ const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
     // The current course is the rest of the card; its record is linked under "This round"
     links={r.isCurrent ? [] : [{ label: 'Course record', url: r.recordUrl }, ...projectLinks(r.projects)]}
     current={r.isCurrent}
-    more={!r.isCurrent && (r.droppedOut || r.application) && (
+    // The current course's application is further down the card; its drop-out reason is only here
+    more={(r.droppedOut || (!r.isCurrent && r.application)) && (
       <div className="flex flex-col gap-2">
         {r.droppedOut && <More always red label="Drop out reason" text={r.dropOutReason} />}
-        {r.application && <ApplicationDetails app={r.application} />}
+        {!r.isCurrent && r.application && <ApplicationDetails app={r.application} />}
       </div>
     )}
   />
@@ -811,7 +812,10 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?
           This round · {roundLabel}
           {currentRecord && <A href={currentRecord} target="_blank" className="ml-3 normal-case tracking-normal">Course record ↗</A>}
         </GroupLabel>
-        {person.projects.filter((p) => p.url).map((p) => <Button key={p.id} variant="outline-black" size="small" url={p.url} target="_blank">Project ↗</Button>)}
+        {/* Titles tell several projects apart; one project stays a short button */}
+        {person.projects.filter((p) => p.url).map((p, _, all) => (
+          <Button key={p.id} variant="outline-black" size="small" url={p.url} target="_blank" title={p.title}>{all.length > 1 && p.title ? `Project: ${p.title}` : 'Project'} ↗</Button>
+        ))}
       </div>
       <Section
         title="Application"
