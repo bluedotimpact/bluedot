@@ -31,10 +31,11 @@ export const PersonSearch = ({
           onChange={(e) => onQueryChange(e.target.value)}
           placeholder="Name or email"
           autoComplete="off"
-          trailing={query ? (
+          trailing={(
             <button
               type="button"
               aria-label="Clear search"
+              hidden={!query}
               onClick={() => {
                 onQueryChange('');
                 inputRef.current?.focus();
@@ -43,7 +44,7 @@ export const PersonSearch = ({
             >
               <FaXmark aria-hidden />
             </button>
-          ) : undefined}
+          )}
         />
       </Field>
       {active && results.length === 0 && <p className="text-size-xs text-secondary">Nobody in the queue matches that.</p>}
