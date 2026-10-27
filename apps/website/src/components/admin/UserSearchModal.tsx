@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import {
   ErrorSection, Modal, ProgressDots, SearchInput, useCurrentTimeMs,
 } from '@bluedot/ui';
@@ -22,14 +22,7 @@ export const UserSearchModal = ({
   onSelectUser,
 }: UserSearchModalProps) => {
   const [searchTermInput, setSearchTermInput] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
   const currentTimeMs = useCurrentTimeMs();
-
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 100);
-    }
-  }, [isOpen]);
 
   const searchTerm = searchTermInput.trim();
   const { data: searchResults, isLoading, error } = trpc.admin.searchUsers.useQuery(
@@ -48,7 +41,7 @@ export const UserSearchModal = ({
     <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title={title}>
       <div className="flex flex-col gap-4">
         <SearchInput
-          ref={inputRef}
+          autoFocus
           value={searchTermInput}
           onChange={setSearchTermInput}
           placeholder="Search by name or email..."
