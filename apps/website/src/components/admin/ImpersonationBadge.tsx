@@ -3,6 +3,7 @@ import { FaXmark } from 'react-icons/fa6';
 import { maskEmail } from '../../lib/utils';
 import { IMPERSONATION_STORAGE_KEY, trpc } from '../../utils/trpc';
 import { safeSessionStorage } from '../../utils/safeStorage';
+import { IconButton } from '@bluedot/ui';
 
 const IMPERSONATE_QUERY_PARAM = 'impersonate';
 
@@ -101,17 +102,15 @@ export const ImpersonationBadge = () => {
     <div className="fixed z-50 bottom-4 px-4 max-w-[100vw]">
       <div className="max-w-full bg-warning-bg text-warning-fg border border-warning-border px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-size-sm font-medium">
         <span className="truncate">Impersonating: {maskedEmail}</span>
-        <button
-          type="button"
+        <IconButton
           onClick={() => {
             safeSessionStorage.removeItem(IMPERSONATION_STORAGE_KEY);
             window.location.reload();
           }}
-          className="p-0.5 hover:bg-warning-border rounded"
           aria-label="Stop impersonating"
         >
           <FaXmark aria-hidden="true" className="size-4" />
-        </button>
+        </IconButton>
       </div>
     </div>
   );

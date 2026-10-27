@@ -25,10 +25,18 @@ describe('Button', () => {
 
   test.each([
     ['ghost', 'text-secondary'],
+    ['link', 'underline'],
     ['outline-black', 'border-strong'],
   ] as const)('%s variant uses its token', (variant, token) => {
     render(<Button variant={variant}>Click me</Button>);
     expect(screen.getByRole('button').className).includes(token);
+  });
+
+  test('link variant keeps the size height but drops horizontal padding', () => {
+    render(<Button variant="link">Click me</Button>);
+    const { className } = screen.getByRole('button');
+    expect(className).includes('min-h-11');
+    expect(className).not.toMatch(/\bpx-/);
   });
 
   test('unstyled variant adds no colour classes', () => {

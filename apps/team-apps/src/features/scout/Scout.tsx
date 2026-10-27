@@ -625,10 +625,15 @@ const SessionDecisions: React.FC<{ decisions: Done[] }> = ({ decisions }) => {
           </div>
         );
       })}
-      <button type="button" className="min-h-11 underline" onClick={() => {
-        const text = decisions.map(({ decision, person }) => `${decision === 'invite' ? 'Invitation requested' : 'Don’t invite'}: ${person.name} <${person.email}>`).join('\n');
-        void navigator.clipboard.writeText(text).then(() => setCopyStatus('Copied')).catch(() => setCopyStatus('Could not copy. Select the text above instead.'));
-      }}>Copy decisions</button>
+      <Button
+        variant="link"
+        onClick={() => {
+          const text = decisions.map(({ decision, person }) => `${decision === 'invite' ? 'Invitation requested' : 'Don’t invite'}: ${person.name} <${person.email}>`).join('\n');
+          void navigator.clipboard.writeText(text).then(() => setCopyStatus('Copied')).catch(() => setCopyStatus('Could not copy. Select the text above instead.'));
+        }}
+      >
+        Copy decisions
+      </Button>
       {copyStatus && <p role="status">{copyStatus}</p>}
     </div>
   );

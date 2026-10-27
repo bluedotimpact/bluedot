@@ -196,13 +196,9 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect, notice }) =>
                     </div>
                   </div>
                 )}
-                <button
-                  type="button"
-                  onClick={() => updateFilterIds([])}
-                  className="min-h-11 px-3 rounded-md text-size-sm font-medium text-secondary hover:text-primary underline underline-offset-2"
-                >
+                <Button variant="link" onClick={() => updateFilterIds([])}>
                   Clear
-                </button>
+                </Button>
                 {atFilterLimit && <p className="text-size-xs text-secondary">You can tick up to {MAX_QUEUE_FILTERS} at a time.</p>}
               </div>
             )}

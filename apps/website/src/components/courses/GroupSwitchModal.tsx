@@ -3,9 +3,17 @@ import {
   useState, useMemo, useEffect,
 } from 'react';
 import {
-  Checkbox, cn, ClickTarget, Button,
-  ErrorSection, H3, Modal, ModalTitle, ProgressDots,
-  Select, Textarea,
+  Checkbox,
+  cn,
+  Button,
+  ErrorSection,
+  H3,
+  Modal,
+  ModalTitle,
+  ProgressDots,
+  Select,
+  Textarea,
+  ClickTarget,
 } from '@bluedot/ui';
 import {
   FaArrowLeft, FaArrowRightArrowLeft, FaUser, FaUserClock,
@@ -348,13 +356,9 @@ export default function GroupSwitchModal({
               <GroupSwitchOption key={option.id} {...option} />
             ))}
             {hasMoreOptions && !showAllOptions && (
-              <button
-                type="button"
-                onClick={() => setShowAllOptions(true)}
-                className="text-size-sm text-link hover:underline cursor-pointer text-left mt-2 -mb-2 mx-auto"
-              >
+              <Button variant="link" tone="accent" className="mx-auto mt-2 -mb-2" onClick={() => setShowAllOptions(true)}>
                 See all {isTemporarySwitch ? 'discussions' : 'groups'}
-              </button>
+              </Button>
             )}
           </div>
         </div>

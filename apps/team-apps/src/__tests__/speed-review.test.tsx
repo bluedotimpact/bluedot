@@ -28,7 +28,7 @@ vi.mock('axios-hooks', () => ({
 vi.mock('../lib/client/api', () => ({ authFetch: vi.fn() }));
 vi.mock('@bluedot/ui', async () => ({
   ...(await vi.importActual<typeof BluedotUi>('@bluedot/ui')),
-  Button: ({ children, onClick }: { children: ReactNode; onClick?: () => void }) => <button type="button" onClick={onClick}>{children}</button>,
+  Button: ({ children, onClick, disabled, title, 'aria-label': ariaLabel }: { children: ReactNode; onClick?: () => void; disabled?: boolean; title?: string; 'aria-label'?: string }) => <button type="button" onClick={onClick} disabled={disabled} title={title} aria-label={ariaLabel}>{children}</button>,
   H1: ({ children }: { children: ReactNode }) => <h1>{children}</h1>,
   H2: ({ children }: { children: ReactNode }) => <h2>{children}</h2>,
   Callout: ({ children, role }: { children?: ReactNode; role?: string }) => <div role={role}>{children}</div>,
@@ -36,6 +36,7 @@ vi.mock('@bluedot/ui', async () => ({
     isOpen ? <div role="dialog"><h2>{title}</h2>{children}</div> : null
   ),
   ProgressDots: () => <span>Loading</span>,
+  IconButton: ({ children, onClick, disabled, title, 'aria-label': ariaLabel, 'aria-expanded': ariaExpanded }: { children?: ReactNode; onClick?: () => void; disabled?: boolean; title?: string; 'aria-label': string; 'aria-expanded'?: boolean }) => <button type="button" onClick={onClick} disabled={disabled} title={title} aria-label={ariaLabel} aria-expanded={ariaExpanded}>{children}</button>,
 }));
 vi.mock('../components/RoundPicker', () => ({
   RoundPicker: ({ onSelect, notice }: { onSelect: (round: { id: string; name: string; course: string }, direction: string, filters?: QueueFilters) => void; notice?: string }) => {

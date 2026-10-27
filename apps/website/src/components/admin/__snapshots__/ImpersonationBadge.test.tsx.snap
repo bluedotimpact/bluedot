@@ -16,7 +16,7 @@ exports[`ImpersonationBadge > displays masked email when impersonating 1`] = `
       </span>
       <button
         aria-label="Stop impersonating"
-        class="p-0.5 hover:bg-warning-border rounded"
+        class="relative flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-surface hover:bg-tint on-dark:text-on-dark on-dark:hover:bg-surface-on-dark-subtle focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-40 before:absolute before:-inset-1.5"
         type="button"
       >
         <svg

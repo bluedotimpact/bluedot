@@ -663,11 +663,12 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             >
               <button
                 aria-label="Hide sidebar"
-                class="text-size-xs text-primary flex cursor-pointer items-center gap-2 font-medium transition-opacity hover:opacity-80"
+                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-9 px-3 text-size-xs font-semibold text-secondary hover:bg-tint hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark"
                 type="button"
               >
                 <svg
-                  class="size-[16px]"
+                  aria-hidden="true"
+                  class="size-4"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -680,9 +681,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"
                   />
                 </svg>
-                <span>
-                  Hide
-                </span>
+                Hide
               </button>
               <span
                 class="h-[18px] w-px bg-default"
@@ -788,7 +787,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             >
               <button
                 aria-label="Previous"
-                class="flex items-center gap-1 text-size-xs font-medium leading-snug text-primary hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-9 px-3 text-size-xs font-semibold text-secondary hover:bg-tint hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark"
                 disabled=""
                 title="Navigate to previous section (use ← arrow key)"
                 type="button"
@@ -797,7 +796,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               </button>
               <button
                 aria-label="Next"
-                class="flex items-center gap-1 text-size-xs font-medium leading-snug text-primary hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-9 px-3 text-size-xs font-semibold text-secondary hover:bg-tint hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark"
                 title="Navigate to next section (use → arrow key)"
                 type="button"
               >
