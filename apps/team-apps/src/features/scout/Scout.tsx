@@ -76,7 +76,8 @@ export const goalLine = (invited: number) => {
 // A decision waits this long before it is saved, so it can be undone. Exported for tests.
 export const UNDO_SECONDS = 5;
 const PRELOAD_AHEAD = 5;
-const FIRST_CARD_WAIT_MS = 5000;
+// How long the background reads and the shortlist button wait, at most, for the first card
+const FIRST_CARD_WAIT_MS = 8000;
 const wait = (ms: number) => new Promise<void>((resolve) => {
   setTimeout(resolve, ms);
 });
@@ -570,6 +571,19 @@ const Scout = () => {
   }
 
   const preloadIds = preload.map((item) => item.id).join(',');
+
+  // A shortlist opens once its first card has loaded, so the first click never waits on Airtable
+  const [stopPreparing, setStopPreparing] = useState(false);
+  useEffect(() => {
+    setStopPreparing(false);
+    if (loading) return undefined;
+    const timer = setTimeout(() => setStopPreparing(true), FIRST_CARD_WAIT_MS);
+    return () => clearTimeout(timer);
+  }, [loading]);
+  const preparing = stopPreparing ? [] : leadCourses.filter((course) => {
+    const firstId = mustLookFor(remaining, course)[0]?.id;
+    return firstId !== undefined && !people[firstId];
+  });
   useEffect(() => {
     if (loading || queueError) return;
     // A card that failed to load waits for the lead's Retry instead of being fetched again here
@@ -743,7 +757,7 @@ const Scout = () => {
                 <button type="button" aria-label="Close" onClick={() => setSessionNote(undefined)} className="min-h-11 shrink-0 px-2 text-secondary hover:text-primary">×</button>
               </section>
             )}
-            <RoundPicker items={remaining} leadCourses={leadCourses} othersLoading={othersLoading} othersFailed={othersFailed} backlogLoading={backlogLoading} backlogFailed={backlogFailed} onSelect={chooseRound} onSelectMustLook={chooseMustLook} />
+            <RoundPicker items={remaining} leadCourses={leadCourses} othersLoading={othersLoading} othersFailed={othersFailed} backlogLoading={backlogLoading} backlogFailed={backlogFailed} preparing={preparing} onSelect={chooseRound} onSelectMustLook={chooseMustLook} />
           </>
         ) : <>
           {/* Where the lead is, as one quiet line; progress and skips live in the action bar below the card */}

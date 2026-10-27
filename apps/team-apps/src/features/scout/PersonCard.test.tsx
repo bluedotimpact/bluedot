@@ -2,7 +2,7 @@ import {
   cleanup, fireEvent, render, screen,
 } from '@testing-library/react';
 import { afterEach, expect, test } from 'vitest';
-import { PersonCard, mustLookReasons } from './PersonCard';
+import { PersonCard, mustLookReasons, otherCourseDecisions } from './PersonCard';
 import { openNextSection } from './sectionNav';
 import type { Person } from './types';
 
@@ -65,6 +65,25 @@ test('an eval call with no notes still opens to its record', () => {
   render(<PersonCard person={{ ...person, calls: [{ id: 'recCallSample0001', recordUrl: 'https://airtable.example.org/recCallSample0001', createdAt: '2026-06-01' }] }} showName />);
   fireEvent.click(screen.getByText('Eval call'));
   expect(screen.getByRole('link', { name: 'Call record ↗' })).toBeTruthy();
+});
+
+test('other courses list invites and passes from their other registrations, not the current one or ones they facilitated', () => {
+  const history = [
+    {
+      id: 'recRegSample0003', course: 'Biosecurity', roundName: '', facilitated: false, hasCertificate: true, droppedOut: false, isCurrent: false, invitedOn: '2026-10-12',
+    },
+    {
+      id: 'recRegSample0004', course: 'AGI Strategy', roundName: '', facilitated: false, hasCertificate: true, droppedOut: false, isCurrent: false, passedOn: '2026-10-03T10:00:00.000Z',
+    },
+    {
+      id: 'recRegSample0005', course: 'Technical AI Safety', roundName: '', facilitated: false, hasCertificate: true, droppedOut: false, isCurrent: true, invitedOn: '2026-10-20',
+    },
+    {
+      id: 'recRegSample0006', course: 'Frontier AI Governance', roundName: '', facilitated: true, hasCertificate: true, droppedOut: false, isCurrent: false, passedOn: '2026-09-01T10:00:00.000Z',
+    },
+  ];
+  expect(otherCourseDecisions({ ...person, history })).toEqual(['invited from Biosecurity on 12 Oct 2026 (no completed call on record)', 'passed in AGI Strategy on 3 Oct 2026']);
+  expect(otherCourseDecisions({ ...person, history, calls: [{ id: 'recCallSample0001', status: 'Call complete' }] })[0]).toBe('invited from Biosecurity on 12 Oct 2026');
 });
 
 test('openNextSection walks the top-level sections one at a time: closes the open one, opens the next, then starts over', () => {

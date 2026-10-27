@@ -73,7 +73,7 @@ const Disclosure: React.FC<{
     <details open={open} onToggle={(e) => setOpen(e.currentTarget.open)}>
       <summary className={cn('min-h-11 cursor-pointer select-none list-none rounded-surface marker:hidden [&::-webkit-details-marker]:hidden hover:bg-tint focus:outline-none focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-focus', summaryClassName)}>
         <span className="flex items-center gap-2 min-w-0 flex-wrap">
-          <FaChevronRight aria-hidden className={cn('size-2.5 shrink-0 text-disabled transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
+          <FaChevronRight aria-hidden className={cn('size-2.5 shrink-0 text-primary/55 transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
           {summary}
         </span>
         {!open && preview}
@@ -317,7 +317,7 @@ const CopyEmail: React.FC<{ email: string }> = ({ email }) => {
     <Button
       variant="link"
       title="Copy email"
-      className="min-w-0"
+      className="min-w-0 no-underline"
       onClick={() => {
         void navigator.clipboard.writeText(email).then(() => {
           setCopied(true);
@@ -420,11 +420,11 @@ const TimelineRow: React.FC<{
   return (
     <div
       onClick={more ? onRowClick : undefined}
-      className={cn('col-span-full grid grid-cols-subgrid items-center gap-y-1 py-1.5', more && 'cursor-pointer hover:bg-tint', current && '-mx-2 rounded-surface bg-info-bg/50 px-2 font-medium text-primary', quiet && 'text-disabled')}
+      className={cn('col-span-full grid grid-cols-subgrid items-center gap-y-1 py-1.5', (more || current) && '-mx-2 rounded-surface px-2', more && 'cursor-pointer hover:bg-tint', current && 'bg-info-bg/50 font-medium text-primary', quiet && 'text-disabled')}
     >
       <span className="flex items-center gap-2 tabular-nums">
         {more && (
-          <button type="button" aria-expanded={open} aria-label={open ? 'Hide details' : 'Show details'} className="flex shrink-0 items-center text-disabled" onClick={() => setOpen((o) => !o)}>
+          <button type="button" aria-expanded={open} aria-label={open ? 'Hide details' : 'Show details'} className="flex shrink-0 items-center text-primary/55" onClick={() => setOpen((o) => !o)}>
             <FaChevronRight aria-hidden className={cn('size-2.5 transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
           </button>
         )}
@@ -523,12 +523,14 @@ const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
     detail={<CourseDetail course={r.course} roundName={r.roundName} attended={r.attended} expected={r.expected} />}
     opinion={r.opinion}
     status={courseStatus(r)}
-    links={[{ label: 'Course record', url: r.recordUrl }, ...projectLinks(r.projects)]}
+    // The current course is the rest of the card; its record is linked under "This round"
+    links={r.isCurrent ? [] : [{ label: 'Course record', url: r.recordUrl }, ...projectLinks(r.projects)]}
     current={r.isCurrent}
-    more={(r.droppedOut || r.application) && (
+    // The current course's application is further down the card; its drop-out reason is only here
+    more={(r.droppedOut || (!r.isCurrent && r.application)) && (
       <div className="flex flex-col gap-2">
         {r.droppedOut && <More always red label="Drop out reason" text={r.dropOutReason} />}
-        {r.application && <ApplicationDetails app={r.application} />}
+        {!r.isCurrent && r.application && <ApplicationDetails app={r.application} />}
       </div>
     )}
   />
@@ -703,6 +705,16 @@ const feedbackScale = (fb: FacilitatorFeedback): { label: string; value: string 
   return rows;
 };
 
+// Invites and passes from their other registrations, so a lead sees what a teammate already did. Exported for tests.
+export const otherCourseDecisions = (person: Person): string[] => {
+  const callDone = person.calls.some((c) => c.status === 'Call complete');
+  return person.history.filter((h) => !h.isCurrent && !h.facilitated).flatMap((h) => {
+    if (h.invitedOn) return [`invited from ${h.course} on ${formatDate(h.invitedOn)}${callDone ? '' : ' (no completed call on record)'}`];
+    if (h.passedOn) return [`passed in ${h.course} on ${formatDate(h.passedOn)}`];
+    return [];
+  });
+};
+
 // Why this person is on the shortlist, in PICK_REASONS order. Exported for tests.
 export const mustLookReasons = (person: Person): string[] => [
   ...(endorsers(person).length > 0 ? [`Endorsed by ${endorsers(person).join(' and ')}`] : []),
@@ -712,6 +724,8 @@ export const mustLookReasons = (person: Person): string[] => [
 
 export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?: boolean }> = ({ person, showName, mustLook = false }) => {
   const reasons = mustLook ? mustLookReasons(person) : [];
+  const otherCourses = otherCourseDecisions(person);
+  const currentRecord = person.history.find((h) => h.isCurrent)?.recordUrl;
   // LinkedIn sometimes lives only on the application record, so merge both sources
   const profileLinks = [...new Map([person.profileUrl, person.application?.profileUrl, person.application?.otherProfileUrl]
     .filter((u): u is string => !!u)
@@ -752,6 +766,12 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?
             {' '}{reasons.join(' · ')}
           </p>
         )}
+        {otherCourses.length > 0 && (
+          <p className="w-fit max-w-full rounded-r-surface border-l-[3px] border-secondary bg-tint py-2 pl-[13px] pr-4 text-size-sm text-primary">
+            <span className="mr-2 text-size-xxs font-semibold uppercase tracking-wide text-secondary">Other courses</span>
+            {' '}{otherCourses.join(' · ')}
+          </p>
+        )}
         {summaryLine && <p className="text-size-sm text-secondary">{summaryLine}</p>}
         {person.aiSummary && (
           <div className="flex flex-col gap-1 rounded-surface bg-warning-bg px-3 py-2">
@@ -787,10 +807,16 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?
         <TimelineList>{timeline.map((item) => item.node)}</TimelineList>
       </Section>
 
-      <GroupLabel spaced>
-        This round · {roundLabel}
-        {person.projects.filter((p) => p.url).map((p) => <A key={p.id} href={p.url} target="_blank" className="ml-3 normal-case tracking-normal">Project ↗</A>)}
-      </GroupLabel>
+      <div className="flex flex-wrap items-end justify-between gap-2">
+        <GroupLabel spaced>
+          This round · {roundLabel}
+          {currentRecord && <A href={currentRecord} target="_blank" className="ml-3 normal-case tracking-normal">Course record ↗</A>}
+        </GroupLabel>
+        {/* Titles tell several projects apart; one project stays a short button */}
+        {person.projects.filter((p) => p.url).map((p, _, all) => (
+          <Button key={p.id} variant="outline-black" size="small" url={p.url} target="_blank" title={p.title}>{all.length > 1 && p.title ? `Project: ${p.title}` : 'Project'} ↗</Button>
+        ))}
+      </div>
       <Section
         title="Application"
         empty={!app}
