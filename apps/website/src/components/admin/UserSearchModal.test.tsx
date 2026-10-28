@@ -75,6 +75,8 @@ describe('UserSearchModal', () => {
 
     render(<UserSearchModal isOpen onClose={mockOnClose} title="Impersonate a user" scope="impersonate" onSelectUser={() => {}} />, { wrapper: TrpcProvider });
 
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByPlaceholderText('Search by name or email...')));
+
     // Initially shows all users
     await waitFor(() => {
       expect(screen.getByText('John Doe')).toBeDefined();

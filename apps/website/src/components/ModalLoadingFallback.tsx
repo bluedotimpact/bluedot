@@ -14,7 +14,7 @@ export const ModalLoadingFallback = ({ error, pastDelay }: DynamicOptionsLoading
 
   return (
     <div className="fixed inset-0 z-60 flex items-center justify-center bg-scrim backdrop-blur-xs">
-      <ProgressDots className="my-0" />
+      <ProgressDots />
     </div>
   );
 };

@@ -1,8 +1,7 @@
 import {
-  Button, Input, Modal, ProgressDots,
+  Button, Modal, ProgressDots, SearchInput,
 } from '@bluedot/ui';
-import { useRef, useState } from 'react';
-import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
+import { useState } from 'react';
 import { trpc } from '../../utils/trpc';
 import ParticipantRow from './ParticipantRow';
 
@@ -15,7 +14,6 @@ type AddParticipantModalProps = {
 
 const AddParticipantModal = ({ meetPersonId, excludeIds, onAdd, onClose }: AddParticipantModalProps) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const searchInputRef = useRef<HTMLInputElement>(null);
   const { data, isLoading, isError } = trpc.facilitators.searchAddableParticipants.useQuery({
     meetPersonId,
     searchTerm: searchTerm.trim() || undefined,
@@ -40,27 +38,11 @@ const AddParticipantModal = ({ meetPersonId, excludeIds, onAdd, onClose }: AddPa
           Search for a participant enrolled in this course who isn't already on your list.
         </p>
 
-        <Input
-          ref={searchInputRef}
-          type="search"
+        <SearchInput
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={setSearchTerm}
           placeholder="Search by name..."
           aria-label="Search participants by name"
-          leading={<FaMagnifyingGlass aria-hidden />}
-          trailing={searchTerm ? (
-            <button
-              type="button"
-              aria-label="Clear search"
-              onClick={() => {
-                setSearchTerm('');
-                searchInputRef.current?.focus();
-              }}
-              className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
-            >
-              <FaXmark aria-hidden />
-            </button>
-          ) : undefined}
         />
 
         <div className="flex flex-col gap-1.5">

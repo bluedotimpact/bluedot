@@ -1,4 +1,4 @@
-export { PgAirtableDb } from './lib/client';
+export { PgAirtableDb, AirtableInsertReplicationError } from './lib/client';
 export type { PgDatabase } from './lib/client';
 export { isRetryableAirtableError, withAirtableRetry } from './lib/retry';
 export { getFirstFromPg } from './lib/pg-query';
@@ -15,6 +15,7 @@ export {
   posthogEmittedEventsTable,
   calendarConnectionTable,
   calendarPairWithoutCalendarTable,
+  emailChangeRequestTable,
   exerciseResponsePgTable,
   courseTable,
   formConfigurationTable,
@@ -30,6 +31,7 @@ export {
   zoomAccountTable,
   roundTable,
   projectSubmissionTable,
+  specialProjectSubmissionTable,
   applicationsRoundTable,
   meetCourseTable,
   chunkTable,
@@ -47,12 +49,10 @@ export {
   dropoutTable,
   teamMemberTable,
   testimonialTable,
-  rapidGrantTable,
   publishedRapidGrantTable,
   grantProgramStatsTable,
   careerTransitionGrantTable,
-  careerTransitionGrantApplicationTable,
-  rapidGrantApplicationTable,
+  careerTransitionGrantPublishGateTable,
   feedbackSubmissionsTable,
   courseFeedbackTable,
   peerFeedbackTable,
@@ -104,12 +104,10 @@ export type {
   Dropout,
   TeamMember,
   Testimonial,
-  RapidGrant,
   PublishedRapidGrant,
   GrantProgramStats,
   CareerTransitionGrant,
-  CareerTransitionGrantApplication,
-  RapidGrantApplication,
+  CareerTransitionGrantPublishGate,
   FeedbackSubmission,
   CourseFeedback,
   PeerFeedback,

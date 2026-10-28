@@ -313,23 +313,13 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             )}
           </div>
           {isMoved ? (
-            <button
-              type="button"
-              disabled={pendingWrites > 0}
-              onClick={() => undoMove(r.id)}
-              className="min-h-11 shrink-0 text-size-xs text-warning-fg hover:text-primary underline underline-offset-2 disabled:opacity-40"
-            >
+            <Button variant="link" tone="warning" className="shrink-0" disabled={pendingWrites > 0} onClick={() => undoMove(r.id)}>
               Undo move
-            </button>
+            </Button>
           ) : (
-            <button
-              type="button"
-              disabled={pendingWrites > 0}
-              onClick={() => setEditingId(isEditing ? null : r.id)}
-              className="min-h-11 shrink-0 text-size-xs text-secondary hover:text-primary underline underline-offset-2"
-            >
+            <Button variant="link" className="shrink-0" disabled={pendingWrites > 0} onClick={() => setEditingId(isEditing ? null : r.id)}>
               {option.humanOpinion} → {option.decision}
-            </button>
+            </Button>
           )}
         </div>
         {isEditing && !isMoved && (
@@ -383,7 +373,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
         />
       )}
       <div>
-        <H1 className="text-size-lg text-primary">{(() => {
+        <H1 className="text-size-lg">{(() => {
           if (roundComplete) return 'You\'ve evaluated all the applications for the round!';
           if (rated.length === 0 && totalLoaded === 0) return filtered ? 'No matching applications' : 'No scored applications available';
           if (rated.length === 0) return 'You haven\'t reviewed any applications';
@@ -473,9 +463,9 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
               if (emailCounts) return `${filtered ? 'Whole round: ' : ''}${emailCounts.alreadySent} of ${emailCounts.reviewed} reviewed sent`;
               if (!countsError) return 'Loading counts…';
               return (
-                <button type="button" onClick={refreshEmailCounts} className="underline underline-offset-2 hover:text-primary">
+                <Button variant="link" onClick={refreshEmailCounts}>
                   Counts unavailable — retry
-                </button>
+                </Button>
               );
             })()}
           </span>

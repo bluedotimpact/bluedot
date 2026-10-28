@@ -107,7 +107,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
           <div className="min-w-0 flex-1">
             <div id={contentId} className="flex flex-col gap-1.5">
               {label && <Eyebrow>{label}</Eyebrow>}
-              <P className="text-size-xs text-primary sm:text-size-sm max-w-4xl leading-6 text-pretty">{children}</P>
+              <P className="text-size-xs sm:text-size-sm max-w-4xl leading-6 text-pretty">{children}</P>
             </div>
           </div>
 

@@ -68,7 +68,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           <Button
             variant="primary"
             url={getLoginUrl(router.asPath, true)}
-            className="!w-auto !whitespace-normal text-center min-w-0"
+            className="whitespace-normal text-center min-w-0"
           >
             Create a free account to save your answers
             <FaChevronRight aria-hidden className="size-4 shrink-0" />
@@ -90,17 +90,10 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
               Complete
             </Button>
           ) : (
-            <button
-              type="button"
-              onClick={handleMarkIncomplete}
-              className="flex items-center gap-2 h-[30px] transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
-              aria-label="Mark exercise as incomplete"
-            >
-              <span className="font-medium text-size-xs leading-normal text-accent">
-                Completed
-              </span>
-              <FaRotateLeft aria-hidden="true" className="size-4 text-accent" />
-            </button>
+            <Button variant="link" tone="accent" size="small" onClick={handleMarkIncomplete} aria-label="Mark exercise as incomplete">
+              Completed
+              <FaRotateLeft aria-hidden="true" className="size-4" />
+            </Button>
           )}
         </div>
       )}

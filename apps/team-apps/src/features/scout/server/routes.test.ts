@@ -12,7 +12,7 @@ const {
 }));
 vi.mock('@bluedot/ui/src/server/verifyToken', () => ({ verifyGoogleBlueDotToken: verify }));
 vi.mock('./index', () => ({
-  fetchQueue, fetchInvitedThisWeek, fetchLead, fetchPerson, recordDecision,
+  fetchQueue, fetchInvitedThisWeek, fetchLead, fetchPerson, recordDecision, startSupportedCheck: vi.fn(async () => new Set()), warmRounds: vi.fn(),
 }));
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only', AIRTABLE_AUTOMATION_TOKEN: 'automation-secret', ALERTS_SLACK_BOT_TOKEN: 'IGNORE_SLACK_ALERTS' } }));
 const { lookUpPeople, idsToLookUp, assess } = vi.hoisted(() => ({
@@ -69,6 +69,23 @@ test('the queue carries the courses led by the signed-in email and their first n
   expect(res._getStatusCode()).toBe(200);
   expect(fetchLead).toHaveBeenCalledWith('staff@bluedot.org');
   expect(res._getJSONData()).toMatchObject({ leadCourses: ['Biosecurity'], leadName: 'Sample' });
+  // The lead's own shortlist first; the page asks for their backlog and the other courses next
+  expect(fetchQueue).toHaveBeenLastCalledWith(['Biosecurity'], 'shortlist', expect.any(Promise));
+  expect(res._getJSONData().later).toEqual([
+    { courses: ['Biosecurity'], part: 'backlog' },
+    { courses: ['Technical AI Safety', 'Technical AI Safety Project', 'AGI Strategy', 'Frontier AI Governance'], part: 'all' },
+  ]);
+  const rest = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers, query: { courses: 'AGI Strategy,Not a course', part: 'backlog' } });
+  await queue(rest.req, rest.res);
+  expect(fetchQueue).toHaveBeenLastCalledWith(['AGI Strategy'], 'backlog');
+  expect(rest.res._getJSONData().later).toEqual([]);
+
+  const viewing = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers, query: { viewAs: 'lead@example.org' } });
+  await queue(viewing.req, viewing.res);
+  expect(fetchLead).toHaveBeenLastCalledWith('lead@example.org');
+  const notAnEmail = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers, query: { viewAs: 'not an email' } });
+  await queue(notAnEmail.req, notAnEmail.res);
+  expect(fetchLead).toHaveBeenLastCalledWith('staff@bluedot.org');
 });
 
 test('rejects non-staff identities, wrong methods and invalid decisions', async () => {

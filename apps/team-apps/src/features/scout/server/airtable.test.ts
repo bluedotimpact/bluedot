@@ -97,6 +97,13 @@ test.each(['fld9YWOaYvSauL5sV', 'fldTuKceN6K8fDrvH', 'fldBPgPLpZ1oL4KiT', 'flddy
   expect(patches()).toHaveLength(0);
 });
 
+test('a refusal says what was already done and when, so the lead can be told', async () => {
+  currentFields = { ...untouched, fld9YWOaYvSauL5sV: '2026-10-12' };
+  expect(await run(inviteForReal(id))).toMatchObject({ ok: false, already: 'Invited', on: '2026-10-12' });
+  currentFields = { ...untouched, fldr09njoFMHdDD1F: 'Pass', fldM7qsx4bwtPwno4: '2026-10-14T09:00:00.000Z' };
+  expect(await run(declineForReal(id))).toMatchObject({ ok: false, already: 'Pass', on: '2026-10-14T09:00:00.000Z' });
+});
+
 test('refuses a participant who has left the locked view', async () => {
   eligible = false;
   expect(await run(inviteForReal(id))).toMatchObject({ ok: false, reason: expect.stringContaining('no longer') });
@@ -124,6 +131,8 @@ test('preserves queue order from Airtable, follows pagination, and reads must lo
     if (url.pathname.endsWith('tblBeMxAM1FAW06n4')) {
       expect(url.searchParams.get('view')).toBe('viwbqIzi8JU9oQ6DT');
       expect(url.searchParams.getAll('fields[]')).toContain('fldcs9jnQrVcOMkwf');
+      // One read per course; only this course has anyone
+      if (url.searchParams.get('filterByFormula') !== 'ARRAYJOIN({[>] Course text})=\'Technical AI Safety\'') return json({ records: [] });
       return json(url.searchParams.has('offset') ? { records: [{ id, fields: untouched }] } : { records: [{ id: first, fields: { ...untouched, fldcs9jnQrVcOMkwf: 1, fldAOii0tbRfD1210: [10] } }], offset: 'next-page' });
     }
 
@@ -136,6 +145,47 @@ test('preserves queue order from Airtable, follows pagination, and reads must lo
   expect(items.map((item) => item.topScore)).toEqual([10, undefined]);
 });
 
+test.each([
+  ['shortlist', 'AND(ARRAYJOIN({[>] Course text})=\'Technical AI Safety\',{[*] Talent scouting must look})'],
+  ['backlog', 'AND(ARRAYJOIN({[>] Course text})=\'Technical AI Safety\',NOT({[*] Talent scouting must look}))'],
+] as const)('the %s read narrows the course to that part of the queue and still leaves out people already supported', async (part, formula) => {
+  const called = 'recScoutSample004';
+  const formulas: string[] = [];
+  fetchMock.mockImplementation(async (input, init) => {
+    const url = new URL(input instanceof Request ? input.url : input.toString());
+    if (url.pathname.endsWith('tblBeMxAM1FAW06n4')) {
+      expect(url.searchParams.get('view')).toBe('viwbqIzi8JU9oQ6DT');
+      formulas.push(url.searchParams.get('filterByFormula') ?? '');
+      const fields = { ...untouched, fldcs9jnQrVcOMkwf: part === 'shortlist' ? 1 : 0 };
+      return json({ records: [{ id, fields: { ...fields, fld9BqZjF67r9Ce6O: 'kept@example.org' } }, { id: called, fields: { ...fields, fld9BqZjF67r9Ce6O: 'called@example.org' } }] });
+    }
+
+    if (url.pathname.endsWith('tblVstbJehu8wew93')) return json({ records: [{ id: 'recCall', fields: { fldCigDwg47QHQiM8: 'called@example.org' } }] });
+    if (url.pathname.endsWith('tblh5zr4jRdrndKnC')) return json({ records: [] });
+    return reads(input, init);
+  });
+  expect((await run(fetchQueue(['Technical AI Safety'], part))).map((item) => item.id)).toEqual([id]);
+  expect(formulas).toEqual([formula]);
+});
+
+test.each(['shortlist', 'backlog'] as const)('if Airtable refuses the %s filter, the whole course is read and split here', async (part) => {
+  const shortlisted = 'recScoutSample005';
+  const formulas: string[] = [];
+  fetchMock.mockImplementation(async (input, init) => {
+    const url = new URL(input instanceof Request ? input.url : input.toString());
+    if (url.pathname.endsWith('tblBeMxAM1FAW06n4')) {
+      const formula = url.searchParams.get('filterByFormula') ?? '';
+      formulas.push(formula);
+      if (formula.startsWith('AND(')) return json({ error: { type: 'INVALID_FILTER_BY_FORMULA' } }, 422);
+      return json({ records: [{ id: shortlisted, fields: { ...untouched, fldcs9jnQrVcOMkwf: 1 } }, { id, fields: untouched }] });
+    }
+
+    return reads(input, init);
+  });
+  expect((await run(fetchQueue(['Technical AI Safety'], part))).map((item) => item.id)).toEqual([part === 'shortlist' ? shortlisted : id]);
+  expect(formulas.at(-1)).toBe('ARRAYJOIN({[>] Course text})=\'Technical AI Safety\'');
+});
+
 test('leaves out people with an approved career transition grant or a completed evaluation call', async () => {
   const granted = 'recScoutSample003';
   const called = 'recScoutSample004';
@@ -143,6 +193,7 @@ test('leaves out people with an approved career transition grant or a completed 
   fetchMock.mockImplementation(async (input, init) => {
     const url = new URL(input instanceof Request ? input.url : input.toString());
     if (url.pathname.endsWith('tblBeMxAM1FAW06n4')) {
+      if (!url.searchParams.get('filterByFormula')?.endsWith('\'Technical AI Safety\'')) return json({ records: [] });
       return json({ records: [{ id, fields: withEmail('kept@example.org') }, { id: granted, fields: withEmail('Granted@example.org') }, { id: called, fields: withEmail('called@example.org') }] });
     }
 

@@ -181,7 +181,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         .where(filterGteOrNull(courseRegistrationTable.pg.createdAt, since)); // createdAt is ISO text
 
       return rows.map((r) => {
-        const courseName = courseTitleById.get(r.courseId);
+        const courseName = r.courseId ? courseTitleById.get(r.courseId) : undefined;
         return {
           internalUniqueKey: r.id,
           // Emitted under a deterministic anonymous distinct id, so it can later be joined up to
@@ -251,7 +251,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
       const keycloakIdentifierByUserId = await getKeycloakIdentifierByUserId(db, rows.map((r) => r.userId));
 
       return rows.map((r) => {
-        const courseName = courseTitleById.get(r.courseId);
+        const courseName = r.courseId ? courseTitleById.get(r.courseId) : undefined;
         return {
           internalUniqueKey: `accept:${r.id}`,
           distinctId: preferredDistinctId({ keycloakIdentifierByUserId, userId: r.userId, registration: r }),
@@ -276,7 +276,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
       const keycloakIdentifierByUserId = await getKeycloakIdentifierByUserId(db, rows.map((r) => r.userId));
 
       return rows.map((r) => {
-        const courseName = courseTitleById.get(r.courseId);
+        const courseName = r.courseId ? courseTitleById.get(r.courseId) : undefined;
         return {
           internalUniqueKey: `reject:${r.id}`,
           distinctId: preferredDistinctId({ keycloakIdentifierByUserId, userId: r.userId, registration: r }),
@@ -301,7 +301,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
       const keycloakIdentifierByUserId = await getKeycloakIdentifierByUserId(db, rows.map((r) => r.userId));
 
       return rows.map((r) => {
-        const courseName = courseTitleById.get(r.courseId);
+        const courseName = r.courseId ? courseTitleById.get(r.courseId) : undefined;
         return {
           internalUniqueKey: `withdraw:${r.id}`,
           distinctId: preferredDistinctId({ keycloakIdentifierByUserId, userId: r.userId, registration: r }),
@@ -333,7 +333,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
 
       return [
         ...facilitated.filter((r) => r.certificateId != null).map((r) => {
-          const courseName = courseTitleById.get(r.courseId);
+          const courseName = r.courseId ? courseTitleById.get(r.courseId) : undefined;
           return {
             internalUniqueKey: `courseReg:${r.id}`,
             distinctId: preferredDistinctId({ keycloakIdentifierByUserId, userId: r.userId, registration: r }),

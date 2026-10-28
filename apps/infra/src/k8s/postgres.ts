@@ -85,8 +85,9 @@ export const getConnectionDetails = (resource: k8s.apiextensions.CustomResource)
 };
 
 // Connection URI for appPg.
-// sslmode=no-verify: node-postgres can reject Vultr's cert chain, so we encrypt but skip CA
-// verification (same posture as the commented-out backend config in serviceDefinitions.ts).
+// sslmode=verify-full: the server's certificate chain and hostname are verified against the
+// Vultr project CA. For node-postgres, pgConnectionConfig (@bluedot/db) attaches that CA; for
+// libpq clients (pg_dump in backups.ts) it must be supplied via sslrootcert / PGSSLROOTCERT.
 // The password is URL-encoded in case it contains reserved characters (@ : / etc).
 const appPgUri = secret(all([
   appPg.user,
@@ -95,7 +96,7 @@ const appPgUri = secret(all([
   appPg.port,
   appDatabase.name,
 ]).apply(([user, password, host, port, dbname]) =>
-  `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${dbname}?sslmode=no-verify`));
+  `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${dbname}?sslmode=verify-full`));
 
 const appPgSecret = new k8s.core.v1.Secret(
   'app-pg-secret',

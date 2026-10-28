@@ -51,7 +51,7 @@ export const ProjectSubmission: React.FC<ProjectSubmissionProps> = ({ courseId }
         <Button
           url={getActionPlanUrl(meetPersonId)}
           target="_blank"
-          className="!w-auto !whitespace-normal text-center min-w-0"
+          className="whitespace-normal text-center min-w-0"
         >
           Submit your project/action plan
           <FaChevronRight aria-hidden className="size-4" />
@@ -76,7 +76,7 @@ export const ProjectSubmission: React.FC<ProjectSubmissionProps> = ({ courseId }
     <div className="flex">
       <Button
         url={`/courses/${courseSlug}/congratulations`}
-        className="!w-auto !whitespace-normal text-center min-w-0"
+        className="whitespace-normal text-center min-w-0"
       >
         Join a facilitated cohort today
         <FaChevronRight aria-hidden className="size-4" />

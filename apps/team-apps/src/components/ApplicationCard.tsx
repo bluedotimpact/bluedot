@@ -49,7 +49,7 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
         <div className="min-w-0">
-          <H1 className="text-size-lg text-primary">{name}</H1>
+          <H1 className="text-size-lg">{name}</H1>
           {subtitle && (
             <p className="text-size-sm text-secondary mt-0.5">{subtitle}</p>
           )}

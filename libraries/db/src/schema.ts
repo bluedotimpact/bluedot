@@ -8,11 +8,31 @@ import { pgAirtable, deprecationSafePgTable } from './lib/db-core';
 
 const COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG';
 const APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf';
+const COMMUNITY_BASE_ID = 'appkKc02xe9D0le4B';
 const COURSE_RUNNER_BASE_ID = 'appPs3sb9BrYZN69z';
 const AVAILABILITY_FORMS_BASE_ID = 'app6dkBHka8c4WaEj';
 const MOCK_DATA_BASE_ID = 'appRcVrzrkGoSrfR4';
 const WEB_CONTENT_BASE_ID = 'app63L1YChHfS6RJF';
-const CONTRACTOR_PAYMENTS_BASE_ID = 'appMVNtdBtvtJvu5E';
+
+export const specialProjectSubmissionTable = pgAirtable('special_project_submission', {
+  baseId: COMMUNITY_BASE_ID,
+  tableId: 'tbli89qlusEtBarJd',
+  columns: {
+    title: { pgColumn: text(), airtableId: 'fldneD6vvmOEE74MP' },
+    outcome: { pgColumn: text(), airtableId: 'fldEgHxLsEOQaPOJP' },
+    whyItMatters: { pgColumn: text(), airtableId: 'fld4o9fho8IGELIAC' },
+    approach: { pgColumn: text(), airtableId: 'fldfoIthjVrJhtKdO' },
+    suggestedOwner: { pgColumn: text(), airtableId: 'flde0TTwKD1LPhBHQ' },
+    involvement: { pgColumn: text(), airtableId: 'fldjWcnIQXFCnSQRx' },
+    name: { pgColumn: text(), airtableId: 'fldDDjvbKrpe5NbxQ' },
+    contact: { pgColumn: text(), airtableId: 'fldZLF4XKwdkOSwQ7' },
+    context: { pgColumn: text(), airtableId: 'fldVpvHjNZRaCZkaR' },
+    submitterType: { pgColumn: text(), airtableId: 'fldI1jRL9wMSXfi4b' },
+    submittedAtSeconds: { pgColumn: numeric({ mode: 'number' }), airtableId: 'fldYrvu7U1XDEME0X' },
+    status: { pgColumn: text(), airtableId: 'fld1fSHngOe4Qfzvf' },
+    reviewNotes: { pgColumn: text(), airtableId: 'fldUGszp0rWQKQEsU' },
+  },
+});
 
 /**
  * Table used to track the link between fields in Airtable and their corresponding field
@@ -134,6 +154,22 @@ export const calendarPairWithoutCalendarTable = deprecationSafePgTable('calendar
     uniqueIndex('calendar_pair_without_calendar_userId_idx').on(t.userId),
     index('calendar_pair_without_calendar_slackUserId_idx').on(t.slackUserId),
   ],
+});
+
+/**
+ * The one email-change confirmation link per user that is still allowed to be used.
+ * NOTE: This is a Postgres-only table, NOT synced from Airtable. A new request replaces the row and a confirmed change deletes it,
+ * so older links stop working.
+ */
+export const emailChangeRequestTable = deprecationSafePgTable('email_change_request', {
+  columns: {
+    // Points at userTable
+    userId: text().primaryKey(),
+    // The `jti` of the newest confirmation link sent to this user
+    tokenId: text().notNull(),
+    // Set while a confirmation is applying this link, so a second click can't apply it too. Cleared if that attempt fails.
+    claimedAt: timestamp({ mode: 'string', withTimezone: true }),
+  },
 });
 
 export const courseTable = pgAirtable('course', {
@@ -763,6 +799,10 @@ export const facilitatorDiscussionSwitchingTable = pgAirtable('facilitator_discu
       pgColumn: text(),
       airtableId: 'fldxn1fWLefkcySaA',
     },
+    substituteCourseRegistrationApplicationsBaseId: {
+      pgColumn: text(),
+      airtableId: 'fld7YnXzGxT74lCu5',
+    },
   },
 });
 
@@ -918,38 +958,6 @@ export const testimonialTable = pgAirtable('testimonial', {
   },
 });
 
-export const rapidGrantTable = pgAirtable('rapid_grant', {
-  baseId: WEB_CONTENT_BASE_ID,
-  tableId: 'tblSrknIDVIyNySWn',
-  columns: {
-    granteeName: {
-      pgColumn: text(),
-      airtableId: 'fldUlQHywCO4veSSt',
-    },
-    projectTitle: {
-      pgColumn: text(),
-      airtableId: 'fld2UrP0r95OYSkRT',
-    },
-    amountUsd: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fld1WoF5PUZVqiQdN',
-    },
-    projectSummary: {
-      pgColumn: text(),
-      airtableId: 'fld45GOVLKJWWrbr1',
-    },
-    link: {
-      pgColumn: text(),
-      airtableId: 'fldAKj0OmnG43FRSp',
-    },
-    grantDate: {
-      pgColumn: text(),
-      airtableId: 'fld1hj1URzMqImRFu',
-    },
-  },
-});
-
-// Keep the legacy rapid_grant table available until consumers have migrated and deployed.
 export const publishedRapidGrantTable = pgAirtable('published_rapid_grant', {
   baseId: WEB_CONTENT_BASE_ID,
   tableId: 'tblMdCTHEqQuC4YAQ',
@@ -1050,53 +1058,32 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
     },
   },
 });
-/** Master CTG applications table. All statuses present — code filters by status for the granted-amount total, and uses timeToDecisionDays for the avg-days-to-decision stat. */
-export const careerTransitionGrantApplicationTable = pgAirtable('career_transition_grant_application', {
-  baseId: APPLICATIONS_BASE_ID,
-  tableId: 'tblh5zr4jRdrndKnC',
+/** Approved CTG applications whose grantee consented to public sharing with their name, synced from the Grantmaking base. Gates which careerTransitionGrantTable rows the website publishes. */
+export const careerTransitionGrantPublishGateTable = pgAirtable('career_transition_grant_publish_gate', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tbl5HmCfGlzY2A8Oj',
   columns: {
-    startDate: {
+    // Grantmaking application record ID. Grantee rows added before the move to Grantmaking
+    // hold the old Applications-base ID instead, which legacyApplicationRecordId carries.
+    applicationRecordId: {
       pgColumn: text(),
-      airtableId: 'fldsyHHRrb45I24Mm',
+      airtableId: 'fldyykixFuVDyufFD',
+    },
+    legacyApplicationRecordId: {
+      pgColumn: text(),
+      airtableId: 'fldownLNH7bjLyA6r',
+    },
+    decision: {
+      pgColumn: text(),
+      airtableId: 'fldr2VKI9JhoUBvlY',
     },
     publicSharing: {
       pgColumn: text(),
-      airtableId: 'fld5RXq6FYZQa10e0',
+      airtableId: 'fldNBp75AIDKkiSoZ',
     },
-    grantAmountUsd: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldYhy8btQ5r8vRk0',
-    },
-    status: {
+    grantStartDate: {
       pgColumn: text(),
-      airtableId: 'fldnfK6Wgb1CAuvFE',
-    },
-    timeToDecisionDays: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fld7SiD8ShzS8sgis',
-    },
-  },
-});
-/** Operational table. Only amount + decision + createdAt + decidedAt synced; applicant identifying info stays in Airtable. */
-export const rapidGrantApplicationTable = pgAirtable('rapid_grant_application', {
-  baseId: CONTRACTOR_PAYMENTS_BASE_ID,
-  tableId: 'tblS9NHgtwl7YaHiZ',
-  columns: {
-    grantedAmountUsd: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldVIMRImfNwFeZvr',
-    },
-    grantDecision: {
-      pgColumn: text(),
-      airtableId: 'fldplHyKcS4NY2Oce',
-    },
-    createdAt: {
-      pgColumn: text(),
-      airtableId: 'fldSEVGlsG4wcKk4k',
-    },
-    decidedAt: {
-      pgColumn: text(),
-      airtableId: 'fldYSUC9oNUMrRiKr',
+      airtableId: 'fldDkOsH6hIbo5VQp',
     },
   },
 });
@@ -1359,7 +1346,7 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     },
     // Note: This is the id of the course in the COURSE_BUILDER base and not in the APPLICATIONS base
     courseId: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldFTXtevzOc29Qte',
     },
     decision: {
@@ -1452,6 +1439,18 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     isDuplicate: {
       pgColumn: boolean(),
       airtableId: 'fld1KQjHFGoDZKf94',
+    },
+    isSentToCustomerIoSegment: {
+      pgColumn: boolean(),
+      airtableId: 'fldm9TO6Xw73kxikt',
+    },
+    sentConfirmation: {
+      pgColumn: boolean(),
+      airtableId: 'fldXLMURImO7nbOwa',
+    },
+    decisionEmailSent: {
+      pgColumn: boolean(),
+      airtableId: 'fldgseNhrqlQQesiA',
     },
     numGroupsToFacilitate: {
       pgColumn: numeric({ mode: 'number' }),
@@ -1923,12 +1922,10 @@ export type JobPosting = InferSelectModel<typeof jobPostingTable.pg>;
 export type Mission = InferSelectModel<typeof missionTable.pg>;
 export type Program = InferSelectModel<typeof programTable.pg>;
 export type Testimonial = InferSelectModel<typeof testimonialTable.pg>;
-export type RapidGrant = InferSelectModel<typeof rapidGrantTable.pg>;
 export type PublishedRapidGrant = InferSelectModel<typeof publishedRapidGrantTable.pg>;
 export type GrantProgramStats = InferSelectModel<typeof grantProgramStatsTable.pg>;
 export type CareerTransitionGrant = InferSelectModel<typeof careerTransitionGrantTable.pg>;
-export type CareerTransitionGrantApplication = InferSelectModel<typeof careerTransitionGrantApplicationTable.pg>;
-export type RapidGrantApplication = InferSelectModel<typeof rapidGrantApplicationTable.pg>;
+export type CareerTransitionGrantPublishGate = InferSelectModel<typeof careerTransitionGrantPublishGateTable.pg>;
 export type Chunk = InferSelectModel<typeof chunkTable.pg>;
 export type Unit = InferSelectModel<typeof unitTable.pg>;
 export type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;

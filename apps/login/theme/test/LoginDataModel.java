@@ -244,6 +244,7 @@ public class LoginDataModel {
   private static Map<String, Object> createUserModel() {
     Map<String, Object> user = new HashMap<>();
     user.put("editUsernameAllowed", true);
+    user.put("email", "testuser@example.com");
 
     return user;
   }

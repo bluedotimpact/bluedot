@@ -6,6 +6,8 @@ import {
 import { z } from 'zod';
 import { Button } from './Button';
 import { ErrorView } from './ErrorView';
+import { Field } from './Field';
+import { Input } from './Input';
 import { Modal } from './Modal';
 import { cn } from './utils';
 
@@ -264,6 +266,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                   </div>
                 ) : (
                   <>
+                    {/* The drop zone is the field chrome, so the textarea stays bare rather than a bordered Textarea inside a border. */}
                     <textarea
                       id="feedback-description"
                       value={description}
@@ -304,14 +307,10 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                           e.target.value = '';
                         }}
                       />
-                      <button
-                        type="button"
-                        onClick={() => fileInputRef.current?.click()}
-                        className="text-secondary flex items-center gap-2 rounded-lg px-2 py-1.5 text-size-xs hover:bg-tint"
-                      >
-                        <FaPaperclip className="size-3.5 shrink-0" />
-                        <span>Add, drag, or paste attachments here</span>
-                      </button>
+                      <Button variant="ghost" size="small" className="whitespace-normal text-left" onClick={() => fileInputRef.current?.click()}>
+                        <FaPaperclip aria-hidden className="size-3.5 shrink-0" />
+                        Add, drag, or paste attachments here
+                      </Button>
                     </div>
                   </>
                 )}
@@ -338,11 +337,10 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                         Re-record
                       </Button>
                     </div>
-                    <input
+                    <Input
                       type="url"
                       value={recordingUrlInput}
                       onChange={(e) => setRecordingUrlInput(e.target.value)}
-                      className="text-secondary rounded-surface border bg-raised px-3 py-2 text-size-xs placeholder:text-size-xs"
                       aria-label="Recording URL"
                     />
                   </div>
@@ -355,23 +353,18 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
               </div>
             )}
 
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="feedback-email" className="text-primary text-size-xs leading-5.5 font-semibold">
-                Your contact email
-              </label>
-              <p className="text-secondary text-size-xs">
-                Please leave your email so we can contact you with follow-ups as needed.
-              </p>
-              <input
-                id="feedback-email"
+            <Field
+              id="feedback-email"
+              label="Your contact email"
+              description="Please leave your email so we can contact you with follow-ups as needed."
+              error={emailError}
+              required
+            >
+              <Input
                 type="email"
-                value={email}
-                className={cn(
-                  'rounded-surface border bg-raised px-3 py-2 text-size-xs placeholder:text-size-xs',
-                  emailError && 'border-error-fg',
-                )}
-                placeholder="Email"
                 required
+                value={email}
+                placeholder="Email"
                 onBlur={() => setEmailError(validateEmail(email))}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -379,12 +372,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                   if (emailError) setEmailError(validateEmail(e.target.value));
                 }}
               />
-              {emailError && (
-                <p className="text-size-xs mt-1 text-error-fg" role="alert" aria-live="polite">
-                  {emailError}
-                </p>
-              )}
-            </div>
+            </Field>
 
             <Button
               type="submit"

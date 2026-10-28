@@ -30,6 +30,7 @@ test('offers only rounds whose course exactly matches the target', async () => {
   render(<MoveCourseControl applicationId="recOne" targetCourse="Technical AI Safety" allowed onMoved={() => {}} />);
   await act(async () => {});
 
+  fireEvent.click(screen.getByRole('button', { name: /Move to:/ }));
   expect(screen.getByRole('option', { name: rounds[0]!.name })).toBeTruthy();
   // "Technical AI Safety Project" contains the target as a substring but is a different course.
   expect(screen.queryByRole('option', { name: rounds[1]!.name })).toBeNull();
@@ -41,6 +42,7 @@ test('keeps the move button disabled when the application does not allow the mov
   render(<MoveCourseControl applicationId="recOne" targetCourse="Technical AI Safety" allowed={false} onMoved={() => {}} />);
   await act(async () => {});
 
-  fireEvent.change(screen.getByLabelText('Move to:'), { target: { value: 'recTais' } });
+  fireEvent.click(screen.getByRole('button', { name: /Move to:/ }));
+  fireEvent.click(screen.getByRole('option', { name: rounds[0]!.name }));
   expect(screen.getByRole('button', { name: 'Move to Technical AI Safety' })).toHaveProperty('disabled', true);
 });

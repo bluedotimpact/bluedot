@@ -82,7 +82,7 @@ const ConnectForm = ({ errorCode }: { errorCode: string | null }) => {
         Meet five of your new teammates before you start. Connect your Google Calendar, and we'll book five
         30-minute video calls in the next two weeks, at times you're free.
       </P>
-      <P className="text-secondary text-size-sm">
+      <P className="text-secondary">
         We only see when you're busy, not what your events are. We don't keep access.
       </P>
       {error && <Callout tone="error" title={error.title} role="alert">{error.body}</Callout>}

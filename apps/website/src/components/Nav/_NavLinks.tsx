@@ -221,7 +221,7 @@ const NavDropdown = ({
                   NAV_LINK_CLASS,
                   // Margin, not min-h: the underline is drawn at the box edge, so it must hug the text
                   inMobileDrawer ? DRAWER_ROW_CLASS : clsx(NAV_LINK_ANIMATION_CLASS, 'my-[11px]'),
-                  link.footer ? 'text-link hover:text-link' : 'text-primary hover:text-primary',
+                  link.footer ? 'hover:text-link' : 'text-primary hover:text-primary',
                 )}
                 onClick={onNavigate}
               >

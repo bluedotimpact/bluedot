@@ -92,7 +92,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                   What this looks like
                 </span>
                 <p
-                  class="bluedot-p not-prose text-primary"
+                  class="bluedot-p not-prose"
                 >
                   People like you have made this move.
                 </p>
@@ -177,7 +177,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                   What this looks like
                 </span>
                 <p
-                  class="bluedot-p not-prose text-primary"
+                  class="bluedot-p not-prose"
                 >
                   You'll join a cohort of others at the same stage.
                 </p>
@@ -262,7 +262,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                   What this looks like
                 </span>
                 <p
-                  class="bluedot-p not-prose text-primary"
+                  class="bluedot-p not-prose"
                 >
                   You'll become the person your org turns to on AI.
                 </p>

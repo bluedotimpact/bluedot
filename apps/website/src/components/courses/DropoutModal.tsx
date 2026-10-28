@@ -157,7 +157,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
           <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
         </div>
         <div className="flex max-w-narrow flex-col items-center gap-4">
-          <P className="text-primary text-center">{message}</P>
+          <P className="text-center">{message}</P>
         </div>
         <Button className="w-full" onClick={handleCloseWithInvalidation}>
           Close
@@ -321,7 +321,7 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
             <div className="bg-accent/10 self-center rounded-full p-4">
               <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
             </div>
-            <P className="text-primary text-center text-pretty">
+            <P className="text-center text-pretty">
               Your application has been withdrawn. If this was a mistake, please email us.
             </P>
             <Button className="w-full" onClick={handleCloseWithInvalidation}>
@@ -330,7 +330,7 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
           </>
         ) : (
           <>
-            <P className="text-primary text-pretty">
+            <P className="text-pretty">
               Are you sure? You&apos;ll need to re-apply if you change your mind.
             </P>
             {mutation.isError && <ErrorSection error={mutation.error} />}

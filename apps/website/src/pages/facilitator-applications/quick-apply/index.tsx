@@ -416,13 +416,9 @@ const QuickApplyForm = ({
               )}
             />
           </Field>
-          <button
-            type="button"
-            onClick={() => setValue('timeAv', {})}
-            className="text-size-xs text-secondary cursor-pointer font-medium underline"
-          >
+          <Button variant="link" onClick={() => setValue('timeAv', {})}>
             Clear availability selection
-          </button>
+          </Button>
         </div>
 
         <Field error={errors.timeAv?.message}>

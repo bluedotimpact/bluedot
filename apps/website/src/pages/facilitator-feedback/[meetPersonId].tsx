@@ -145,7 +145,7 @@ const FacilitatorFeedbackPage = () => {
   };
   const alreadySubmitted = formData?.existingCourseFeedback?.completed === true;
   const submitIdleLabel = alreadySubmitted ? 'Update feedback' : 'Submit feedback';
-  const submitAnywayIdleLabel = alreadySubmitted ? 'Update anyway' : 'Submit anyway';
+  const submitAnywayLabel = alreadySubmitted ? 'Update anyway' : 'Submit anyway';
 
   const handleParticipantSaved = (data: ParticipantFeedbackData) => {
     if (!selectedParticipant) return;
@@ -320,10 +320,10 @@ const FacilitatorFeedbackPage = () => {
               <Callout tone="warning" role="alert" title={`${totalCount - completedCount} participants still need feedback.`}>
                 Even just a star rating or "no strong impression" on each one helps BlueDot understand where they stand.
               </Callout>
-              <button
-                type="button"
-                className="self-start text-size-xs text-secondary underline cursor-pointer transition-colors hover:text-primary disabled:opacity-50 disabled:pointer-events-none"
-                disabled={submitFeedback.isPending}
+              <Button
+                variant="link"
+                className="self-start"
+                loading={submitFeedback.isPending}
                 onClick={() => submitFeedback.mutate(submitPayload, {
                   onSuccess: async () => {
                     await utils.facilitators.getFeedbackFormData.invalidate({ meetPersonId });
@@ -331,8 +331,8 @@ const FacilitatorFeedbackPage = () => {
                   },
                 })}
               >
-                {submitFeedback.isPending ? 'Saving...' : submitAnywayIdleLabel}
-              </button>
+                {submitAnywayLabel}
+              </Button>
             </>
           ) : (
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -362,15 +362,15 @@ const FacilitatorFeedbackPage = () => {
             </div>
           )}
           {isAdmin && formData?.existingCourseFeedback?.completed === true && (
-            <button
-              type="button"
-              className="self-start text-size-xs text-secondary underline cursor-pointer"
+            <Button
+              variant="link"
+              className="self-start"
               onClick={() => unsubmitFeedback.mutate({ meetPersonId }, {
                 onSuccess: () => window.location.reload(),
               })}
             >
               Unsubmit (admin)
-            </button>
+            </Button>
           )}
         </section>
       </div>

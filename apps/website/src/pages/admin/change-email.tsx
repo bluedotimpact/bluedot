@@ -56,13 +56,9 @@ const AdminChangeEmail = withAdminGuard(() => {
             ) : (
               <p className="text-size-xs text-secondary">No user selected.</p>
             )}
-            <button
-              type="button"
-              onClick={() => setIsSelectUserModalOpen(true)}
-              className="self-start text-size-xs text-link underline hover:opacity-80 cursor-pointer"
-            >
+            <Button variant="link" tone="accent" className="self-start" onClick={() => setIsSelectUserModalOpen(true)}>
               {selectedUser ? 'Select a different user' : 'Select user'}
-            </button>
+            </Button>
           </div>
 
           {selectedUser && (
@@ -86,7 +82,6 @@ const AdminChangeEmail = withAdminGuard(() => {
                   variant="primary"
                   onClick={submit}
                   disabled={requestMutation.isPending || !newEmail.trim()}
-                  className="whitespace-nowrap"
                 >
                   {requestMutation.isPending ? 'Sending...' : 'Send confirmation email'}
                 </Button>

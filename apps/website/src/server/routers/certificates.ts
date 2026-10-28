@@ -104,7 +104,7 @@ export async function getCertificateData(certificateId: string) {
 
   const registration = selfServeRegistration ?? facilitatedRegistration;
 
-  if (!registration) {
+  if (!registration?.courseId) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'Certificate not found' });
   }
 

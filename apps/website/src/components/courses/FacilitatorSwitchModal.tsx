@@ -1,19 +1,27 @@
 import {
+  A,
   Callout,
   Button,
   DatePicker,
+  Field,
   Modal,
   P,
   ProgressDots,
   Select,
+  Textarea,
   TimePicker,
   useCurrentTimeMs,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
-import { useEffect, useState } from 'react';
+import {
+  Fragment, useEffect, useState,
+} from 'react';
 import { FaCheck, FaClock, FaPeopleArrows } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
 import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
+import {
+  buildCoverMessage, formatCoverTimeLocal, formatCoverTimeUtcBracket, type CoverMessageDetails, type CoverMessageSegment,
+} from '../../lib/facilitatorCover';
 
 const MODAL_TYPE_OPTIONS = [
   {
@@ -43,6 +51,14 @@ const SWITCH_OPTIONS = [
 
 export type FacilitatorSwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 
+const AGREED_COVER_LABEL = 'Yes, I\'ve agreed with someone';
+const ASK_IN_CHANNEL_LABEL = 'No, ask in #facilitator-community';
+
+const COVER_OPTIONS = [
+  { value: AGREED_COVER_LABEL, label: AGREED_COVER_LABEL },
+  { value: ASK_IN_CHANNEL_LABEL, label: ASK_IN_CHANNEL_LABEL },
+];
+
 type FacilitatorSwitchModalProps = {
   handleClose: () => void;
   roundId: string;
@@ -51,6 +67,7 @@ type FacilitatorSwitchModalProps = {
   initialGroupId?: string;
   initialModalType?: FacilitatorModalType;
   initialSwitchType?: FacilitatorSwitchType;
+  initialHasFoundCover?: boolean;
 };
 
 const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
@@ -60,6 +77,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   initialGroupId,
   initialModalType = 'Update discussion time',
   initialSwitchType = 'Change for one unit',
+  initialHasFoundCover,
 }) => {
   const [modalType, setModalType] = useState<FacilitatorModalType>(initialModalType);
 
@@ -71,7 +89,12 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const [selectedTime, setSelectedTime] = useState<Date | undefined>(undefined);
 
   // Change facilitator state
+  const [coverChoice, setCoverChoice] = useState<string | undefined>(() => {
+    if (initialHasFoundCover === undefined) return undefined;
+    return initialHasFoundCover ? AGREED_COVER_LABEL : ASK_IN_CHANNEL_LABEL;
+  });
   const [selectedNewFacilitatorId, setSelectedNewFacilitatorId] = useState<string | undefined>();
+  const [coverNote, setCoverNote] = useState('');
 
   // Reset mode-specific state when modal type changes
   useEffect(() => {
@@ -86,6 +109,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const currentTimeMs = useCurrentTimeMs();
   const updateDiscussionTimeMutation = trpc.facilitators.updateDiscussion.useMutation();
   const changeFacilitatorMutation = trpc.facilitators.requestFacilitatorChange.useMutation();
+  const requestCoverMutation = trpc.facilitators.requestCover.useMutation();
 
   // Fetch facilitators when in "Change facilitator" mode
   const facilitatorsQuery = trpc.facilitators.getFacilitatorsForRound.useQuery(
@@ -99,6 +123,12 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     isError,
     error,
   } = trpc.facilitators.discussionsAvailable.useQuery({ roundId });
+
+  const isAskingForCover = modalType === 'Change facilitator' && coverChoice === ASK_IN_CHANNEL_LABEL;
+  const coverPreviewQuery = trpc.facilitators.getCoverRequestPreview.useQuery(
+    { roundId, groupId: selectedGroupId ?? '', discussionId: selectedDiscussionId ?? '' },
+    { enabled: isAskingForCover && !!selectedGroupId && !!selectedDiscussionId },
+  );
   const { groupOptions, discussionOptionsByGroup } = buildOptions(discussions, currentTimeMs);
   // Substitutes can only change the time of the discussion they cover
   const switchOptions = SWITCH_OPTIONS.map((opt) => ({
@@ -166,8 +196,21 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     });
   };
 
+  const handleRequestCoverSubmit = () => {
+    if (!selectedGroupId || !selectedDiscussionId || !coverPreviewQuery.data) {
+      return;
+    }
+
+    requestCoverMutation.mutate({
+      roundId,
+      groupId: selectedGroupId,
+      discussionId: selectedDiscussionId,
+      note: coverNote,
+    });
+  };
+
   const renderTitle = () => {
-    if (updateDiscussionTimeMutation.isSuccess || changeFacilitatorMutation.isSuccess) {
+    if (updateDiscussionTimeMutation.isSuccess || changeFacilitatorMutation.isSuccess || requestCoverMutation.isSuccess) {
       return 'Success';
     }
 
@@ -187,7 +230,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     if (isLoading) {
       return (
         <>
-          <InformationBanner modalType={modalType} />
+          {modalType === 'Update discussion time' && <InformationBanner />}
           <ProgressDots />
         </>
       );
@@ -204,15 +247,15 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
           </div>
           <div className="flex max-w-narrow flex-col items-center gap-4">
-            <P className="text-center text-primary">
+            <P className="text-center">
               We've updated your group's {isSingleUnitChange ? 'discussion' : 'discussions'}.
             </P>
-            <P className="text-center text-primary">
+            <P className="text-center">
               As a reminder, <span className="font-bold">we have not notified your participants</span>, so please make
               sure you communicate this with them. You should see the changes reflected in the calendar event and Course
               Hub.
             </P>
-            <P className="text-center text-primary">Please allow up to 10 minutes to see the changes.</P>
+            <P className="text-center">Please allow up to 10 minutes to see the changes.</P>
           </div>
           <Button className="w-full" onClick={handleClose}>
             Close
@@ -228,13 +271,40 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
           </div>
           <div className="flex max-w-narrow flex-col items-center gap-4">
-            <P className="text-center text-primary">
+            <P className="text-center">
               You won't be facilitating the group discussion for {selectedDiscussion?.label} for the group{' '}
               {groupOptions.find((g) => g.value === selectedGroupId)?.label}.
             </P>
-            <P className="text-center text-primary">
+            <P className="text-center">
               You should see the changes reflected in the calendar event and Course Hub. Please allow up to 10 minutes
               to see the changes.
+            </P>
+          </div>
+          <Button className="w-full" onClick={handleClose}>
+            Close
+          </Button>
+        </div>
+      );
+    }
+
+    if (requestCoverMutation.isSuccess) {
+      const { threadUrl } = requestCoverMutation.data;
+      return (
+        <div className="flex w-full flex-col items-center justify-center gap-8">
+          <div className="bg-bluedot-normal/10 flex rounded-full p-4">
+            <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
+          </div>
+          <div className="flex max-w-narrow flex-col items-center gap-4">
+            <P className="text-center">
+              Posted in #facilitator-community.
+              {threadUrl && (
+                <>
+                  {' '}<A href={threadUrl} target="_blank">Open the thread</A>.
+                </>
+              )}
+            </P>
+            <P className="text-center">
+              When someone replies, come back here and choose <span className="font-bold">"{AGREED_COVER_LABEL}"</span>.
             </P>
           </div>
           <Button className="w-full" onClick={handleClose}>
@@ -247,7 +317,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     if (modalType === 'Update discussion time') {
       return (
         <>
-          <InformationBanner modalType={modalType} />
+          <InformationBanner />
           <div className="flex flex-col gap-2">
             <p className="text-size-md font-medium text-primary">1. What kind of update are you making?</p>
             <Select
@@ -311,11 +381,17 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
     return (
       <>
-        <InformationBanner modalType={modalType} />
-        <div className="flex flex-col gap-2">
-          <p className="text-size-md font-medium text-primary">1. For which group?</p>
+        <Field label="1. Have you found someone to cover?">
           <Select
-            aria-label="Group"
+            value={coverChoice}
+            onChange={setCoverChoice}
+            options={COVER_OPTIONS}
+            placeholder="Choose an option"
+          />
+        </Field>
+
+        <Field label="2. For which group?">
+          <Select
             value={selectedGroupId}
             onChange={(value) => {
               setSelectedGroupId(value);
@@ -324,52 +400,106 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             options={groupOptions}
             placeholder="Choose a group"
           />
-        </div>
+        </Field>
 
-        <div className="flex flex-col gap-2">
-          <p className="text-size-md font-medium text-primary">2. For which discussion?</p>
+        <Field label="3. For which discussion?">
           <Select
-            aria-label="Discussion"
             options={discussionOptions}
             value={selectedDiscussionId}
             onChange={(value) => setSelectedDiscussionId(value)}
             placeholder="Choose a discussion"
           />
-        </div>
+        </Field>
 
-        <div className="flex flex-col gap-2">
-          <p className="text-size-md font-medium text-primary">3. Select new facilitator</p>
-          {facilitatorsQuery.isError && (
-            <P className="text-error-fg">
-              {facilitatorsQuery.error?.message || 'Failed to load facilitators. Please try again.'}
-            </P>
-          )}
-          <Select
-            aria-label="New facilitator"
-            options={[...(facilitatorsQuery.data ?? [])].sort((a, b) => a.label.localeCompare(b.label))}
-            value={selectedNewFacilitatorId}
-            onChange={(value) => setSelectedNewFacilitatorId(value)}
-            placeholder={facilitatorsQuery.isLoading ? 'Loading facilitators...' : 'Choose a facilitator'}
-          />
-        </div>
+        {coverChoice === AGREED_COVER_LABEL && (
+          <>
+            <Field
+              label="4. Select new facilitator"
+              error={facilitatorsQuery.isError && (facilitatorsQuery.error?.message || 'Failed to load facilitators. Please try again.')}
+            >
+              <Select
+                options={[...(facilitatorsQuery.data ?? [])].sort((a, b) => a.label.localeCompare(b.label))}
+                value={selectedNewFacilitatorId}
+                onChange={(value) => setSelectedNewFacilitatorId(value)}
+                placeholder={facilitatorsQuery.isLoading ? 'Loading facilitators...' : 'Choose a facilitator'}
+              />
+            </Field>
 
-        {changeFacilitatorMutation.isError && (
-          <P className="text-error-fg">
-            {changeFacilitatorMutation.error?.message || 'An error occurred. Please try again.'}
-          </P>
+            {changeFacilitatorMutation.isError && (
+              <P className="text-error-fg">
+                {changeFacilitatorMutation.error?.message || 'An error occurred. Please try again.'}
+              </P>
+            )}
+
+            <Button
+              className="w-full"
+              onClick={handleFacilitatorChangeSubmit}
+              loading={changeFacilitatorMutation.isPending}
+              disabled={facilitatorChangeSubmitDisabled}
+            >
+              {changeFacilitatorMutation.isPending ? 'Submitting...' : 'Submit'}
+            </Button>
+          </>
         )}
 
-        <Button
-          className="w-full"
-          onClick={handleFacilitatorChangeSubmit}
-          loading={changeFacilitatorMutation.isPending}
-          disabled={facilitatorChangeSubmitDisabled}
-        >
-          {changeFacilitatorMutation.isPending ? 'Submitting...' : 'Submit'}
-        </Button>
+        {isAskingForCover && renderAskForCover()}
+
+        {coverChoice === undefined && (
+          <Button className="w-full" disabled>Submit</Button>
+        )}
       </>
     );
   };
+
+  const renderAskForCover = () => (
+    <>
+      <Field label={<>4. Anything to add? <span className="font-normal text-secondary">(optional)</span></>}>
+        <Textarea
+          rows={2}
+          maxLength={1000}
+          placeholder="e.g. At a conference that week, happy to swap a session in return"
+          value={coverNote}
+          onChange={(e) => setCoverNote(e.target.value)}
+        />
+      </Field>
+
+      {selectedGroupId && selectedDiscussionId && (
+        <div className="flex flex-col gap-2">
+          <P>
+            This will be posted in <span className="text-accent">#facilitator-community</span>:
+          </P>
+          {coverPreviewQuery.isLoading && <ProgressDots />}
+          {coverPreviewQuery.isError && (
+            <P className="text-error-fg">
+              {coverPreviewQuery.error?.message || 'Failed to prepare the post. Please try again.'}
+            </P>
+          )}
+          {coverPreviewQuery.data && (
+            <CoverMessageDraft messageDetails={coverPreviewQuery.data.messageDetails} note={coverNote} />
+          )}
+        </div>
+      )}
+
+      <Callout>
+        When someone replies in the thread, come back here and choose "{AGREED_COVER_LABEL}".
+      </Callout>
+
+      {requestCoverMutation.isError && (
+        <P className="text-error-fg">
+          {requestCoverMutation.error?.message || 'An error occurred. Please try again.'}
+        </P>
+      )}
+
+      <Button
+        className="w-full"
+        onClick={handleRequestCoverSubmit}
+        loading={requestCoverMutation.isPending}
+        disabled={!coverPreviewQuery.data}
+      >
+        {requestCoverMutation.isPending ? 'Posting...' : 'Post to #facilitator-community'}
+      </Button>
+    </>
+  );
 
   const showUpdateTimeFooter = modalType === 'Update discussion time'
     && !isLoading
@@ -405,13 +535,41 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   );
 };
 
-const InformationBanner = ({ modalType }: { modalType: FacilitatorModalType }) => (
+const InformationBanner = () => (
   <Callout>
-    {modalType === 'Update discussion time'
-      ? 'Please discuss any changes with your participants beforehand. Any changes will update the calendar invitation and Course Hub information, but not notify your participants.'
-      : 'Please make sure you have agreed on these changes with the facilitator beforehand.'}
+    Please discuss any changes with your participants beforehand. Any changes will update the calendar invitation and
+    Course Hub information, but not notify your participants.
   </Callout>
 );
+
+const CoverMessageDraft = ({ messageDetails, note }: { messageDetails: CoverMessageDetails; note: string }) => {
+  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
+  const renderSegment = (segment: CoverMessageSegment) => {
+    switch (segment.type) {
+      case 'text': return segment.text;
+      case 'time': return (
+        <>
+          <span className="font-bold">{formatCoverTimeLocal({ ...segment, timeZone })}</span>
+          {` ${formatCoverTimeUtcBracket({ ...segment, timeZone })}`}
+        </>
+      );
+      // Slack shows a plain name for people without a linked Slack account
+      case 'mention': return segment.slackUserId
+        ? <span className="rounded-[3px] bg-accent-subtle/60 px-[3px] text-accent box-decoration-clone">@{segment.name}</span>
+        : segment.name;
+      case 'link': return <A href={segment.url} target="_blank">{segment.text}</A>;
+      default: return null;
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-3 break-words rounded-surface border border-default p-4 text-size-sm leading-6 text-primary">
+      {buildCoverMessage({ ...messageDetails, note }).map((segments, i) => (
+        <p key={i}>{segments.map((segment, j) => <Fragment key={j}>{renderSegment(segment)}</Fragment>)}</p>
+      ))}
+    </div>
+  );
+};
 
 type GroupOption = { value: string; label: string; disabled?: boolean };
 type DiscussionOption = GroupOption & { startDateTime: number };

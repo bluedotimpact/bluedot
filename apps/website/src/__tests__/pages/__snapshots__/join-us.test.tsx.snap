@@ -100,7 +100,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                               </span>
                             </a>
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent hover:text-link"
                               href="/courses"
                               tabindex="0"
                             >
@@ -160,7 +160,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                               Career Transition Grants
                             </a>
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent hover:text-link"
                               href="/grants"
                               tabindex="0"
                             >
@@ -222,7 +222,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                               AI Security Bootcamp
                             </a>
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent hover:text-link"
                               href="/programs?utm_source=website&utm_campaign=nav"
                               tabindex="0"
                             >
@@ -342,7 +342,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         </span>
                       </a>
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-link hover:text-link"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] hover:text-link"
                         href="/courses"
                         tabindex="0"
                       >
@@ -402,7 +402,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         Career Transition Grants
                       </a>
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-link hover:text-link"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] hover:text-link"
                         href="/grants"
                         tabindex="0"
                       >
@@ -464,7 +464,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         AI Security Bootcamp
                       </a>
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-link hover:text-link"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] hover:text-link"
                         href="/programs?utm_source=website&utm_campaign=nav"
                         tabindex="0"
                       >
@@ -692,11 +692,10 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   Email address
                 </label>
                 <input
-                  class="w-full h-11 px-4 bg-raised rounded-md text-size-sm leading-tight tracking-wide text-primary placeholder:text-placeholder border border-border-control focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
+                  class="w-full min-h-11 px-3 rounded-surface border border-border-control bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:border-default disabled:bg-surface-disabled disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
                   id="newsletter-email"
                   placeholder="Email"
                   required=""
-                  style="background-origin: padding-box, border-box; background-clip: padding-box, border-box;"
                   type="email"
                   value=""
                 />

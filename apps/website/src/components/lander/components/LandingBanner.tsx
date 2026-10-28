@@ -39,13 +39,13 @@ const LandingBanner = ({
             <img src={iconSrc} alt={iconAlt} className="w-8 h-[30px]" />
 
             {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: banner H3 with bespoke text-size-md → 36px ramp paired with viewport-specific max-w */}
-            <H3 className="max-w-[238px] bd-md:max-w-[496px] text-size-md bd-md:text-[36px] text-on-dark leading-normal bd-md:leading-snug">
+            <H3 className="max-w-[238px] bd-md:max-w-[496px] text-size-md bd-md:text-[36px] text-on-dark bd-md:leading-snug">
               {title}
             </H3>
 
             <Button
               variant="ghost"
-              className="text-size-sm font-medium leading-relaxed px-5 py-3 min-h-12 bg-accent-on-dark text-primary rounded-md hover:bg-accent-on-dark-hover focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus"
+              className="text-size-sm font-medium leading-relaxed px-5 py-3 bg-accent-on-dark text-primary hover:bg-accent-on-dark-hover focus-visible:-outline-offset-2"
               url={ctaUrl}
             >
               {ctaText}

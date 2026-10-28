@@ -1,12 +1,11 @@
 import {
-  Breadcrumbs, Checkbox, ErrorSection, FieldSet, Input, ProgressDots, Radio, Section,
+  Breadcrumbs, Checkbox, ErrorSection, FieldSet, ProgressDots, Radio, SearchInput, Section, Button,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
   useEffect, useMemo, useRef, useState,
 } from 'react';
-import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
 import { withAdminGuard } from '../../components/admin/withAdminGuard';
 import { UserSearchModal } from '../../components/admin/UserSearchModal';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
@@ -85,7 +84,6 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
   );
 
   const infiniteScrollSentinelRef = useRef<HTMLDivElement | null>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
   const { hasNextPage, isFetchingNextPage, fetchNextPage } = exerciseResponseQuery;
   useEffect(() => {
     const node = infiniteScrollSentinelRef.current;
@@ -147,13 +145,9 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
               )}
               {!user && userId && <p className="text-size-xs text-secondary">Loading user...</p>}
               {userId && <p className="text-size-xs text-secondary">User ID: <code>{userId}</code></p>}
-              <button
-                type="button"
-                onClick={() => setIsSelectUserModalOpen(true)}
-                className="self-start text-size-xs text-link underline hover:opacity-80 cursor-pointer"
-              >
+              <Button variant="link" tone="accent" className="self-start" onClick={() => setIsSelectUserModalOpen(true)}>
                 Select user
-              </button>
+              </Button>
             </div>
 
             <Checkbox checked={includeInProgress} onChange={(e) => setIncludeInProgress(e.target.checked)}>
@@ -185,27 +179,11 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
 
           {/* Main (right column): search + results */}
           <div className="flex-1 flex flex-col gap-4 min-w-0">
-            <Input
-              ref={searchInputRef}
-              type="search"
+            <SearchInput
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={setSearch}
               placeholder="Search question or response..."
               aria-label="Search question or response"
-              leading={<FaMagnifyingGlass aria-hidden />}
-              trailing={search ? (
-                <button
-                  type="button"
-                  aria-label="Clear search"
-                  onClick={() => {
-                    setSearch('');
-                    searchInputRef.current?.focus();
-                  }}
-                  className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
-                >
-                  <FaXmark aria-hidden />
-                </button>
-              ) : undefined}
             />
 
             {renderResults()}
@@ -308,13 +286,9 @@ const ResponseCard = ({
           )}
         </div>
         {canTruncate && (
-          <button
-            type="button"
-            onClick={() => setExpanded(!expanded)}
-            className="text-size-xs text-link font-medium mt-2 cursor-pointer hover:underline"
-          >
+          <Button variant="link" tone="accent" className="mt-2" onClick={() => setExpanded(!expanded)}>
             {expanded ? 'Show less' : 'Show more'}
-          </button>
+          </Button>
         )}
       </div>
     </li>

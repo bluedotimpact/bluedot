@@ -1,10 +1,5 @@
 import {
-  Button,
-  ErrorSection,
-  Eyebrow,
-  H1,
-  Section,
-  useAuthStore,
+  Button, ErrorSection, Eyebrow, H1, Section, useAuthStore,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
@@ -136,26 +131,26 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       breadcrumb={`${unitNumber}. ${unit.title}`}
       navigationControls={(
         <>
-          <button
-            type="button"
-            className="flex items-center gap-1 text-size-xs font-medium leading-snug text-primary hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          <Button
+            variant="ghost"
+            size="small"
             disabled={isFirstChunk && !prevUnit}
             onClick={handlePrevClick}
             aria-label="Previous"
             title="Navigate to previous section (use ← arrow key)"
           >
             ← Prev
-          </button>
-          <button
-            type="button"
-            className="flex items-center gap-1 text-size-xs font-medium leading-snug text-primary hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          </Button>
+          <Button
+            variant="ghost"
+            size="small"
             disabled={isLastChunk && !nextUnit}
             onClick={handleNextClick}
             aria-label="Next"
             title="Navigate to next section (use → arrow key)"
           >
             Next →
-          </button>
+          </Button>
         </>
       )}
       mobileNavigation={{
@@ -200,7 +195,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       </div>
 
       {/* Main content section */}
-      <Section className="!border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 !px-0 lg:max-xl:!px-6">
+      <Section className="pt-0 md:max-w-none px-0 lg:max-xl:px-6">
         <div className="flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-4 sm:px-spacing-x pt-6 md:pt-8">
           <div>
             <Eyebrow className="mb-2">Unit {unit.unitNumber}: {unit.title}</Eyebrow>

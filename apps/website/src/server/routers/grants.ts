@@ -1,6 +1,6 @@
-import type { CareerTransitionGrant, CareerTransitionGrantApplication, PublishedRapidGrant } from '@bluedot/db';
+import type { CareerTransitionGrant, CareerTransitionGrantPublishGate, PublishedRapidGrant } from '@bluedot/db';
 import {
-  careerTransitionGrantApplicationTable,
+  careerTransitionGrantPublishGateTable,
   careerTransitionGrantTable,
   grantProgramStatsTable,
   publishedRapidGrantTable,
@@ -43,20 +43,6 @@ export type PublicCareerTransitionGrant = {
   grantPlan?: string;
   /** Optional LinkedIn or personal URL. When present the whole card links to it. */
   profileUrl?: string;
-};
-
-// Rounded mean of the time-to-decision day counts, over decided rows only.
-// A row counts as decided when its formula column holds a finite, non-negative
-// number — a genuine same-day (0) decision included. Undecided rows arrive as
-// null (the Airtable `[*] Time to decision` formula is NaN until a decision date
-// exists) and are dropped, never folded in as 0. The `>= 0` guard also rejects
-// corrupt rows where a decision date was back-filled before the submission date.
-// Null when no decided rows exist.
-const averageDecisionDays = (rows: { timeToDecisionDays: number | null }[]): number | null => {
-  const days = rows
-    .map((row) => row.timeToDecisionDays)
-    .filter((value): value is number => value != null && Number.isFinite(value) && value >= 0);
-  return days.length ? Math.round(days.reduce((sum, value) => sum + value, 0) / days.length) : null;
 };
 
 // pgAirtable stores Airtable date columns as text; parse here and bucket
@@ -106,11 +92,11 @@ const mapPublicRapidGrants = (all: PublishedRapidGrant[]): PublicRapidGrant[] =>
     .map(({ publicGrant }) => publicGrant);
 };
 
-const canPublishCareerTransitionGrant = (application: CareerTransitionGrantApplication, now: number): boolean => {
-  if (application.status !== 'Approve' || application.publicSharing !== 'Can share publicly with my name') return false;
+const canPublishCareerTransitionGrant = (gate: CareerTransitionGrantPublishGate, now: number): boolean => {
+  if (gate.decision !== 'Approve' || gate.publicSharing !== 'Can share publicly with my name') return false;
 
   // Airtable's date-only fields are normalized to UTC timestamps by the sync client.
-  const startDate = z.union([z.string().date(), z.string().datetime()]).safeParse(application.startDate);
+  const startDate = z.union([z.string().date(), z.string().datetime()]).safeParse(gate.grantStartDate);
   if (!startDate.success) return false;
 
   // Grantees may still be employed before their transition. Without their timezone,
@@ -153,14 +139,17 @@ export const grantsRouter = router({
   }),
 
   getAllPublicCareerTransitionGrantees: publicProcedure.query(async (): Promise<PublicCareerTransitionGrant[]> => {
-    const [all, applications] = await Promise.all([
+    const [all, gates] = await Promise.all([
       db.scan(careerTransitionGrantTable),
-      db.scan(careerTransitionGrantApplicationTable),
+      db.scan(careerTransitionGrantPublishGateTable),
     ]);
     const now = Date.now();
-    const publishableApplicationIds = new Set(applications
-      .filter((application) => canPublishCareerTransitionGrant(application, now))
-      .map((application) => application.id));
+    // Grantee rows added before CTGs moved to the Grantmaking base hold the old
+    // Applications-base record ID, so either ID can match.
+    const publishableApplicationIds = new Set(gates
+      .filter((gate) => canPublishCareerTransitionGrant(gate, now))
+      .flatMap((gate) => [gate.applicationRecordId, gate.legacyApplicationRecordId])
+      .filter((id): id is string => Boolean(id)));
     return mapPublicCareerTransitionGrants(all.filter((grant) => grant.applicationId
       && publishableApplicationIds.has(grant.applicationId)));
   }),
@@ -190,16 +179,20 @@ export const grantsRouter = router({
     };
   }),
 
-  // Master CTG table carries every status — count + funding-awarded filter to granted
-  // statuses; avg-days-to-decision averages every decided application (any row whose
-  // [*] Time to decision formula has resolved to a number, same-day 0s included).
-  getCareerTransitionGrantStats: publicProcedure.query(async (): Promise<CareerTransitionGrantStats> => {
-    const all = await db.scan(careerTransitionGrantApplicationTable);
-    const granted = all.filter((g) => g.status === 'Approve');
+  getCareerTransitionGrantStats: publicProcedure.query(async (): Promise<CareerTransitionGrantStats | null> => {
+    // The synced program ID stays stable when the program name changes.
+    const [program] = await db.scan(grantProgramStatsTable, { id: 'rec64lpwfK5bXN7MX' });
+    // An incomplete sync must not appear as zero funding.
+    if (!program || program.approvedCount == null || program.awardedAmountUsd == null) return null;
+
+    const { averageDaysToDecision, timedDecisionCount } = program;
+    const timingValid = timedDecisionCount != null && Number.isInteger(timedDecisionCount) && timedDecisionCount > 0
+      && averageDaysToDecision != null && Number.isFinite(averageDaysToDecision) && averageDaysToDecision >= 0;
+
     return {
-      count: granted.length,
-      totalAmountUsd: granted.reduce((sum, g) => sum + (g.grantAmountUsd ?? 0), 0),
-      averageDaysToDecision: averageDecisionDays(all),
+      count: program.approvedCount,
+      totalAmountUsd: program.awardedAmountUsd,
+      averageDaysToDecision: timingValid ? Math.round(averageDaysToDecision) : null,
     };
   }),
 });

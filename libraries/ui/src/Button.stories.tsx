@@ -25,7 +25,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const VARIANTS: NonNullable<ButtonProps['variant']>[] = ['primary', 'secondary', 'ghost', 'outline-black'];
+const VARIANTS: NonNullable<ButtonProps['variant']>[] = ['primary', 'secondary', 'ghost', 'link', 'outline-black'];
 const TONES: NonNullable<ButtonProps['tone']>[] = ['destructive', 'success', 'warning'];
 
 // One row per variant: default · disabled · loading · with icon
@@ -41,7 +41,7 @@ const StateRow = ({ variant, tone }: Pick<ButtonProps, 'variant' | 'tone'>) => (
 
 export const Primary: Story = {};
 
-export const Link: Story = {
+export const AsAnchor: Story = {
   args: { url: 'https://bluedot.org', children: 'Visit bluedot.org' },
 };
 
@@ -53,12 +53,14 @@ export const Variants: Story = {
   ),
 };
 
-// `tone` recolours primary/secondary; other variants ignore it
+// `tone` recolours primary/secondary, and `accent`/`warning` recolour link; other variants ignore it
 export const Tones: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
       {TONES.map((tone) => <StateRow key={tone} variant="primary" tone={tone} />)}
       {TONES.map((tone) => <StateRow key={tone} variant="secondary" tone={tone} />)}
+      <StateRow variant="link" tone="accent" />
+      <StateRow variant="link" tone="warning" />
     </div>
   ),
 };
@@ -98,6 +100,7 @@ export const OnDark: Story = {
       <StateRow variant="primary" />
       <StateRow variant="secondary" />
       <StateRow variant="ghost" />
+      <StateRow variant="link" />
     </div>
   ),
 };

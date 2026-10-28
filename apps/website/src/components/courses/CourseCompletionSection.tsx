@@ -171,7 +171,7 @@ export default function CourseCompletionSection({
 
         {detailsWithoutSchedule.length > 0 && (
           <div className="container-lined bg-raised px-6">
-            <Collapsible title={info?.title ?? 'How the course works'} className="border-b-0">
+            <Collapsible title={info?.title ?? 'How the course works'}>
               <div className="flex flex-col">
                 {detailsWithoutSchedule.map((detail) => (
                   <div

@@ -261,6 +261,10 @@ async function sendSwitchRequestedAckEmail({
   }
 
   const registration = await db.get(courseRegistrationTable, { id: participant.applicationsBaseRecordId });
+  if (!registration.courseId) {
+    throw new Error(`registration ${registration.id} has no course`);
+  }
+
   const course = await db.get(courseTable, { id: registration.courseId });
 
   // One-unit switches don't record the groups, so they come from the discussions

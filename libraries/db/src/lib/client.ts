@@ -82,6 +82,17 @@ type RestrictedPgDatabase = Omit<PgDatabase, 'insert' | 'update' | 'delete'> & {
   delete: PgDatabase['delete'];
 };
 
+/** The Airtable insert succeeded. Retrying the insert would create a duplicate. */
+export class AirtableInsertReplicationError extends Error {
+  readonly recordId: string;
+
+  constructor(recordId: string, cause: unknown) {
+    super('Airtable insert saved, but Postgres replication failed', { cause });
+    this.name = 'AirtableInsertReplicationError';
+    this.recordId = recordId;
+  }
+}
+
 export class PgAirtableDb {
   private pgUnrestricted: PgDatabase;
 
@@ -128,7 +139,7 @@ export class PgAirtableDb {
     if (pgClient) {
       this.pgUnrestricted = pgClient;
     } else {
-      const pg = drizzle({ connection: pgConnectionConfig(pgConnString) });
+      const pg = drizzle({ connection: pgConnectionConfig(pgConnString, { nodeEnv: env.NODE_ENV }) });
       patchPgClientToRetryQueries(pg.$client);
       this.pgUnrestricted = pg;
     }
@@ -225,13 +236,17 @@ export class PgAirtableDb {
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
     const fullData = await withAirtableRetry(() => this.airtableClient.insert(table.airtable, data));
 
-    // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
-    const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
-    if (!pgResult) {
-      throw new Error('Unexpected: `ensureReplicated` returned no result after insert');
-    }
+    try {
+      // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
+      const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
+      if (!pgResult) {
+        throw new Error('Unexpected: `ensureReplicated` returned no result after insert');
+      }
 
-    return pgResult;
+      return pgResult;
+    } catch (error) {
+      throw new AirtableInsertReplicationError(fullData.id, error);
+    }
   }
 
   /**

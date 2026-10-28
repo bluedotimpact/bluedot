@@ -2,7 +2,7 @@ import {
   cleanup, fireEvent, render, screen,
 } from '@testing-library/react';
 import { afterEach, expect, test } from 'vitest';
-import { PersonCard, mustLookReasons } from './PersonCard';
+import { PersonCard, mustLookReasons, otherCourseDecisions } from './PersonCard';
 import { openNextSection } from './sectionNav';
 import type { Person } from './types';
 
@@ -32,15 +32,58 @@ const person: Person = {
 
 test('a timeline row with details opens on a click anywhere on it; the link and the opened details keep their own clicks', () => {
   render(<PersonCard person={person} showName />);
-  expect(screen.queryByText('Sample project')).toBeNull();
+  expect(screen.queryByText('“Sample project”')).toBeNull();
   fireEvent.click(screen.getByText('Rapid grant'));
-  expect(screen.getByText('Sample project')).toBeTruthy();
-  fireEvent.click(screen.getByText('Sample project'));
-  expect(screen.getByText('Sample project')).toBeTruthy();
-  fireEvent.click(screen.getByTitle('Open the record in Airtable'));
-  expect(screen.getByText('Sample project')).toBeTruthy();
+  expect(screen.getByText('“Sample project”')).toBeTruthy();
+  fireEvent.click(screen.getByText('“Sample project”'));
+  expect(screen.getByText('“Sample project”')).toBeTruthy();
+  fireEvent.click(screen.getByRole('link', { name: 'Application record ↗' }));
+  expect(screen.getByText('“Sample project”')).toBeTruthy();
   fireEvent.click(screen.getByRole('button', { name: 'Hide details' }));
-  expect(screen.queryByText('Sample project')).toBeNull();
+  expect(screen.queryByText('“Sample project”')).toBeNull();
+});
+
+test('an opened course row links its record first, then the project submitted for that course', () => {
+  render(<PersonCard
+    person={{
+      ...person,
+      history: [{
+        id: 'recRegSample00002', recordUrl: 'https://airtable.example.org/recRegSample00002', course: 'Biosecurity', roundName: 'Biosecurity (2026 Feb W06) - Part-time', roundStart: '2026-02-02', facilitated: false, hasCertificate: true, droppedOut: false, isCurrent: false,
+        projects: [{
+          id: 'recProjSample0001', title: 'Sample brief', url: 'https://files.example.org/brief.pdf', scores: [], evalNotes: [], privateNotes: [],
+        }],
+      }],
+    }}
+    showName
+  />);
+  expect(screen.queryByRole('link', { name: 'Course record ↗' })).toBeNull();
+  fireEvent.click(screen.getByText('Participant'));
+  expect(screen.getAllByRole('link').map((link) => link.textContent).filter((text) => /record|^Project/.test(text ?? ''))).toEqual(['Course record ↗', 'Project: Sample brief ↗']);
+});
+
+test('an eval call with no notes still opens to its record', () => {
+  render(<PersonCard person={{ ...person, calls: [{ id: 'recCallSample0001', recordUrl: 'https://airtable.example.org/recCallSample0001', createdAt: '2026-06-01' }] }} showName />);
+  fireEvent.click(screen.getByText('Eval call'));
+  expect(screen.getByRole('link', { name: 'Call record ↗' })).toBeTruthy();
+});
+
+test('other courses list invites and passes from their other registrations, not the current one or ones they facilitated', () => {
+  const history = [
+    {
+      id: 'recRegSample0003', course: 'Biosecurity', roundName: '', facilitated: false, hasCertificate: true, droppedOut: false, isCurrent: false, invitedOn: '2026-10-12',
+    },
+    {
+      id: 'recRegSample0004', course: 'AGI Strategy', roundName: '', facilitated: false, hasCertificate: true, droppedOut: false, isCurrent: false, passedOn: '2026-10-03T10:00:00.000Z',
+    },
+    {
+      id: 'recRegSample0005', course: 'Technical AI Safety', roundName: '', facilitated: false, hasCertificate: true, droppedOut: false, isCurrent: true, invitedOn: '2026-10-20',
+    },
+    {
+      id: 'recRegSample0006', course: 'Frontier AI Governance', roundName: '', facilitated: true, hasCertificate: true, droppedOut: false, isCurrent: false, passedOn: '2026-09-01T10:00:00.000Z',
+    },
+  ];
+  expect(otherCourseDecisions({ ...person, history })).toEqual(['invited from Biosecurity on 12 Oct 2026 (no completed call on record)', 'passed in AGI Strategy on 3 Oct 2026']);
+  expect(otherCourseDecisions({ ...person, history, calls: [{ id: 'recCallSample0001', status: 'Call complete' }] })[0]).toBe('invited from Biosecurity on 12 Oct 2026');
 });
 
 test('openNextSection walks the top-level sections one at a time: closes the open one, opens the next, then starts over', () => {
@@ -109,9 +152,9 @@ test('a dropped-out course shows their reason when the row is opened, and a dash
     }}
     showName
   />);
-  expect(screen.queryByText('Started a new job')).toBeNull();
+  expect(screen.queryByText('“Started a new job”')).toBeNull();
   fireEvent.click(screen.getByText('Dropped out'));
-  expect(screen.getByText('Started a new job')).toBeTruthy();
+  expect(screen.getByText('“Started a new job”')).toBeTruthy();
 
   cleanup();
   render(<PersonCard
