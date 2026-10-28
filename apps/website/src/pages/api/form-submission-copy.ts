@@ -37,6 +37,8 @@ export default makeApiRoute({
       throw createHttpError(500, 'Form submission copy record read error', { expose: true });
     case 'config-error':
       throw createHttpError(500, 'Form submission copy config error', { expose: true });
+    case 'rate-limited':
+      throw new createHttpError.TooManyRequests('Too many copies sent to this address');
   }
 });
 

@@ -8,6 +8,7 @@ import { setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 import type * as CustomerIo from '../../lib/api/customerio';
 import { sendFormSubmissionCopy } from '../../lib/api/customerio';
 import { deriveFormSubmissionCopyToken } from '../../lib/formSubmissionCopy/formSubmissionCopy';
+import { resetFormSubmissionCopyRateLimits } from '../../lib/formSubmissionCopy/sendFormSubmissionCopyForRecord';
 import handler from './form-submission-copy';
 
 vi.mock('../../lib/api/customerio', async (importOriginal) => ({
@@ -101,6 +102,7 @@ function createMockReqRes({ method = 'POST', query = {}, body }: { method?: stri
 describe('form-submission-copy', () => {
   beforeEach(async () => {
     vi.clearAllMocks();
+    resetFormSubmissionCopyRateLimits();
     await testDb.insert(applicationsRoundTable, { id: 'recRound1', courseRoundIntensity: 'AGI Strategy (2026 Jan W02) - Part-time' });
     stubRecord(validFields);
   });
@@ -198,6 +200,21 @@ describe('form-submission-copy', () => {
     expect(mockedAlert).toHaveBeenCalledTimes(2);
     expect(mockedAlert.mock.calls[0]![1][0]).toContain('"Brand new question" (fldNew1), "Another new one" (fldNew2) were not found in either of `fieldAllowList` or `fieldDenyList`');
     expect(mockedAlert.mock.calls[0]![1][0]).toContain('"Copy of your responses: AGI Strategy Course application" email');
+  });
+
+  it('stops sending to an address after 10 copies in 30 minutes, without alerting', async () => {
+    for (let i = 0; i < 10; i += 1) {
+      const { req, res } = createMockReqRes();
+      // eslint-disable-next-line no-await-in-loop
+      await handler(req, res);
+      expect(res.status).toHaveBeenCalledWith(200);
+    }
+
+    const { req, res } = createMockReqRes();
+    await handler(req, res);
+    expect(res.status).toHaveBeenCalledWith(429);
+    expect(mockedSend).toHaveBeenCalledTimes(10);
+    expect(mockedAlert).not.toHaveBeenCalled();
   });
 
   it('alerts on a blank required field and still sends', async () => {

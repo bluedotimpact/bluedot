@@ -9,9 +9,27 @@ import {
   type FormSubmissionCopyConfigErrorKind, resolveSubmission,
 } from './formSubmissionCopy';
 
-export type FormSubmissionCopyResult = 'sent' | 'unknown-form' | 'missing-record-id' | 'record-read-failed' | 'config-error';
+export type FormSubmissionCopyResult = 'sent' | 'unknown-form' | 'missing-record-id' | 'record-read-failed' | 'config-error' | 'rate-limited';
 
 const CONFIG_FILE = 'apps/website/src/lib/formSubmissionCopy/formConfigs.ts';
+
+// The webhook token is public, so cap how often one address can be sent a copy
+const RATE_LIMIT_WINDOW_MS = 30 * 60 * 1000;
+const RATE_LIMIT_MAX_SENDS = 10;
+const sendTimesByEmail = new Map<string, number[]>();
+
+function withinRateLimit(email: string): boolean {
+  const now = Date.now();
+  const recent = (sendTimesByEmail.get(email) ?? []).filter((at) => now - at < RATE_LIMIT_WINDOW_MS);
+  sendTimesByEmail.set(email, recent);
+  if (recent.length >= RATE_LIMIT_MAX_SENDS) return false;
+  recent.push(now);
+  return true;
+}
+
+export const resetFormSubmissionCopyRateLimits = (): void => {
+  sendTimesByEmail.clear();
+};
 
 const CONFIG_ERROR_ADVICE: Record<FormSubmissionCopyConfigErrorKind, string[]> = {
   'invalid-email': [
@@ -66,6 +84,11 @@ export async function sendFormSubmissionCopyForRecord({ form, recordId }: { form
       form, recordId, problem: err.message, advice: CONFIG_ERROR_ADVICE[err.kind],
     });
     return 'config-error';
+  }
+
+  if (!withinRateLimit(submission.email)) {
+    logger.warn(`Form submission copy not sent for "${form}", record ${recordId}: more than ${RATE_LIMIT_MAX_SENDS} copies to this address in ${RATE_LIMIT_WINDOW_MS / 60_000} minutes`);
+    return 'rate-limited';
   }
 
   if (submission.blankRequiredFields.length > 0) {
