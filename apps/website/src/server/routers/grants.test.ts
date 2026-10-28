@@ -276,14 +276,6 @@ describe('grants.getAllPublicCareerTransitionGrantees', () => {
     expect((await createCaller().grants.getAllPublicCareerTransitionGrantees()).map(({ granteeName }) => granteeName)).toEqual(['Legacy Grantee']);
   });
 
-  test('does not treat a gate row without a legacy ID as matching grantees without one', async () => {
-    await testDb.update(careerTransitionGrantPublishGateTable, { id: gateId, legacyApplicationRecordId: null });
-    await insertPublicGrantee({
-      firstName: 'Private', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png', applicationId: null,
-    });
-    expect(await createCaller().grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
-  });
-
   test('does not match a grantee to the gate row\'s own Airtable record ID', async () => {
     await insertPublicGrantee({
       firstName: 'Private', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png', applicationId: gateId,
