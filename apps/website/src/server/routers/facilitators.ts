@@ -22,6 +22,7 @@ import {
   or,
   peerFeedbackTable,
   roundTable,
+  sql,
   unitTable,
   userTable,
 } from '@bluedot/db';
@@ -211,6 +212,110 @@ async function getDiscussionNeedingCover(input: z.infer<typeof discussionInput>,
   }
 
   return { facilitator, discussion };
+}
+
+const SUBSTITUTE_FACILITATOR_SOURCE = 'substitute-facilitator';
+
+// The caller's own registration, which ties the Course Runner round to its course and Applications-base round
+async function getFacilitatorRegistration(facilitator: { applicationsBaseRecordId: string | null }) {
+  const registration = facilitator.applicationsBaseRecordId
+    ? await db.getFirst(courseRegistrationTable, { filter: { id: facilitator.applicationsBaseRecordId }, sortBy: 'id' })
+    : null;
+  if (!registration?.courseId) {
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'Facilitator registration not found' });
+  }
+
+  return { ...registration, courseId: registration.courseId };
+}
+
+const isAcceptedFacilitator = and(
+  eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
+  eq(courseRegistrationTable.pg.decision, 'Accept'),
+);
+
+async function requestSubstituteFromOutsideRound({
+  userId, facilitatorRegistration, requesterId, discussionId, groupId,
+}: {
+  userId: string;
+  facilitatorRegistration: { roundId: string | null; courseApplicationsBaseId: string | null };
+  requesterId: string;
+  discussionId: string;
+  groupId: string;
+}) {
+  const substitute = await db.getFirst(userTable, { filter: { id: userId }, sortBy: 'id' });
+  if (!substitute) {
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
+  }
+
+  const existingRegistration = facilitatorRegistration.roundId
+    ? await db.getFirst(courseRegistrationTable, {
+      filter: { userId, roundId: facilitatorRegistration.roundId, source: SUBSTITUTE_FACILITATOR_SOURCE },
+      sortBy: 'id',
+    })
+    : null;
+
+  // The flags stop the Applications-base confirmation, decision email and customer.io automations
+  const registration = existingRegistration ?? await db.insert(courseRegistrationTable, {
+    email: substitute.email,
+    userId: substitute.id,
+    firstName: substitute.firstName ?? null,
+    lastName: substitute.lastName ?? null,
+    courseApplicationsBaseId: facilitatorRegistration.courseApplicationsBaseId,
+    roundId: facilitatorRegistration.roundId,
+    role: COURSE_ROLE.FACILITATOR,
+    decision: 'Accept',
+    source: SUBSTITUTE_FACILITATOR_SOURCE,
+    isSentToCustomerIoSegment: true,
+    sentConfirmation: true,
+    decisionEmailSent: true,
+  });
+
+  const existingRequest = await db.getFirst(facilitatorDiscussionSwitchingTable, {
+    filter: { discussion: discussionId, substituteCourseRegistrationApplicationsBaseId: registration.id, status: 'Requested' },
+    sortBy: 'id',
+  });
+  if (existingRequest) return;
+
+  // Facilitator is left empty until the substitute's meet_person syncs in and an Airtable automation links it
+  await db.insert(facilitatorDiscussionSwitchingTable, {
+    discussion: discussionId,
+    group: groupId,
+    status: 'Requested',
+    switchType: 'Update discussion facilitator',
+    substituteCourseRegistrationApplicationsBaseId: registration.id,
+    anythingElse: `Requested by facilitator ${requesterId}. Substitute from outside the round: ${substitute.name}`,
+  });
+}
+
+// For backwards compatibility with stale clients. Delete after ~2026-10-30
+const legacyFacilitatorChangeInput = discussionInput.extend({ newFacilitatorId: z.string() });
+async function requestFacilitatorChangeLegacy(input: z.infer<typeof legacyFacilitatorChangeInput>, ctx: { auth: { sub: string } }) {
+  const { discussionId, groupId, newFacilitatorId } = input;
+  const { facilitator } = await getUpcomingDiscussionForFacilitator(input, ctx);
+
+  const newFacilitator = await db.getFirst(meetPersonTable, { filter: { id: newFacilitatorId } });
+  if (!newFacilitator) {
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'New facilitator not found' });
+  }
+
+  if (newFacilitator.round !== facilitator.round) {
+    throw new TRPCError({ code: 'BAD_REQUEST', message: 'New facilitator must be in the same round' });
+  }
+
+  if (newFacilitator.role !== COURSE_ROLE.FACILITATOR) {
+    throw new TRPCError({ code: 'BAD_REQUEST', message: 'Selected person is not a facilitator' });
+  }
+
+  await db.insert(facilitatorDiscussionSwitchingTable, {
+    discussion: discussionId,
+    facilitator: newFacilitator.id,
+    group: groupId,
+    status: 'Requested',
+    switchType: 'Update discussion facilitator',
+    anythingElse: `Requested by facilitator ${facilitator.id}`,
+  });
+
+  return null;
 }
 
 type CoverCandidate = { id: string; name: string; slackUserId: string };
@@ -457,11 +562,90 @@ export const facilitatorRouter = router({
       return null;
     }),
 
+  searchSubstituteCandidates: protectedProcedure
+    .input(z.object({ roundId: z.string(), discussionId: z.string(), searchTerm: z.string().max(200) }))
+    .query(async ({ input, ctx }) => {
+      const user = await getUserFromAuthOrThrow(ctx.auth);
+      const facilitator = await getFacilitator(input.roundId, user.id);
+      if (!(facilitator.expectedDiscussionsFacilitator ?? []).includes(input.discussionId)) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage this discussion' });
+      }
+
+      const trimmed = input.searchTerm.trim();
+      if (trimmed.length < 2) return [];
+
+      const { courseId } = await getFacilitatorRegistration(facilitator);
+      const userIdsInRound = (await db.pg
+        .select({ userId: meetPersonTable.pg.userId })
+        .from(meetPersonTable.pg)
+        .where(eq(meetPersonTable.pg.round, input.roundId)))
+        .flatMap((p) => (p.userId ? [p.userId] : []));
+
+      const conditions = [isAcceptedFacilitator, ilike(userTable.pg.name, `%${trimmed}%`)];
+      if (userIdsInRound.length > 0) conditions.push(notInArray(userTable.pg.id, userIdsInRound));
+
+      return db.pg
+        .select({
+          userId: userTable.pg.id,
+          name: userTable.pg.name,
+          hasFacilitatedThisCourse: sql<boolean>`coalesce(bool_or(${courseRegistrationTable.pg.courseId} = ${courseId}), false)`,
+        })
+        .from(courseRegistrationTable.pg)
+        .innerJoin(userTable.pg, eq(userTable.pg.id, courseRegistrationTable.pg.userId))
+        .where(and(...conditions))
+        .groupBy(userTable.pg.id, userTable.pg.name)
+        .orderBy(asc(userTable.pg.name), asc(userTable.pg.id))
+        .limit(20);
+    }),
+
   requestFacilitatorChange: protectedProcedure
-    .input(discussionInput.extend({ newFacilitatorId: z.string() }))
+    .input(z.union([
+      discussionInput.extend({
+        newFacilitator: z.discriminatedUnion('kind', [
+          z.object({ kind: z.literal('meetPerson'), id: z.string() }),
+          z.object({ kind: z.literal('user'), userId: z.string() }),
+        ]),
+      }),
+      legacyFacilitatorChangeInput,
+    ]))
     .mutation(async ({ input, ctx }) => {
-      const { discussionId, groupId, newFacilitatorId } = input;
+      if ('newFacilitatorId' in input) return requestFacilitatorChangeLegacy(input, ctx);
+
+      const { roundId, discussionId, groupId } = input;
       const { facilitator } = await getUpcomingDiscussionForFacilitator(input, ctx);
+
+      let newFacilitatorId: string;
+      if (input.newFacilitator.kind === 'meetPerson') {
+        newFacilitatorId = input.newFacilitator.id;
+      } else {
+        const { userId } = input.newFacilitator;
+        const facilitatorRegistration = await getFacilitatorRegistration(facilitator);
+        const priorRegistration = await db.getFirst(courseRegistrationTable, {
+          filter: { userId, role: COURSE_ROLE.FACILITATOR, decision: 'Accept' },
+          sortBy: 'id',
+        });
+        if (!priorRegistration) {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'This person has not been a facilitator before' });
+        }
+
+        const peopleInRound = await db.pg
+          .select({ id: meetPersonTable.pg.id, role: meetPersonTable.pg.role })
+          .from(meetPersonTable.pg)
+          .where(and(eq(meetPersonTable.pg.round, roundId), eq(meetPersonTable.pg.userId, userId)));
+        if (peopleInRound.some((p) => p.role === COURSE_ROLE.PARTICIPANT)) {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: 'This person is a participant in this round' });
+        }
+
+        const facilitatorInRound = peopleInRound.find((p) => p.role === COURSE_ROLE.FACILITATOR);
+        if (!facilitatorInRound) {
+          await requestSubstituteFromOutsideRound({
+            userId, facilitatorRegistration, requesterId: facilitator.id, discussionId, groupId,
+          });
+          return null;
+        }
+
+        newFacilitatorId = facilitatorInRound.id;
+      }
 
       const newFacilitator = await db.getFirst(meetPersonTable, { filter: { id: newFacilitatorId } });
       if (!newFacilitator) {

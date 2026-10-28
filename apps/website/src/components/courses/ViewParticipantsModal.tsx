@@ -2,7 +2,7 @@ import {
   ErrorSection, Modal, ProgressDots,
 } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
-import ParticipantRow from './ParticipantRow';
+import SearchResultRow from './SearchResultRow';
 
 type ViewParticipantsModalProps = {
   groupId: string;
@@ -34,10 +34,10 @@ const ViewParticipantsModal = ({ groupId, handleClose }: ViewParticipantsModalPr
             <p className="text-size-xs text-secondary py-2">No other participants in your group yet.</p>
           )}
           {facilitators.map((p) => (
-            <ParticipantRow key={p.id} name={p.name} rightHandNode={<span className="text-size-xs font-medium text-secondary">Facilitator</span>} />
+            <SearchResultRow key={p.id} name={p.name} rightHandNode={<span className="text-size-xs font-medium text-secondary">Facilitator</span>} />
           ))}
           {participants.map((p) => (
-            <ParticipantRow key={p.id} name={p.name} />
+            <SearchResultRow key={p.id} name={p.name} />
           ))}
         </div>
       </div>

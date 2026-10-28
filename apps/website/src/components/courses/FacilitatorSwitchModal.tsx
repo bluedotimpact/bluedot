@@ -19,6 +19,7 @@ import {
 import { FaCheck, FaClock, FaPeopleArrows } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
 import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
+import SubstituteFacilitatorSearchModal, { type SubstituteCandidate } from './SubstituteFacilitatorSearchModal';
 import {
   buildCoverMessage, formatCoverTimeLocal, formatCoverTimeUtcBracket, type CoverMessageDetails, type CoverMessageSegment,
 } from '../../lib/facilitatorCover';
@@ -52,6 +53,13 @@ const SWITCH_OPTIONS = [
 export type FacilitatorSwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 
 const AGREED_COVER_LABEL = 'Yes, I\'ve agreed with someone';
+// Select values for the two non-facilitator options at the end of the "Select new facilitator" list
+const ADD_SOMEONE_ELSE_SENTINEL = 'add-someone-else';
+const ADDED_SPECIFIC_USER_SENTINEL = 'outside-round';
+
+type NewFacilitatorChoice =
+  | { kind: 'meetPerson'; id: string }
+  | ({ kind: 'user' } & SubstituteCandidate);
 const ASK_IN_CHANNEL_LABEL = 'No, ask in #facilitator-community';
 
 const COVER_OPTIONS = [
@@ -93,13 +101,14 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     if (initialHasFoundCover === undefined) return undefined;
     return initialHasFoundCover ? AGREED_COVER_LABEL : ASK_IN_CHANNEL_LABEL;
   });
-  const [selectedNewFacilitatorId, setSelectedNewFacilitatorId] = useState<string | undefined>();
+  const [selectedNewFacilitator, setSelectedNewFacilitator] = useState<NewFacilitatorChoice | undefined>();
+  const [isSearchingOutsideRound, setIsSearchingOutsideRound] = useState(false);
   const [coverNote, setCoverNote] = useState('');
 
   // Reset mode-specific state when modal type changes
   useEffect(() => {
     if (modalType === 'Update discussion time') {
-      setSelectedNewFacilitatorId(undefined);
+      setSelectedNewFacilitator(undefined);
     } else {
       setSelectedDate(undefined);
       setSelectedTime(undefined);
@@ -181,10 +190,10 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   };
 
   // Change facilitator mode
-  const facilitatorChangeSubmitDisabled = !selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId;
+  const facilitatorChangeSubmitDisabled = !selectedGroupId || !selectedDiscussionId || !selectedNewFacilitator;
 
   const handleFacilitatorChangeSubmit = () => {
-    if (!selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId) {
+    if (!selectedGroupId || !selectedDiscussionId || !selectedNewFacilitator || changeFacilitatorMutation.isPending) {
       return;
     }
 
@@ -192,8 +201,29 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       roundId,
       discussionId: selectedDiscussionId,
       groupId: selectedGroupId,
-      newFacilitatorId: selectedNewFacilitatorId,
+      newFacilitator: selectedNewFacilitator.kind === 'meetPerson'
+        ? { kind: 'meetPerson', id: selectedNewFacilitator.id }
+        : { kind: 'user', userId: selectedNewFacilitator.userId },
     });
+  };
+
+  const newFacilitatorOptions = [
+    ...[...(facilitatorsQuery.data ?? [])].sort((a, b) => a.label.localeCompare(b.label)),
+    ...(selectedNewFacilitator?.kind === 'user' ? [{ value: ADDED_SPECIFIC_USER_SENTINEL, label: selectedNewFacilitator.name }] : []),
+    {
+      value: ADD_SOMEONE_ELSE_SENTINEL,
+      label: <span className={selectedDiscussionId ? 'text-accent' : undefined}>+ Add someone else</span>,
+      disabled: !selectedDiscussionId,
+    },
+  ];
+  const newFacilitatorValue = selectedNewFacilitator?.kind === 'user' ? ADDED_SPECIFIC_USER_SENTINEL : selectedNewFacilitator?.id;
+
+  const handleNewFacilitatorChange = (value: string) => {
+    if (value === ADD_SOMEONE_ELSE_SENTINEL) {
+      setIsSearchingOutsideRound(true);
+    } else if (value !== ADDED_SPECIFIC_USER_SENTINEL) {
+      setSelectedNewFacilitator({ kind: 'meetPerson', id: value });
+    }
   };
 
   const handleRequestCoverSubmit = () => {
@@ -418,9 +448,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               error={facilitatorsQuery.isError && (facilitatorsQuery.error?.message || 'Failed to load facilitators. Please try again.')}
             >
               <Select
-                options={[...(facilitatorsQuery.data ?? [])].sort((a, b) => a.label.localeCompare(b.label))}
-                value={selectedNewFacilitatorId}
-                onChange={(value) => setSelectedNewFacilitatorId(value)}
+                options={newFacilitatorOptions}
+                value={newFacilitatorValue}
+                onChange={handleNewFacilitatorChange}
                 placeholder={facilitatorsQuery.isLoading ? 'Loading facilitators...' : 'Choose a facilitator'}
               />
             </Field>
@@ -531,6 +561,17 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       )}
     >
       <form className="flex flex-col gap-8">{renderContent()}</form>
+      {isSearchingOutsideRound && selectedDiscussionId && (
+        <SubstituteFacilitatorSearchModal
+          roundId={roundId}
+          discussionId={selectedDiscussionId}
+          onSelect={(candidate) => {
+            setSelectedNewFacilitator({ kind: 'user', ...candidate });
+            setIsSearchingOutsideRound(false);
+          }}
+          onClose={() => setIsSearchingOutsideRound(false)}
+        />
+      )}
     </Modal>
   );
 };

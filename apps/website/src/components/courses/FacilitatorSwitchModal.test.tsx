@@ -105,6 +105,111 @@ describe('FacilitatorSwitchModal', () => {
     expect(submit.closest('form')).not.toBeNull();
   });
 
+  describe('Change facilitator: adding someone from outside the round', () => {
+    let mockRequestFacilitatorChange: Mock;
+
+    beforeEach(() => {
+      mockRequestFacilitatorChange = vi.fn();
+      server.use(
+        trpcMsw.facilitators.getFacilitatorsForRound.query(() => [{ value: 'facilitator-2', label: 'Robin Round' }]),
+        trpcMsw.facilitators.searchSubstituteCandidates.query(({ input }) => (
+          input.searchTerm === 'sa' ? [{ userId: 'user-sasha', name: 'Sasha Substitute', hasFacilitatedThisCourse: true }] : []
+        )),
+        trpcMsw.facilitators.requestFacilitatorChange.mutation(({ input }) => {
+          mockRequestFacilitatorChange(input);
+          return null;
+        }),
+      );
+    });
+
+    const openFacilitatorPicker = async () => {
+      fireEvent.click(await screen.findByRole('button', { name: /Select new facilitator/ }));
+      return screen.getAllByRole('option');
+    };
+
+    test('the option sits at the end of the list and opens the search', async () => {
+      renderModal({ initialModalType: 'Change facilitator', initialHasFoundCover: true });
+
+      const options = await openFacilitatorPicker();
+      expect(options.map((o) => o.textContent)).toEqual(['Robin Round', '+ Add someone else']);
+      fireEvent.click(options[1]!);
+
+      expect(await screen.findByRole('dialog', { name: 'Add someone else as a facilitator' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Select new facilitator/ })).toHaveTextContent('Choose a facilitator');
+    });
+
+    test('choosing someone shows them in the picker and submits their user id', async () => {
+      renderModal({ initialModalType: 'Change facilitator', initialHasFoundCover: true });
+      fireEvent.click((await openFacilitatorPicker())[1]!);
+      await screen.findByRole('dialog', { name: 'Add someone else as a facilitator' });
+
+      fireEvent.change(screen.getByPlaceholderText('Search by name...'), { target: { value: 'sa' } });
+      fireEvent.click(await screen.findByRole('button', { name: 'Select' }));
+
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog', { name: 'Add someone else as a facilitator' })).not.toBeInTheDocument();
+      });
+      expect(screen.getByRole('button', { name: /Select new facilitator/ })).toHaveTextContent('Sasha Substitute');
+
+      fireEvent.click(screen.getByRole('button', { name: 'Submit' }));
+
+      await waitFor(() => {
+        expect(mockRequestFacilitatorChange).toHaveBeenCalledWith({
+          roundId: 'round-1',
+          groupId: 'group-1',
+          discussionId: 'discussion-1',
+          newFacilitator: { kind: 'user', userId: 'user-sasha' },
+        });
+      });
+      expect(await screen.findByText(/Please allow up to 10 minutes/)).toBeInTheDocument();
+    });
+
+    test('cancelling the search leaves the picker as it was', async () => {
+      renderModal({ initialModalType: 'Change facilitator', initialHasFoundCover: true });
+      fireEvent.click((await openFacilitatorPicker())[0]!);
+      expect(screen.getByRole('button', { name: /Select new facilitator/ })).toHaveTextContent('Robin Round');
+
+      fireEvent.click((await openFacilitatorPicker())[1]!);
+      await screen.findByRole('dialog', { name: 'Add someone else as a facilitator' });
+      fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog', { name: 'Add someone else as a facilitator' })).not.toBeInTheDocument();
+      });
+      expect(screen.getByRole('button', { name: /Select new facilitator/ })).toHaveTextContent('Robin Round');
+    });
+
+    test('a facilitator from the round is submitted by meet person id', async () => {
+      renderModal({ initialModalType: 'Change facilitator', initialHasFoundCover: true });
+      fireEvent.click((await openFacilitatorPicker())[0]!);
+      fireEvent.click(screen.getByRole('button', { name: 'Submit' }));
+
+      await waitFor(() => {
+        expect(mockRequestFacilitatorChange).toHaveBeenCalledWith(expect.objectContaining({
+          newFacilitator: { kind: 'meetPerson', id: 'facilitator-2' },
+        }));
+      });
+      expect(await screen.findByText(/Please allow up to 10 minutes/)).toBeInTheDocument();
+    });
+
+    test('a second Submit while the first is pending is ignored', async () => {
+      server.use(trpcMsw.facilitators.requestFacilitatorChange.mutation(async ({ input }) => {
+        mockRequestFacilitatorChange(input);
+        await new Promise((resolve) => {
+          setTimeout(resolve, 50);
+        });
+        return null;
+      }));
+      renderModal({ initialModalType: 'Change facilitator', initialHasFoundCover: true });
+      fireEvent.click((await openFacilitatorPicker())[0]!);
+      fireEvent.click(screen.getByRole('button', { name: 'Submit' }));
+      fireEvent.click(await screen.findByRole('button', { name: /Submitting/ }));
+
+      expect(await screen.findByText(/Please allow up to 10 minutes/)).toBeInTheDocument();
+      expect(mockRequestFacilitatorChange).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('Change facilitator: asking in #facilitator-community', () => {
     const messageDetails: CoverMessageDetails = {
       requester: { name: 'Sam Rivera', slackUserId: 'U0SAM' },

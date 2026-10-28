@@ -3,7 +3,7 @@ import {
 } from '@bluedot/ui';
 import { useState } from 'react';
 import { trpc } from '../../utils/trpc';
-import ParticipantRow from './ParticipantRow';
+import SearchResultRow from './SearchResultRow';
 
 type AddParticipantModalProps = {
   meetPersonId: string;
@@ -56,7 +56,7 @@ const AddParticipantModal = ({ meetPersonId, excludeIds, onAdd, onClose }: AddPa
             <p className="text-size-xs text-secondary py-2">No participants found.</p>
           )}
           {results.map((person) => (
-            <ParticipantRow
+            <SearchResultRow
               key={person.id}
               name={person.name}
               rightHandNode={(

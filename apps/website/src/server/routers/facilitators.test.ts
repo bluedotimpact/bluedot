@@ -2,6 +2,7 @@ import {
   courseFeedbackTable,
   courseRegistrationTable,
   courseTable,
+  eq,
   facilitatorDiscussionSwitchingTable,
   groupDiscussionTable,
   groupTable,
@@ -1063,6 +1064,228 @@ describe('facilitators cover requests', () => {
       await expect(caller.facilitators.requestCover(coverInput))
         .rejects.toMatchObject({ code: 'PRECONDITION_FAILED', message: 'Posting to #facilitator-community is not set up' });
       expect(fetchSpy.mock.calls.filter(([input]) => urlOf(input).startsWith('https://slack.com/'))).toEqual([]);
+    });
+  });
+});
+
+describe('facilitators substitute facilitators', () => {
+  const caller = createCaller(testAuthContextLoggedIn);
+  const CALLER_REGISTRATION_ID = 'reg-caller';
+  const APPLICATIONS_ROUND_ID = 'app-round-1';
+  const APPLICATIONS_COURSE_ID = 'app-course-1';
+  const OTHER_FACILITATOR = 'other-facilitator';
+  const SUBSTITUTE_USER_ID = 'user-substitute';
+  const startTimeSeconds = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60;
+  const changeInput = { roundId: ROUND_ID, groupId: GROUP_ID, discussionId: DISCUSSION_ID };
+  async function seedChangeRequest() {
+    await seedFacilitatorGroup();
+    await testDb.insert(courseRegistrationTable, {
+      id: CALLER_REGISTRATION_ID,
+      email: 'test@example.com',
+      userId: 'test-user',
+      courseId: 'course-1',
+      courseApplicationsBaseId: APPLICATIONS_COURSE_ID,
+      roundId: APPLICATIONS_ROUND_ID,
+      role: 'Facilitator',
+      decision: 'Accept',
+    });
+    await testDb.update(meetPersonTable, {
+      id: FACILITATOR_ID,
+      applicationsBaseRecordId: CALLER_REGISTRATION_ID,
+      expectedDiscussionsFacilitator: [DISCUSSION_ID],
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: DISCUSSION_ID,
+      group: GROUP_ID,
+      facilitators: [FACILITATOR_ID],
+      participantsExpected: [],
+      startDateTime: startTimeSeconds,
+      endDateTime: startTimeSeconds + 60 * 60,
+    });
+    await testDb.insert(meetPersonTable, {
+      id: OTHER_FACILITATOR, name: 'Other Facilitator', round: ROUND_ID, role: 'Facilitator',
+    });
+  }
+
+  async function seedPastFacilitator(userId: string, name: string, { courseId = 'course-1', decision = 'Accept', role = 'Facilitator' } = {}) {
+    await testDb.insert(userTable, {
+      id: userId, email: `${userId}@example.com`, name, firstName: name.split(' ')[0], lastName: name.split(' ')[1],
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: `reg-${userId}`,
+      email: `${userId}@example.com`,
+      userId,
+      courseId,
+      roundId: 'app-round-old',
+      role,
+      decision,
+    });
+  }
+
+  const switchingRows = () => testDb.pg.select().from(facilitatorDiscussionSwitchingTable.pg);
+  const substituteRegistrations = () => testDb.pg.select().from(courseRegistrationTable.pg)
+    .where(eq(courseRegistrationTable.pg.source, 'substitute-facilitator'));
+
+  describe('requestFacilitatorChange', () => {
+    test('writes a switching row for a facilitator in the round', async () => {
+      await seedChangeRequest();
+
+      await caller.facilitators.requestFacilitatorChange({ ...changeInput, newFacilitator: { kind: 'meetPerson', id: OTHER_FACILITATOR } });
+
+      expect(await switchingRows()).toEqual([expect.objectContaining({
+        discussion: DISCUSSION_ID,
+        facilitator: OTHER_FACILITATOR,
+        group: GROUP_ID,
+        status: 'Requested',
+        switchType: 'Update discussion facilitator',
+        anythingElse: `Requested by facilitator ${FACILITATOR_ID}`,
+        substituteCourseRegistrationApplicationsBaseId: null,
+      })]);
+    });
+
+    test('accepts the legacy input shape from stale clients', async () => {
+      await seedChangeRequest();
+
+      await caller.facilitators.requestFacilitatorChange({ ...changeInput, newFacilitatorId: OTHER_FACILITATOR });
+
+      expect(await switchingRows()).toEqual([expect.objectContaining({ facilitator: OTHER_FACILITATOR, status: 'Requested' })]);
+    });
+
+    test('rejects a facilitator from another round, a non-facilitator, a started discussion, and a discussion the caller does not facilitate', async () => {
+      await seedChangeRequest();
+      await testDb.insert(meetPersonTable, { id: 'round-2-facilitator', round: 'round-2', role: 'Facilitator' });
+      const request = (input: typeof changeInput, id: string) => caller.facilitators.requestFacilitatorChange({ ...input, newFacilitator: { kind: 'meetPerson', id } });
+
+      await expect(request(changeInput, 'round-2-facilitator')).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+      await expect(request(changeInput, PARTICIPANT_1)).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+
+      await testDb.update(meetPersonTable, { id: FACILITATOR_ID, expectedDiscussionsFacilitator: [] });
+      await expect(request(changeInput, OTHER_FACILITATOR)).rejects.toMatchObject({ code: 'FORBIDDEN' });
+
+      await testDb.update(meetPersonTable, { id: FACILITATOR_ID, expectedDiscussionsFacilitator: [DISCUSSION_ID] });
+      await testDb.update(groupDiscussionTable, { id: DISCUSSION_ID, startDateTime: Math.floor(Date.now() / 1000) - 60 });
+      await expect(request(changeInput, OTHER_FACILITATOR)).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+
+      expect(await switchingRows()).toEqual([]);
+    });
+
+    test('rejects someone who has never been an accepted facilitator', async () => {
+      await seedChangeRequest();
+      await seedPastFacilitator('user-rejected', 'Rex Rejected', { decision: 'Reject' });
+      await seedPastFacilitator('user-participant', 'Pat Participant', { role: 'Participant' });
+
+      await expect(caller.facilitators.requestFacilitatorChange({ ...changeInput, newFacilitator: { kind: 'user', userId: 'user-rejected' } }))
+        .rejects.toMatchObject({ code: 'FORBIDDEN' });
+      await expect(caller.facilitators.requestFacilitatorChange({ ...changeInput, newFacilitator: { kind: 'user', userId: 'user-participant' } }))
+        .rejects.toMatchObject({ code: 'FORBIDDEN' });
+
+      expect(await switchingRows()).toEqual([]);
+      expect(await substituteRegistrations()).toEqual([]);
+    });
+
+    test('rejects a past facilitator who is a participant in this round', async () => {
+      await seedChangeRequest();
+      await seedPastFacilitator(SUBSTITUTE_USER_ID, 'Sasha Substitute');
+      await testDb.insert(meetPersonTable, {
+        id: 'substitute-participant', userId: SUBSTITUTE_USER_ID, round: ROUND_ID, role: 'Participant',
+      });
+
+      await expect(caller.facilitators.requestFacilitatorChange({ ...changeInput, newFacilitator: { kind: 'user', userId: SUBSTITUTE_USER_ID } }))
+        .rejects.toMatchObject({ code: 'BAD_REQUEST' });
+      expect(await switchingRows()).toEqual([]);
+      expect(await substituteRegistrations()).toEqual([]);
+    });
+
+    test('registers a past facilitator from outside the round, once, and leaves the switch for the automation to link', async () => {
+      await seedChangeRequest();
+      await seedPastFacilitator(SUBSTITUTE_USER_ID, 'Sasha Substitute');
+      const request = () => caller.facilitators.requestFacilitatorChange({ ...changeInput, newFacilitator: { kind: 'user', userId: SUBSTITUTE_USER_ID } });
+
+      await request();
+      await request();
+
+      const registrations = await substituteRegistrations();
+      expect(registrations).toEqual([expect.objectContaining({
+        email: `${SUBSTITUTE_USER_ID}@example.com`,
+        userId: SUBSTITUTE_USER_ID,
+        firstName: 'Sasha',
+        lastName: 'Substitute',
+        roundId: APPLICATIONS_ROUND_ID,
+        courseApplicationsBaseId: APPLICATIONS_COURSE_ID,
+        role: 'Facilitator',
+        decision: 'Accept',
+        isSentToCustomerIoSegment: true,
+        sentConfirmation: true,
+        decisionEmailSent: true,
+      })]);
+      expect(await switchingRows()).toEqual([expect.objectContaining({
+        discussion: DISCUSSION_ID,
+        facilitator: null,
+        group: GROUP_ID,
+        status: 'Requested',
+        switchType: 'Update discussion facilitator',
+        substituteCourseRegistrationApplicationsBaseId: registrations[0]!.id,
+        anythingElse: expect.stringContaining('Sasha Substitute'),
+      })]);
+    });
+
+    test('accepts a facilitator of a different course', async () => {
+      await seedChangeRequest();
+      await seedPastFacilitator('user-other-course', 'Olive Other', { courseId: 'course-2' });
+
+      await caller.facilitators.requestFacilitatorChange({ ...changeInput, newFacilitator: { kind: 'user', userId: 'user-other-course' } });
+
+      expect(await substituteRegistrations()).toEqual([expect.objectContaining({ userId: 'user-other-course', courseApplicationsBaseId: APPLICATIONS_COURSE_ID })]);
+      expect(await switchingRows()).toHaveLength(1);
+    });
+
+    test('switches straight to a past facilitator who already facilitates in this round', async () => {
+      await seedChangeRequest();
+      await seedPastFacilitator(SUBSTITUTE_USER_ID, 'Sasha Substitute');
+      await testDb.update(meetPersonTable, { id: OTHER_FACILITATOR, userId: SUBSTITUTE_USER_ID });
+
+      await caller.facilitators.requestFacilitatorChange({ ...changeInput, newFacilitator: { kind: 'user', userId: SUBSTITUTE_USER_ID } });
+
+      expect(await switchingRows()).toEqual([expect.objectContaining({ facilitator: OTHER_FACILITATOR, substituteCourseRegistrationApplicationsBaseId: null })]);
+      expect(await substituteRegistrations()).toEqual([]);
+    });
+  });
+
+  describe('searchSubstituteCandidates', () => {
+    const searchInput = { roundId: ROUND_ID, discussionId: DISCUSSION_ID };
+
+    test('rejects a caller who does not facilitate the discussion', async () => {
+      await seedChangeRequest();
+      await expect(caller.facilitators.searchSubstituteCandidates({ ...searchInput, roundId: 'round-2', searchTerm: 'sa' }))
+        .rejects.toMatchObject({ code: 'NOT_FOUND' });
+
+      await testDb.update(meetPersonTable, { id: FACILITATOR_ID, expectedDiscussionsFacilitator: [] });
+      await expect(caller.facilitators.searchSubstituteCandidates({ ...searchInput, searchTerm: 'sa' }))
+        .rejects.toMatchObject({ code: 'FORBIDDEN' });
+    });
+
+    test('returns past facilitators who are not in this round, by name only, flagging who has done this course', async () => {
+      await seedChangeRequest();
+      await seedPastFacilitator(SUBSTITUTE_USER_ID, 'Sasha Substitute');
+      await seedPastFacilitator('user-sam', 'Sam Second');
+      await seedPastFacilitator('user-other-course', 'Sally Other', { courseId: 'course-2' });
+      await seedPastFacilitator('user-rejected', 'Saul Rejected', { decision: 'Reject' });
+      await seedPastFacilitator('user-participant', 'Sara Participant', { role: 'Participant' });
+      await seedPastFacilitator('user-in-round', 'Sid Inround');
+      await testDb.insert(meetPersonTable, {
+        id: 'in-round', userId: 'user-in-round', round: ROUND_ID, role: 'Participant',
+      });
+
+      const result = await caller.facilitators.searchSubstituteCandidates({ ...searchInput, searchTerm: ' SA ' });
+
+      expect(result).toEqual([
+        { userId: 'user-other-course', name: 'Sally Other', hasFacilitatedThisCourse: false },
+        { userId: 'user-sam', name: 'Sam Second', hasFacilitatedThisCourse: true },
+        { userId: SUBSTITUTE_USER_ID, name: 'Sasha Substitute', hasFacilitatedThisCourse: true },
+      ]);
+      expect(await caller.facilitators.searchSubstituteCandidates({ ...searchInput, searchTerm: 's' })).toEqual([]);
+      expect(await caller.facilitators.searchSubstituteCandidates({ ...searchInput, searchTerm: 'example.com' })).toEqual([]);
+      expect((await caller.facilitators.searchSubstituteCandidates({ ...searchInput, searchTerm: 'second' })).map((c) => c.userId)).toEqual(['user-sam']);
     });
   });
 });
