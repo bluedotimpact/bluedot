@@ -1143,6 +1143,14 @@ describe('facilitators substitute facilitators', () => {
       })]);
     });
 
+    test('accepts the legacy input shape from stale clients', async () => {
+      await seedChangeRequest();
+
+      await caller.facilitators.requestFacilitatorChange({ ...changeInput, newFacilitatorId: OTHER_FACILITATOR });
+
+      expect(await switchingRows()).toEqual([expect.objectContaining({ facilitator: OTHER_FACILITATOR, status: 'Requested' })]);
+    });
+
     test('rejects a facilitator from another round, a non-facilitator, a started discussion, and a discussion the caller does not facilitate', async () => {
       await seedChangeRequest();
       await testDb.insert(meetPersonTable, { id: 'round-2-facilitator', round: 'round-2', role: 'Facilitator' });

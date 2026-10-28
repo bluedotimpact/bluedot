@@ -287,6 +287,37 @@ async function requestSubstituteFromOutsideRound({
   });
 }
 
+// For backwards compatibility with stale clients. Delete after ~2026-10-30
+const legacyFacilitatorChangeInput = discussionInput.extend({ newFacilitatorId: z.string() });
+async function requestFacilitatorChangeLegacy(input: z.infer<typeof legacyFacilitatorChangeInput>, ctx: { auth: { sub: string } }) {
+  const { discussionId, groupId, newFacilitatorId } = input;
+  const { facilitator } = await getUpcomingDiscussionForFacilitator(input, ctx);
+
+  const newFacilitator = await db.getFirst(meetPersonTable, { filter: { id: newFacilitatorId } });
+  if (!newFacilitator) {
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'New facilitator not found' });
+  }
+
+  if (newFacilitator.round !== facilitator.round) {
+    throw new TRPCError({ code: 'BAD_REQUEST', message: 'New facilitator must be in the same round' });
+  }
+
+  if (newFacilitator.role !== COURSE_ROLE.FACILITATOR) {
+    throw new TRPCError({ code: 'BAD_REQUEST', message: 'Selected person is not a facilitator' });
+  }
+
+  await db.insert(facilitatorDiscussionSwitchingTable, {
+    discussion: discussionId,
+    facilitator: newFacilitator.id,
+    group: groupId,
+    status: 'Requested',
+    switchType: 'Update discussion facilitator',
+    anythingElse: `Requested by facilitator ${facilitator.id}`,
+  });
+
+  return null;
+}
+
 type CoverCandidate = { id: string; name: string; slackUserId: string };
 
 /**
@@ -568,13 +599,18 @@ export const facilitatorRouter = router({
     }),
 
   requestFacilitatorChange: protectedProcedure
-    .input(discussionInput.extend({
-      newFacilitator: z.discriminatedUnion('kind', [
-        z.object({ kind: z.literal('meetPerson'), id: z.string() }),
-        z.object({ kind: z.literal('user'), userId: z.string() }),
-      ]),
-    }))
+    .input(z.union([
+      discussionInput.extend({
+        newFacilitator: z.discriminatedUnion('kind', [
+          z.object({ kind: z.literal('meetPerson'), id: z.string() }),
+          z.object({ kind: z.literal('user'), userId: z.string() }),
+        ]),
+      }),
+      legacyFacilitatorChangeInput,
+    ]))
     .mutation(async ({ input, ctx }) => {
+      if ('newFacilitatorId' in input) return requestFacilitatorChangeLegacy(input, ctx);
+
       const { roundId, discussionId, groupId } = input;
       const { facilitator } = await getUpcomingDiscussionForFacilitator(input, ctx);
 
