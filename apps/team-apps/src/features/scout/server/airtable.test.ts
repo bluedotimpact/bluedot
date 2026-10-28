@@ -4,7 +4,7 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only' } }));
 import {
-  attachPastApplications, dropOutReasons, fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLead, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, pickReasonOf, ratingOutOf, toHistoryRow, writeAiSummary,
+  attachPastApplications, dropOutReasons, fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLead, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, pickReasonOf, ratingOutOf, splitGrantApplications, toHistoryRow, writeAiSummary,
 } from './airtable';
 import type { Application, Registration } from '../types';
 
@@ -20,12 +20,12 @@ const reads = async (input: RequestInfo | URL, init?: RequestInit) => {
   if (init?.method === 'PATCH') return json({ id, fields: JSON.parse(init.body as string).fields });
 
   if (url.pathname.endsWith(id)) return json({ id, fields: currentFields });
-  if (url.pathname.endsWith('tblh5zr4jRdrndKnC')) {
+  if (url.pathname.endsWith('tbliURusTrQTjxtkB')) {
     return json({
       records: [
-        { id: 'recGrantSample001', fields: { fldlfnNiJnis63fOR: 'Sámple', fldx6Irt51pDkL9lq: 'Participant ', fldAIKWJz3O3IzyH2: 'other.address@example.org' } },
-        { id: 'recGrantSample002', fields: { fldlfnNiJnis63fOR: 'Sample', fldx6Irt51pDkL9lq: 'Participant', fldAIKWJz3O3IzyH2: 'Sample.Participant@example.org' } },
-        { id: 'recGrantSample003', fields: { fldlfnNiJnis63fOR: 'Someone', fldx6Irt51pDkL9lq: 'Else', fldAIKWJz3O3IzyH2: 'someone.else@example.org' } },
+        { id: 'recGrantSample001', fields: { fldAXvEVzLD4rQiks: 'Sámple Participant ', fldWhnuEt3haRK4KN: 'other.address@example.org' } },
+        { id: 'recGrantSample002', fields: { fldAXvEVzLD4rQiks: 'Sample Participant', fldWhnuEt3haRK4KN: 'Sample.Participant@example.org' } },
+        { id: 'recGrantSample003', fields: { fldAXvEVzLD4rQiks: 'Someone Else', fldWhnuEt3haRK4KN: 'someone.else@example.org' } },
       ],
     });
   }
@@ -161,7 +161,6 @@ test.each([
     }
 
     if (url.pathname.endsWith('tblVstbJehu8wew93')) return json({ records: [{ id: 'recCall', fields: { fldCigDwg47QHQiM8: 'called@example.org' } }] });
-    if (url.pathname.endsWith('tblh5zr4jRdrndKnC')) return json({ records: [] });
     return reads(input, init);
   });
   expect((await run(fetchQueue(['Technical AI Safety'], part))).map((item) => item.id)).toEqual([id]);
@@ -197,9 +196,9 @@ test('leaves out people with an approved career transition grant or a completed 
       return json({ records: [{ id, fields: withEmail('kept@example.org') }, { id: granted, fields: withEmail('Granted@example.org') }, { id: called, fields: withEmail('called@example.org') }] });
     }
 
-    if (url.pathname.endsWith('tblh5zr4jRdrndKnC')) {
-      expect(url.searchParams.get('filterByFormula')).toBe('{Status}=\'Approve\'');
-      return json({ records: [{ id: 'recGrant', fields: { fldAIKWJz3O3IzyH2: 'granted@example.org' } }] });
+    if (url.pathname.endsWith('tbliURusTrQTjxtkB')) {
+      expect(url.searchParams.get('filterByFormula')).toBe('AND({Program code}=\'CTG\',{Decision}=\'Approve\')');
+      return json({ records: [{ id: 'recGrant', fields: { fldWhnuEt3haRK4KN: 'granted@example.org' } }] });
     }
 
     if (url.pathname.endsWith('tblVstbJehu8wew93')) {
@@ -306,7 +305,7 @@ test('the summary is one write; the lookup state reads both fields; the sweep as
 
 test('grants under another email: same full name ignoring accents, case and spacing, and only when the email differs', async () => {
   expect(await run(fetchGrantsUnderOtherEmail('Sample  participant', 'sample.participant@example.org'))).toEqual([
-    { recordUrl: 'https://airtable.com/appnJbsG1eWbAdEvf/tblh5zr4jRdrndKnC/recGrantSample001', email: 'other.address@example.org' },
+    { recordUrl: 'https://airtable.com/apppOzz9fPg59PxLa/tbliURusTrQTjxtkB/recGrantSample001', email: 'other.address@example.org' },
   ]);
   expect(await run(fetchGrantsUnderOtherEmail('Nobody Here', 'nobody@example.org'))).toEqual([]);
 });
@@ -344,4 +343,46 @@ test('a top pick gets one reason, in the order the picker counts them', () => {
   expect(pickReasonOf({ ...ten, fldoLlp0mb3G1Cjrs: 'Neutral', fldH4kT9DA79mlzBg: ['Weak yes'] })).toBe('top score');
   expect(pickReasonOf({ fldoLlp0mb3G1Cjrs: 'Neutral', fldAOii0tbRfD1210: [8], fld1rY5FPzVWrzyGM: [5] })).toBe('top score');
   expect(pickReasonOf({ fldoLlp0mb3G1Cjrs: 'Neutral', fldAOii0tbRfD1210: [8], fld1rY5FPzVWrzyGM: [4] })).toBeUndefined();
+});
+
+test.each([
+  ['prose before the link', 'Accepted work:\n- Paper, https://openreview.net/forum?id=abc.', 'https://openreview.net/forum?id=abc'],
+  ['several links on one line', 'https://github.com/example/repo, https://example.org/blog', 'https://github.com/example/repo'],
+  ['a bare domain in prose', 'My site (example.org) has the write-up', 'https://example.org'],
+  ['prose with no link', 'Accepted work / tentatively accepted work', undefined],
+])('grant applications: project link from %s', (_, links, expected) => {
+  const { rapidGrants } = splitGrantApplications([{ id: 'recGrantSample020', fields: { fldzelzvDtfuMXspL: 'RG', fld6GDmgwtpkR3AVM: links } }]);
+  expect(rapidGrants[0]!.projectUrl).toBe(expected);
+});
+
+test('grant applications: CTGs and other programs split by program code, mapped from the CRM sync', () => {
+  const { grants, rapidGrants } = splitGrantApplications([
+    {
+      id: 'recGrantSample010',
+      fields: {
+        fldzelzvDtfuMXspL: 'RG', fldKFGJDLiWfuKOiI: '2026-10-20T10:00:00.000Z', fldqUTdas8sW9C0Kl: 'Decline', fldguPWX60DREd8lt: 'Evals sprint', fldNEqii9jsT2eJbU: 3000, fld6GDmgwtpkR3AVM: '\n github.com/example/evals \nhttps://example.org/second', fld7Chg5AaKdHtyhr: 'reviewer@example.org',
+      },
+    },
+    {
+      id: 'recGrantSample011',
+      fields: {
+        fldzelzvDtfuMXspL: 'CTG', fldKFGJDLiWfuKOiI: '2026-10-21T10:00:00.000Z', fldqUTdas8sW9C0Kl: 'Approve', fldNEqii9jsT2eJbU: 40000, fld6mpfrtcHDeyJmF: 30000, fldJuqSsUChqKI6UI: 'Strong track record.', fldyTTOD43D4PQvW8: 'Shipped an eval.', fld9Cnp2l6CHKUkkf: 'Old answers',
+      },
+    },
+    { id: 'recGrantSample012', fields: { fldzelzvDtfuMXspL: 'CTG', fldKFGJDLiWfuKOiI: '2026-07-01T10:00:00.000Z', fld9Cnp2l6CHKUkkf: 'Old answers' } },
+    { id: 'recGrantSample013', fields: { fldzelzvDtfuMXspL: 'SEED', fldKFGJDLiWfuKOiI: '2026-10-01T10:00:00.000Z' } },
+  ]);
+
+  expect(grants.map((g) => g.id)).toEqual(['recGrantSample012', 'recGrantSample011']);
+  expect(grants[1]).toMatchObject({
+    status: 'Approve', amountRequestedUsd: 40000, amountUsd: 30000, reasoning: 'Strong track record.', currentSituation: 'Shipped an eval.',
+    recordUrl: 'https://airtable.com/apppOzz9fPg59PxLa/tbliURusTrQTjxtkB/recGrantSample011',
+  });
+  expect(grants[0]!.currentSituation).toBe('Old answers');
+  expect(grants[0]!.amountUsd).toBeUndefined();
+
+  expect(rapidGrants.map((g) => [g.id, g.program])).toEqual([['recGrantSample013', 'SEED'], ['recGrantSample010', 'RG']]);
+  expect(rapidGrants[1]).toMatchObject({
+    decision: 'Decline', projectTitle: 'Evals sprint', amountRequestedUsd: 3000, projectUrl: 'https://github.com/example/evals', madeBy: 'reviewer@example.org',
+  });
 });
