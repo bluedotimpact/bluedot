@@ -202,8 +202,8 @@ describe('form-submission-copy', () => {
     expect(mockedAlert.mock.calls[0]![1][0]).toContain('"Copy of your responses: AGI Strategy Course application" email');
   });
 
-  it('stops sending to an address after 10 copies in 30 minutes, without alerting', async () => {
-    for (let i = 0; i < 10; i += 1) {
+  it('stops sending to an address after 5 copies in 30 minutes, without alerting', async () => {
+    for (let i = 0; i < 5; i += 1) {
       const { req, res } = createMockReqRes();
       // eslint-disable-next-line no-await-in-loop
       await handler(req, res);
@@ -213,7 +213,7 @@ describe('form-submission-copy', () => {
     const { req, res } = createMockReqRes();
     await handler(req, res);
     expect(res.status).toHaveBeenCalledWith(429);
-    expect(mockedSend).toHaveBeenCalledTimes(10);
+    expect(mockedSend).toHaveBeenCalledTimes(5);
     expect(mockedAlert).not.toHaveBeenCalled();
   });
 

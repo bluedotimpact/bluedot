@@ -15,7 +15,7 @@ const CONFIG_FILE = 'apps/website/src/lib/formSubmissionCopy/formConfigs.ts';
 
 // The webhook token is public, so cap how often one address can be sent a copy
 const RATE_LIMIT_WINDOW_MS = 30 * 60 * 1000;
-const RATE_LIMIT_MAX_SENDS = 10;
+const RATE_LIMIT_MAX_SENDS = 5;
 const sendTimesByEmail = new Map<string, number[]>();
 
 function withinRateLimit(email: string): boolean {
