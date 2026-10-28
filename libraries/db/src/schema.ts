@@ -1085,6 +1085,35 @@ export const careerTransitionGrantApplicationTable = pgAirtable('career_transiti
     },
   },
 });
+/** Approved CTG applications whose grantee consented to public sharing with their name, synced from the Grantmaking base. Gates which careerTransitionGrantTable rows the website publishes. */
+export const careerTransitionGrantPublishGateTable = pgAirtable('career_transition_grant_publish_gate', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tbl5HmCfGlzY2A8Oj',
+  columns: {
+    // Grantmaking application record ID. Grantee rows added before the move to Grantmaking
+    // hold the old Applications-base ID instead, which legacyApplicationRecordId carries.
+    applicationRecordId: {
+      pgColumn: text(),
+      airtableId: 'fldyykixFuVDyufFD',
+    },
+    legacyApplicationRecordId: {
+      pgColumn: text(),
+      airtableId: 'fldownLNH7bjLyA6r',
+    },
+    decision: {
+      pgColumn: text(),
+      airtableId: 'fldr2VKI9JhoUBvlY',
+    },
+    publicSharing: {
+      pgColumn: text(),
+      airtableId: 'fldNBp75AIDKkiSoZ',
+    },
+    grantStartDate: {
+      pgColumn: text(),
+      airtableId: 'fldDkOsH6hIbo5VQp',
+    },
+  },
+});
 export const chunkTable = pgAirtable('chunk', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblNeBgFeQ5Qmebfc',
@@ -1924,6 +1953,7 @@ export type PublishedRapidGrant = InferSelectModel<typeof publishedRapidGrantTab
 export type GrantProgramStats = InferSelectModel<typeof grantProgramStatsTable.pg>;
 export type CareerTransitionGrant = InferSelectModel<typeof careerTransitionGrantTable.pg>;
 export type CareerTransitionGrantApplication = InferSelectModel<typeof careerTransitionGrantApplicationTable.pg>;
+export type CareerTransitionGrantPublishGate = InferSelectModel<typeof careerTransitionGrantPublishGateTable.pg>;
 export type Chunk = InferSelectModel<typeof chunkTable.pg>;
 export type Unit = InferSelectModel<typeof unitTable.pg>;
 export type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
