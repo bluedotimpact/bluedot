@@ -200,7 +200,7 @@ export async function updateCustomerIoEmail({ userId, oldEmail: oldEmailRaw, new
   throw new Error(`Email update failed for user ${userId}: the new email is already owned by ${describeProfiles(newEmailProfiles)}`);
 }
 
-const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
+export const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
 
 export async function sendEmailChangeVerification({ oldEmail, newEmail, confirmUrl }: { oldEmail: string; newEmail: string; confirmUrl: string }): Promise<void> {
   const safeConfirmUrl = escapeHtml(confirmUrl);
@@ -248,5 +248,25 @@ export async function sendEmailChangeRequestedNotice({ oldEmail, newEmail }: { o
   });
   if (!res.ok) {
     throw new Error(`customer.io email change notice send failed: HTTP ${res.status}`);
+  }
+}
+
+// Transactional message created in the customer.io UI: subject is {{trigger.subject}}, body wraps {{trigger.html}} in the hello/footer snippets
+const FORM_SUBMISSION_COPY_TRIGGER_NAME = 'form_submission_copy';
+
+export async function sendFormSubmissionCopy({ to, subject, html }: { to: string; subject: string; html: string }): Promise<void> {
+  const res = await fetch(`${CIO_API_BASE}/send/email`, {
+    method: 'POST',
+    headers: { ...appHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      transactional_message_id: FORM_SUBMISSION_COPY_TRIGGER_NAME,
+      to: normaliseEmail(to),
+      identifiers: { email: normaliseEmail(to) },
+      send_to_unsubscribed: true,
+      message_data: { subject, html },
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(`customer.io form submission copy send failed: HTTP ${res.status}`);
   }
 }
