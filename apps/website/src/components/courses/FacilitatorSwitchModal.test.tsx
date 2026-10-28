@@ -191,6 +191,23 @@ describe('FacilitatorSwitchModal', () => {
       });
       expect(await screen.findByText(/Please allow up to 10 minutes/)).toBeInTheDocument();
     });
+
+    test('a second Submit while the first is pending is ignored', async () => {
+      server.use(trpcMsw.facilitators.requestFacilitatorChange.mutation(async ({ input }) => {
+        mockRequestFacilitatorChange(input);
+        await new Promise((resolve) => {
+          setTimeout(resolve, 50);
+        });
+        return null;
+      }));
+      renderModal({ initialModalType: 'Change facilitator', initialHasFoundCover: true });
+      fireEvent.click((await openFacilitatorPicker())[0]!);
+      fireEvent.click(screen.getByRole('button', { name: 'Submit' }));
+      fireEvent.click(await screen.findByRole('button', { name: /Submitting/ }));
+
+      expect(await screen.findByText(/Please allow up to 10 minutes/)).toBeInTheDocument();
+      expect(mockRequestFacilitatorChange).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('Change facilitator: asking in #facilitator-community', () => {
