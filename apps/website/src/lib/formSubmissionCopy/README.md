@@ -9,7 +9,7 @@ Everything else in the website reads Postgres through `@bluedot/db`. This featur
 - Forms have many fields, most of which the website never uses, and (for miniExtensions at least) there is no way to fetch the set of fields a form writes. So the fields to copy, and the fields to ignore, have to be listed in code, and syncing them all into Postgres just to echo them back would tie the schema to form content.
 - The copy must go out the moment the form saves, before the sync has run.
 
-Fields are pinned by Airtable field id, so renames in Airtable change nothing; the field name sits beside each id as a comment for readability only. Internal review fields in the deny list are left unnamed.
+Fields are pinned by Airtable field id, so renames in Airtable change nothing; the field name sits beside each id as a comment for readability only.
 
 ## Making changes
 
