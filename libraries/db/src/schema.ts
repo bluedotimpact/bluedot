@@ -1058,33 +1058,6 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
     },
   },
 });
-/** Master CTG applications table. All statuses present — code filters by status for the granted-amount total, and uses timeToDecisionDays for the avg-days-to-decision stat. */
-export const careerTransitionGrantApplicationTable = pgAirtable('career_transition_grant_application', {
-  baseId: APPLICATIONS_BASE_ID,
-  tableId: 'tblh5zr4jRdrndKnC',
-  columns: {
-    startDate: {
-      pgColumn: text(),
-      airtableId: 'fldsyHHRrb45I24Mm',
-    },
-    publicSharing: {
-      pgColumn: text(),
-      airtableId: 'fld5RXq6FYZQa10e0',
-    },
-    grantAmountUsd: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldYhy8btQ5r8vRk0',
-    },
-    status: {
-      pgColumn: text(),
-      airtableId: 'fldnfK6Wgb1CAuvFE',
-    },
-    timeToDecisionDays: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fld7SiD8ShzS8sgis',
-    },
-  },
-});
 /** Approved CTG applications whose grantee consented to public sharing with their name, synced from the Grantmaking base. Gates which careerTransitionGrantTable rows the website publishes. */
 export const careerTransitionGrantPublishGateTable = pgAirtable('career_transition_grant_publish_gate', {
   baseId: WEB_CONTENT_BASE_ID,
@@ -1952,7 +1925,6 @@ export type Testimonial = InferSelectModel<typeof testimonialTable.pg>;
 export type PublishedRapidGrant = InferSelectModel<typeof publishedRapidGrantTable.pg>;
 export type GrantProgramStats = InferSelectModel<typeof grantProgramStatsTable.pg>;
 export type CareerTransitionGrant = InferSelectModel<typeof careerTransitionGrantTable.pg>;
-export type CareerTransitionGrantApplication = InferSelectModel<typeof careerTransitionGrantApplicationTable.pg>;
 export type CareerTransitionGrantPublishGate = InferSelectModel<typeof careerTransitionGrantPublishGateTable.pg>;
 export type Chunk = InferSelectModel<typeof chunkTable.pg>;
 export type Unit = InferSelectModel<typeof unitTable.pg>;
