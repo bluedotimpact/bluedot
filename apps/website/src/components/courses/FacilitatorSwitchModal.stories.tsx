@@ -86,6 +86,17 @@ const mockFacilitators = [
   { value: 'facilitator-3', label: 'Carol Williams' },
 ];
 
+// Past facilitators who are not in this round, for "+ Add someone else"
+const mockSubstituteCandidates = [
+  { userId: 'user-1', name: 'Dana Osei', hasFacilitatedThisCourse: true },
+  { userId: 'user-2', name: 'Eli Navarro', hasFacilitatedThisCourse: false },
+  { userId: 'user-3', name: 'Farah Haddad', hasFacilitatedThisCourse: true },
+];
+const searchSubstituteCandidatesHandler = trpcStorybookMsw.facilitators.searchSubstituteCandidates.query(({ input }) => {
+  const term = input.searchTerm.toLowerCase();
+  return mockSubstituteCandidates.filter((c) => c.name.toLowerCase().includes(term));
+});
+
 export const Default: Story = {
   args: {
     handleClose() {},
@@ -107,6 +118,7 @@ export const Default: Story = {
         trpcStorybookMsw.facilitators.requestFacilitatorChange.mutation(async () => {
           return null;
         }),
+        searchSubstituteCandidatesHandler,
       ],
     },
   },
@@ -135,6 +147,7 @@ export const ChangeFacilitatorView: Story = {
         trpcStorybookMsw.facilitators.requestFacilitatorChange.mutation(async () => {
           return null;
         }),
+        searchSubstituteCandidatesHandler,
       ],
     },
   },
