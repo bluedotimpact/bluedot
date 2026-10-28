@@ -161,7 +161,6 @@ test.each([
     }
 
     if (url.pathname.endsWith('tblVstbJehu8wew93')) return json({ records: [{ id: 'recCall', fields: { fldCigDwg47QHQiM8: 'called@example.org' } }] });
-    if (url.pathname.endsWith('tblh5zr4jRdrndKnC')) return json({ records: [] });
     return reads(input, init);
   });
   expect((await run(fetchQueue(['Technical AI Safety'], part))).map((item) => item.id)).toEqual([id]);
@@ -344,6 +343,16 @@ test('a top pick gets one reason, in the order the picker counts them', () => {
   expect(pickReasonOf({ ...ten, fldoLlp0mb3G1Cjrs: 'Neutral', fldH4kT9DA79mlzBg: ['Weak yes'] })).toBe('top score');
   expect(pickReasonOf({ fldoLlp0mb3G1Cjrs: 'Neutral', fldAOii0tbRfD1210: [8], fld1rY5FPzVWrzyGM: [5] })).toBe('top score');
   expect(pickReasonOf({ fldoLlp0mb3G1Cjrs: 'Neutral', fldAOii0tbRfD1210: [8], fld1rY5FPzVWrzyGM: [4] })).toBeUndefined();
+});
+
+test.each([
+  ['prose before the link', 'Accepted work:\n- Paper, https://openreview.net/forum?id=abc.', 'https://openreview.net/forum?id=abc'],
+  ['several links on one line', 'https://github.com/example/repo, https://example.org/blog', 'https://github.com/example/repo'],
+  ['a bare domain in prose', 'My site (example.org) has the write-up', 'https://example.org'],
+  ['prose with no link', 'Accepted work / tentatively accepted work', undefined],
+])('grant applications: project link from %s', (_, links, expected) => {
+  const { rapidGrants } = splitGrantApplications([{ id: 'recGrantSample020', fields: { fldzelzvDtfuMXspL: 'RG', fld6GDmgwtpkR3AVM: links } }]);
+  expect(rapidGrants[0]!.projectUrl).toBe(expected);
 });
 
 test('grant applications: CTGs and other programs split by program code, mapped from the CRM sync', () => {

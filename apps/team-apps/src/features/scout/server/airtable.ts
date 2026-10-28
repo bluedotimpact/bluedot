@@ -795,7 +795,14 @@ const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreated
 
 const isCtg = (r: AirtableRecord) => str(r.fields[GRANT.programCode]) === 'CTG';
 
-// Project links is free text, one link per line
+// Project links is free text: links split by new lines, spaces, commas or semicolons, sometimes in prose.
+// Take the first token that is a link, with or without its scheme.
+const LINK_TOKEN = /^(https?:\/\/\S+|[^\s/@]+\.[a-z]{2,}(\/\S*)?)$/i;
+const firstLink = (text?: string): string | undefined => url(text
+  ?.split(/[\s,;]+/)
+  .map((token) => token.replace(/^[(<["']+/, '').replace(/[)>\]"'.!?:]+$/, ''))
+  .find((token) => LINK_TOKEN.test(token)));
+
 const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
   id: r.id,
   recordUrl: recordLink(CRM_GRANT_APPLICATIONS_URL, r.id),
@@ -803,7 +810,7 @@ const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
   createdAt: str(r.fields[GRANT.submittedAt]),
   decision: str(r.fields[GRANT.decision]),
   projectTitle: str(r.fields[GRANT.title]),
-  projectUrl: url(str(r.fields[GRANT.projectLinks])?.split('\n').find((line) => line.trim())?.trim()),
+  projectUrl: firstLink(str(r.fields[GRANT.projectLinks])),
   oneLiner: str(r.fields[GRANT.oneLiner]),
   amountRequestedUsd: num(r.fields[GRANT.amountRequested]),
   amountGrantedUsd: num(r.fields[GRANT.amountAwarded]),
