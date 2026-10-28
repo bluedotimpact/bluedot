@@ -109,10 +109,10 @@ describe('resolveSubmission', () => {
     expect(answers.map((a) => a.label)).toEqual(['First name', 'Email address']);
   });
 
-  test('throws a config error naming the field and its id when a required field is blank', async () => {
-    await expect(resolve({ fldEmail: 'ada@example.com' })).rejects.toMatchObject({
-      field: 'fldFirstName', kind: 'missing-required', message: 'required field "First name" (fldFirstName) is blank',
-    });
+  test('reports blank required fields by name and id, and still returns the other answers', async () => {
+    const { answers, blankRequiredFields } = await resolve({ fldEmail: 'ada@example.com' });
+    expect(blankRequiredFields).toEqual([{ id: 'fldFirstName', name: 'First name' }]);
+    expect(answers.map((a) => a.label)).toEqual(['Email address']);
   });
 
   test('throws a config error when the email is invalid', async () => {

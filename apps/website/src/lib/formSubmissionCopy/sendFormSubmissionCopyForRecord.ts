@@ -14,10 +14,6 @@ export type FormSubmissionCopyResult = 'sent' | 'unknown-form' | 'missing-record
 const CONFIG_FILE = 'apps/website/src/lib/formSubmissionCopy/formConfigs.ts';
 
 const CONFIG_ERROR_ADVICE: Record<FormSubmissionCopyConfigErrorKind, string[]> = {
-  'missing-required': [
-    'Likely cause: the field was removed in Airtable, or the form no longer fills it in.',
-    `Fix: update the field id in the form's \`fieldAllowList\`, or remove required from it, in ${CONFIG_FILE}.`,
-  ],
   'invalid-email': [
     'Likely cause: the email field was removed in Airtable, or the form no longer fills it in.',
     `Fix: update \`recipientEmailField\` for the form in ${CONFIG_FILE}.`,
@@ -70,6 +66,16 @@ export async function sendFormSubmissionCopyForRecord({ form, recordId }: { form
       form, recordId, problem: err.message, advice: CONFIG_ERROR_ADVICE[err.kind],
     });
     return 'config-error';
+  }
+
+  if (submission.blankRequiredFields.length > 0) {
+    const fields = submission.blankRequiredFields;
+    const plural = fields.length > 1;
+    slackAlert(env, [[
+      `Required field${plural ? 's' : ''} blank in record for "Copy of your responses: ${form}" email. ${fields.map((f) => `"${f.name}" (${f.id})`).join(', ')} ${plural ? 'are' : 'is'} marked required in \`fieldAllowList\` but ${plural ? 'have' : 'has'} no value. The email was sent without ${plural ? 'these fields' : 'this field'}.`,
+      'Likely cause: the question was removed from the form, or the field was removed in Airtable.',
+      `Fix: in ${CONFIG_FILE}, remove the field${plural ? 's' : ''} from the form's \`fieldAllowList\`, or drop \`required\` if ${plural ? 'they are' : 'it is'} now optional.`,
+    ].join('\n')]);
   }
 
   if (submission.unknownFields.length > 0) {

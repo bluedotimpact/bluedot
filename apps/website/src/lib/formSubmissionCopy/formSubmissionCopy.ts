@@ -30,7 +30,7 @@ export type FormSubmissionCopyConfig = {
   fieldDenyListPatterns: RegExp[];
 };
 
-export type FormSubmissionCopyConfigErrorKind = 'missing-required' | 'invalid-email' | 'loader-failed' | 'unrenderable';
+export type FormSubmissionCopyConfigErrorKind = 'invalid-email' | 'loader-failed' | 'unrenderable';
 
 export class FormSubmissionCopyConfigError extends Error {
   readonly field: string;
@@ -95,24 +95,31 @@ export function deriveFormSubmissionCopyToken(): string {
 }
 
 export type FormSubmissionCopyAnswer = { label: string; text: string };
-export type FormSubmissionCopyUnknownField = { id: string; name: string };
+export type FormSubmissionCopyFieldRef = { id: string; name: string };
+export type FormSubmissionCopySubmission = {
+  email: string;
+  answers: FormSubmissionCopyAnswer[];
+  blankRequiredFields: FormSubmissionCopyFieldRef[];
+  unknownFields: FormSubmissionCopyFieldRef[];
+};
 
 export async function resolveSubmission({ formConfig, airtableRecordFields, fieldNames }: {
   formConfig: FormSubmissionCopyConfig;
   airtableRecordFields: Record<string, unknown>;
   // Field id to current field name, for alerts and the deny patterns
   fieldNames: Record<string, string>;
-}): Promise<{ email: string; answers: FormSubmissionCopyAnswer[]; unknownFields: FormSubmissionCopyUnknownField[] }> {
+}): Promise<FormSubmissionCopySubmission> {
   const describe = (id: string) => `"${fieldNames[id] ?? id}" (${id})`;
 
   const answers: FormSubmissionCopyAnswer[] = [];
+  const blankRequiredFields: FormSubmissionCopyFieldRef[] = [];
   for (const entry of formConfig.fieldAllowList) {
     // eslint-disable-next-line no-await-in-loop
     const text = await fieldValueToText({ entry, value: airtableRecordFields[entry.field], describe });
     if (text !== null) {
       answers.push({ label: entry.label, text });
     } else if (entry.required) {
-      throw new FormSubmissionCopyConfigError({ field: entry.field, kind: 'missing-required', message: `required field ${describe(entry.field)} is blank` });
+      blankRequiredFields.push({ id: entry.field, name: fieldNames[entry.field] ?? entry.field });
     }
   }
 
@@ -127,7 +134,9 @@ export async function resolveSubmission({ formConfig, airtableRecordFields, fiel
     .map((id) => ({ id, name: fieldNames[id] ?? id }))
     .filter(({ name }) => !formConfig.fieldDenyListPatterns.some((pattern) => pattern.test(name)));
 
-  return { email: email.data, answers, unknownFields };
+  return {
+    email: email.data, answers, blankRequiredFields, unknownFields,
+  };
 }
 
 const FONT = 'font-family:Arial,\'Helvetica Neue\',Helvetica,sans-serif;font-size:14px;line-height:1.5;color:#000000';

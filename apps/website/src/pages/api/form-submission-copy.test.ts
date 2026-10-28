@@ -200,15 +200,26 @@ describe('form-submission-copy', () => {
     expect(mockedAlert.mock.calls[0]![1][0]).toContain('"Copy of your responses: AGI Strategy Course application" email');
   });
 
-  it('alerts, sends nothing and returns 500 on a config error', async () => {
+  it('alerts on a blank required field and still sends', async () => {
     const { fldYaHSLqnvBXyjur: _round, ...withoutRound } = validFields;
     stubRecord(withoutRound);
+    const { req, res } = createMockReqRes();
+    await handler(req, res);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(mockedSend).toHaveBeenCalledTimes(1);
+    expect(mockedSend.mock.calls[0]![0].html).not.toContain('Round');
+    expect(mockedAlert).toHaveBeenCalledTimes(1);
+    expect(mockedAlert.mock.calls[0]![1][0]).toContain('"Round" (fldYaHSLqnvBXyjur) is marked required in `fieldAllowList` but has no value. The email was sent without this field.');
+  });
+
+  it('alerts, sends nothing and returns 500 on a config error', async () => {
+    stubRecord({ ...validFields, fld0g392xytratknm: 'not-an-email' });
     const { req, res } = createMockReqRes();
     await handler(req, res);
     expect(res.status).toHaveBeenCalledWith(500);
     expect(mockedSend).not.toHaveBeenCalled();
     expect(mockedAlert).toHaveBeenCalledTimes(1);
-    expect(mockedAlert.mock.calls[0]![1][0]).toContain('required field "Round" (fldYaHSLqnvBXyjur) is blank');
+    expect(mockedAlert.mock.calls[0]![1][0]).toContain('email field "Email" (fld0g392xytratknm) is missing or invalid');
     expect(mockedAlert.mock.calls[0]![1][0]).toContain(RECORD_ID);
   });
 
