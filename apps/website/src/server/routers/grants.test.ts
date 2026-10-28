@@ -2,7 +2,7 @@ import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
-  type CareerTransitionGrant, careerTransitionGrantApplicationTable, careerTransitionGrantTable, publishedRapidGrantTable, grantProgramStatsTable, type GrantProgramStats,
+  type CareerTransitionGrant, careerTransitionGrantPublishGateTable, careerTransitionGrantTable, publishedRapidGrantTable, grantProgramStatsTable, type GrantProgramStats,
 } from '@bluedot/db';
 import { createCaller, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 
@@ -148,11 +148,18 @@ describe('grants.getAllPublicRapidGrantees', () => {
 });
 
 describe('grants.getAllPublicCareerTransitionGrantees', () => {
+  const gateId = 'publish-gate-row';
+
   beforeEach(async () => {
     vi.useFakeTimers({ toFake: ['Date'] });
     vi.setSystemTime(new Date('2026-09-15T11:59:59.999Z'));
-    await testDb.insert(careerTransitionGrantApplicationTable, {
-      id: 'eligible-application', status: 'Approve', startDate: '2026-09-01T00:00:00.000Z', publicSharing: 'Can share publicly with my name',
+    await testDb.insert(careerTransitionGrantPublishGateTable, {
+      id: gateId,
+      applicationRecordId: 'eligible-application',
+      legacyApplicationRecordId: 'legacy-application',
+      decision: 'Approve',
+      grantStartDate: '2026-09-01T00:00:00.000Z',
+      publicSharing: 'Can share publicly with my name',
     });
   });
 
@@ -262,6 +269,20 @@ describe('grants.getAllPublicCareerTransitionGrantees', () => {
     expect(result.every((grantee) => !('dateMs' in grantee) && !('grantApprovalDate' in grantee))).toBe(true);
   });
 
+  test('matches grantee rows that still hold the legacy Applications-base ID', async () => {
+    await insertPublicGrantee({
+      firstName: 'Legacy', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png', applicationId: 'legacy-application',
+    });
+    expect((await createCaller().grants.getAllPublicCareerTransitionGrantees()).map(({ granteeName }) => granteeName)).toEqual(['Legacy Grantee']);
+  });
+
+  test('does not match a grantee to the gate row\'s own Airtable record ID', async () => {
+    await insertPublicGrantee({
+      firstName: 'Private', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png', applicationId: gateId,
+    });
+    expect(await createCaller().grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
+  });
+
   test.each([null, '', 'unknown-application'])('hides grantees without a matching application (%s)', async (applicationId) => {
     await insertPublicGrantee({
       firstName: 'Private', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png', applicationId,
@@ -270,25 +291,25 @@ describe('grants.getAllPublicCareerTransitionGrantees', () => {
   });
 
   test.each([null, '', 'Can share publicly without my name', 'Cannot share publicly', 'Yes'])('requires explicit named-sharing consent (%s)', async (publicSharing) => {
-    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', publicSharing });
+    await testDb.update(careerTransitionGrantPublishGateTable, { id: gateId, publicSharing });
     await insertPublicGrantee({ firstName: 'Private', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png' });
     expect(await createCaller().grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
   });
 
-  test.each([null, 'TODO', 'Rejected', 'Archive'])('hides applications that are not approved (%s)', async (status) => {
-    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', status });
+  test.each([null, 'Decline', 'Withdrawn', 'Archive'])('hides applications that are not approved (%s)', async (decision) => {
+    await testDb.update(careerTransitionGrantPublishGateTable, { id: gateId, decision });
     await insertPublicGrantee({ firstName: 'Private', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png' });
     expect(await createCaller().grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
   });
 
-  test.each([null, '', 'not-a-date', '2026-02-30', '2026-02-30T00:00:00.000Z', '2026-13-01T00:00:00.000Z', '2026-2-3', '2026-09-15', '2026-09-16', '2026-09-15T00:00:00.000Z', '2026-09-16T00:00:00.000Z'])('hides missing, malformed, current and future start dates (%s)', async (startDate) => {
-    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', startDate });
+  test.each([null, '', 'not-a-date', '2026-02-30', '2026-02-30T00:00:00.000Z', '2026-13-01T00:00:00.000Z', '2026-2-3', '2026-09-15', '2026-09-16', '2026-09-15T00:00:00.000Z', '2026-09-16T00:00:00.000Z'])('hides missing, malformed, current and future start dates (%s)', async (grantStartDate) => {
+    await testDb.update(careerTransitionGrantPublishGateTable, { id: gateId, grantStartDate });
     await insertPublicGrantee({ firstName: 'Private', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png' });
     expect(await createCaller().grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
   });
 
-  test.each(['2026-09-14', '2026-09-14T00:00:00Z', '2026-09-14T00:00:00.000Z'])('publishes only after the start day has ended everywhere, without exposing eligibility fields (%s)', async (startDate) => {
-    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', startDate });
+  test.each(['2026-09-14', '2026-09-14T00:00:00Z', '2026-09-14T00:00:00.000Z'])('publishes only after the start day has ended everywhere, without exposing eligibility fields (%s)', async (grantStartDate) => {
+    await testDb.update(careerTransitionGrantPublishGateTable, { id: gateId, grantStartDate });
     await insertPublicGrantee({
       firstName: 'Ready', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png', grantApprovalDate: '2026-09-01',
     });
@@ -306,10 +327,10 @@ describe('grants.getAllPublicCareerTransitionGrantees', () => {
     const caller = createCaller();
     expect(await caller.grants.getAllPublicCareerTransitionGrantees()).toHaveLength(1);
 
-    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', publicSharing: 'Cannot share publicly' });
+    await testDb.update(careerTransitionGrantPublishGateTable, { id: gateId, publicSharing: 'Cannot share publicly' });
     expect(await caller.grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
 
-    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', publicSharing: 'Can share publicly with my name', startDate: '2026-10-01' });
+    await testDb.update(careerTransitionGrantPublishGateTable, { id: gateId, publicSharing: 'Can share publicly with my name', grantStartDate: '2026-10-01' });
     expect(await caller.grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
   });
 });
@@ -391,40 +412,61 @@ describe('grants.getRapidGrantStats', () => {
 });
 
 describe('grants.getCareerTransitionGrantStats', () => {
-  test('counts and sums only approved grants; averages every decided row including same-day (0) decisions', async () => {
-    // "Approve" is the granted status from the applications table.
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 80000, status: 'Approve', timeToDecisionDays: 10 });
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 60000, status: 'Approve', timeToDecisionDays: 20 });
-    // Rejected — excluded from count/total, but its decision time still feeds avg.
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 0, status: 'Rejected', timeToDecisionDays: 6 });
-    // Same-day decision (0 days) — a real decided row, included in the avg.
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 0, status: 'Rejected', timeToDecisionDays: 0 });
-    // Not yet decided — the formula is NaN until a decision date exists, stored as null — excluded from avg.
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: null, status: 'TODO', timeToDecisionDays: null });
-    // Corrupt back-fill — decision date before submission yields a negative diff; excluded from avg.
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 0, status: 'Rejected', timeToDecisionDays: -3 });
+  const careerTransitionId = 'rec64lpwfK5bXN7MX';
 
-    const caller = createCaller();
-    const result = await caller.grants.getCareerTransitionGrantStats();
-
-    // avg over [10, 20, 6, 0] = 9
-    expect(result).toEqual({ count: 2, totalAmountUsd: 140000, averageDaysToDecision: 9 });
+  beforeEach(async () => {
+    await testDb.insert(grantProgramStatsTable, {
+      id: careerTransitionId, approvedCount: 0, awardedAmountUsd: 0, averageDaysToDecision: null, timedDecisionCount: 0,
+    });
   });
 
-  test('returns null avg when no rows have been decided', async () => {
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 50000, status: 'Approve', timeToDecisionDays: null });
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: null, status: 'TODO', timeToDecisionDays: null });
+  const updateCareerTransition = (values: Partial<GrantProgramStats>) => testDb.update(grantProgramStatsTable, { id: careerTransitionId, ...values });
 
-    const caller = createCaller();
-    const result = await caller.grants.getCareerTransitionGrantStats();
+  test('reads only the CTG program aggregates and rounds the average', async () => {
+    await updateCareerTransition({
+      name: 'Renamed program', approvedCount: 93, awardedAmountUsd: 5413975, averageDaysToDecision: 12.6, timedDecisionCount: 848,
+    });
+    await testDb.insert(grantProgramStatsTable, {
+      id: 'recOrUgz1rbHJt40w', name: 'Rapid Grants', approvedCount: 1000, awardedAmountUsd: 3000000, averageDaysToDecision: 5, timedDecisionCount: 4000,
+    });
 
-    expect(result).toEqual({ count: 1, totalAmountUsd: 50000, averageDaysToDecision: null });
+    expect(await createCaller().grants.getCareerTransitionGrantStats()).toEqual({
+      count: 93, totalAmountUsd: 5413975, averageDaysToDecision: 13,
+    });
   });
 
-  test('returns zeros and null when the table is empty', async () => {
-    const caller = createCaller();
-    const result = await caller.grants.getCareerTransitionGrantStats();
+  test('preserves a zero average', async () => {
+    await updateCareerTransition({ averageDaysToDecision: 0, timedDecisionCount: 5 });
+    expect((await createCaller().grants.getCareerTransitionGrantStats())?.averageDaysToDecision).toBe(0);
+  });
 
-    expect(result).toEqual({ count: 0, totalAmountUsd: 0, averageDaysToDecision: null });
+  test('returns valid zero funding/counts and an unknown average when there are no timed decisions', async () => {
+    expect(await createCaller().grants.getCareerTransitionGrantStats()).toEqual({
+      count: 0, totalAmountUsd: 0, averageDaysToDecision: null,
+    });
+  });
+
+  test.each([null, -1, 1.5])('keeps funding visible but withholds the average for an invalid timed-decision count (%s)', async (timedDecisionCount) => {
+    await updateCareerTransition({
+      approvedCount: 1, awardedAmountUsd: 250, averageDaysToDecision: 2, timedDecisionCount,
+    });
+    expect(await createCaller().grants.getCareerTransitionGrantStats()).toEqual({
+      count: 1, totalAmountUsd: 250, averageDaysToDecision: null,
+    });
+  });
+
+  test.each([null, -1])('withholds an invalid average (%s)', async (averageDaysToDecision) => {
+    await updateCareerTransition({ averageDaysToDecision, timedDecisionCount: 10 });
+    expect((await createCaller().grants.getCareerTransitionGrantStats())?.averageDaysToDecision).toBeNull();
+  });
+
+  test.each(['approvedCount', 'awardedAmountUsd'] as const)('does not turn a missing %s into zero', async (field) => {
+    await updateCareerTransition({ [field]: null });
+    expect(await createCaller().grants.getCareerTransitionGrantStats()).toBeNull();
+  });
+
+  test('returns null when the program row is missing', async () => {
+    await testDb.remove(grantProgramStatsTable, careerTransitionId);
+    expect(await createCaller().grants.getCareerTransitionGrantStats()).toBeNull();
   });
 });
