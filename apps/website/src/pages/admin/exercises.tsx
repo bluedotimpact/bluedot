@@ -279,7 +279,7 @@ const ResponseCard = ({
       <div className="border-l-2 border-accent-subtle pl-4">
         <div className="relative">
           <div className={`leading-relaxed ${!expanded && canTruncate ? 'line-clamp-8' : ''}`}>
-            <MarkdownExtendedRenderer>{responseText}</MarkdownExtendedRenderer>
+            <MarkdownExtendedRenderer plainMarkdown>{responseText}</MarkdownExtendedRenderer>
           </div>
           {!expanded && canTruncate && (
             <div className="absolute bottom-0 inset-x-0 h-12 bg-gradient-to-t from-canvas to-transparent pointer-events-none" />

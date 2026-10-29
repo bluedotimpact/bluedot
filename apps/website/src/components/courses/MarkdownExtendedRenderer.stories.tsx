@@ -244,3 +244,19 @@ Third consideration
 `,
   },
 };
+
+export const PlainMarkdown: Story = {
+  args: {
+    plainMarkdown: true,
+    children: `Exercise answers use plain markdown, so braces show as typed.
+
+Sets a{x, y}, b{p q, r s}
+Write about {topic} here, then explain.
+
+    An indented line stays a paragraph.
+
+**Bold**, lists and \`{code}\` still work:
+- one
+- two`,
+  },
+};

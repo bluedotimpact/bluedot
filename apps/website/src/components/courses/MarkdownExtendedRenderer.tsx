@@ -4,7 +4,7 @@ import { type MDXContent } from 'mdx/types';
 import clsx from 'clsx';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { visit } from 'unist-util-visit';
-import type { Plugin } from 'unified';
+import type { Plugin, Processor } from 'unified';
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx';
 import { Collapsible } from '@bluedot/ui';
 import remarkGfm from 'remark-gfm';
@@ -43,6 +43,16 @@ const remarkUnescapeMdxAttributes: Plugin = () => {
   };
 };
 
+/**
+ * A remark plugin that turns off indented code blocks, as MDX does.
+ * Plain markdown would otherwise show any line starting with 4 spaces as code.
+ */
+const remarkNoIndentedCode: Plugin = function remarkNoIndentedCode(this: Processor) {
+  const data = this.data() as { micromarkExtensions?: unknown[] };
+  const micromarkExtensions = data.micromarkExtensions ?? (data.micromarkExtensions = []);
+  micromarkExtensions.push({ disable: { null: ['codeIndented'] } });
+};
+
 // Custom link component to handle external links
 const Link = ({ href, children, ...props }: React.ComponentProps<'a'>) => {
   const isExternal = href && (href.startsWith('http://') || href.startsWith('https://'));
@@ -63,12 +73,35 @@ const Link = ({ href, children, ...props }: React.ComponentProps<'a'>) => {
   return <a href={href} {...props}>{children}</a>;
 };
 
+const PLAIN_MARKDOWN_LINK_PROTOCOLS = ['http:', 'https:', 'mailto:'];
+
+// True for web, email and relative addresses. Spaces and control characters are ignored, as browsers do
+const isPlainMarkdownHref = (href: string | undefined): boolean => {
+  const cleaned = [...(href ?? '')].filter((char) => char.charCodeAt(0) > 0x20 && char.charCodeAt(0) !== 0x7f).join('');
+  const protocol = /^([a-z][a-z\d+.-]*:)/i.exec(cleaned)?.[1]?.toLowerCase();
+  return !protocol || PLAIN_MARKDOWN_LINK_PROTOCOLS.includes(protocol);
+};
+
+// In plain markdown, links to any other kind of address show as their text only
+const PlainMarkdownLink = ({ href, children, ...props }: React.ComponentProps<'a'>) => {
+  if (!isPlainMarkdownHref(href)) {
+    return <>{children}</>;
+  }
+
+  return <Link href={href} {...props}>{children}</Link>;
+};
+
 // Exported so pages that render their own markup can match this typography
 export const MARKDOWN_PROSE_CLASSES = 'prose prose-p:text-size-sm prose-li:text-size-sm prose-p:leading-relaxed prose-li:leading-relaxed prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-size-sm prose-strong:leading-relaxed prose-a:font-normal prose-a:underline max-w-none';
 
 export type MarkdownRendererProps = {
   children?: string;
   className?: string;
+  /**
+   * Render as plain markdown instead of MDX, so text like `{x}` or an `import` line shows as typed.
+   * Use this for text that users write, such as exercise answers. Components like <Callout> don't work in this mode.
+   */
+  plainMarkdown?: boolean;
 };
 
 // This must be a function, rather than a constant, to avoid dependency cycles
@@ -138,8 +171,9 @@ const jsxsWithKey = (type: React.ElementType, props: Record<string, unknown> & {
   return React.createElement(type, restProps, children);
 };
 
-const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, className }) => {
+const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, className, plainMarkdown = false }) => {
   const [Component, setComponent] = React.useState<MDXContent | null>(null);
+  const [failed, setFailed] = React.useState(false);
 
   useEffect(() => {
     if (!children) {
@@ -147,15 +181,29 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, c
     }
 
     (async () => {
-      const evalResult = await evaluate(preprocessAirtableContent(children), {
-        remarkPlugins: [remarkBreaks, remarkUnescapeMdxAttributes, remarkGfm],
-        Fragment: React.Fragment,
-        jsx: React.createElement,
-        jsxs: jsxsWithKey,
-      });
-      setComponent(() => evalResult.default);
+      try {
+        const evalResult = await evaluate(preprocessAirtableContent(children), {
+          format: plainMarkdown ? 'md' : 'mdx',
+          remarkPlugins: [
+            remarkBreaks,
+            remarkUnescapeMdxAttributes,
+            remarkGfm,
+            ...(plainMarkdown ? [remarkNoIndentedCode] : []),
+          ],
+          Fragment: React.Fragment,
+          jsx: React.createElement,
+          jsxs: jsxsWithKey,
+        });
+        setFailed(false);
+        setComponent(() => evalResult.default);
+      } catch (error) {
+        // Show the raw text rather than nothing, and rethrow so the error is still reported
+        setComponent(null);
+        setFailed(true);
+        throw error;
+      }
     })();
-  }, [children, setComponent]);
+  }, [children, plainMarkdown, setComponent]);
 
   // Return null if there's no content to avoid rendering empty containers
   if (!children?.trim()) {
@@ -165,7 +213,10 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, c
   return (
     // See @utility prose in globals.css for advanced styles
     <div className={clsx('markdown-extended-renderer', MARKDOWN_PROSE_CLASSES, className)}>
-      {Component && <Component components={getSupportedComponents()} />}
+      {failed && <p className="whitespace-pre-wrap">{children}</p>}
+      {!failed && Component && (
+        <Component components={plainMarkdown ? { ...getSupportedComponents(), a: PlainMarkdownLink } : getSupportedComponents()} />
+      )}
     </div>
   );
 };

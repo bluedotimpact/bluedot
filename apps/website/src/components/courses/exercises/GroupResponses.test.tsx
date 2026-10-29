@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import {
-  render, screen, fireEvent,
+  render, screen, fireEvent, waitFor,
 } from '@testing-library/react';
 import {
   describe, expect, test, vi,
@@ -100,5 +100,17 @@ describe('GroupResponses', () => {
 
     fireEvent.click(showMore);
     expect(screen.queryByText('Show more')).not.toBeInTheDocument();
+  });
+
+  test('shows an answer with braces as typed', async () => {
+    vi.doUnmock('../MarkdownExtendedRenderer');
+    vi.resetModules();
+    const { default: RealGroupResponses } = await import('./GroupResponses');
+
+    const { container } = render(<RealGroupResponses groups={makeGroups({ responses: [{ name: 'Alice', response: 'Say {name} here' }] })} />);
+
+    await waitFor(() => {
+      expect(container.querySelector('.markdown-extended-renderer p')?.textContent).toBe('Say {name} here');
+    });
   });
 });

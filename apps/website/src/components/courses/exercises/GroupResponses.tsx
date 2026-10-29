@@ -106,7 +106,7 @@ const ResponseBlock: React.FC<{
               overflow: 'hidden',
             } : undefined}
           >
-            <MarkdownExtendedRenderer>{response}</MarkdownExtendedRenderer>
+            <MarkdownExtendedRenderer plainMarkdown>{response}</MarkdownExtendedRenderer>
           </div>
           {!expanded && (
             <div className="absolute bottom-0 inset-x-0 h-12 bg-gradient-to-t from-canvas to-transparent pointer-events-none" />
