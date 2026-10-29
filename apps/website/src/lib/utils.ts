@@ -189,8 +189,9 @@ const UTM_PARAM_TO_PREFILL_FIELD: [utmParam: string, prefillField: string][] = [
 ];
 
 /**
- * Build an application form URL with PostHog session id, anonymous distinct id, and UTM prefill
- * params (utm_source → prefill_Source, utm_campaign → prefill_Campaign, utm_content → prefill_Content).
+ * Build an application form URL with PostHog session id, anonymous distinct id, signed-in user's
+ * email, and UTM prefill params (utm_source → prefill_Source, utm_campaign → prefill_Campaign,
+ * utm_content → prefill_Content).
  */
 export const buildApplicationUrl = (
   baseUrl: string | null | undefined,
@@ -215,8 +216,11 @@ export const buildApplicationUrl = (
   // Forward the distinct id only for logged-out visitors. Logged-in users are identified to
   // PostHog (by keycloak sub), and there is no need to capture their id: their registration
   // gets linked to their account instead.
+  const { auth } = useAuthStore.getState();
   const distinctId = posthog.get_distinct_id?.();
-  if (distinctId && !useAuthStore.getState().auth) urlObj.searchParams.set('prefill_PostHog Distinct ID', distinctId);
+  if (distinctId && !auth) urlObj.searchParams.set('prefill_PostHog Distinct ID', distinctId);
+
+  if (auth?.email) urlObj.searchParams.set('prefill_Email', auth.email);
 
   // URLSearchParams encodes spaces as '+', but miniextensions requires '%20'
   return urlObj.toString()
