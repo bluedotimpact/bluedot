@@ -331,6 +331,9 @@ const CopyEmail: React.FC<{ email: string }> = ({ email }) => {
   );
 };
 
+// The shortcut a button answers to
+const Key: React.FC<{ k: string }> = ({ k }) => <kbd className="ml-2 rounded-sm border border-current/50 px-1 text-size-xxs">{k}</kbd>;
+
 const hostLabel = (u: string) => {
   try {
     const h = new URL(u).hostname.replace(/^www\./, '');
@@ -735,6 +738,8 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?
   // Profiles the lookup found with high confidence, next to the ones the person gave us. LinkedIn
   // is never added here (unreadable, and usually the one they gave).
   const givenSet = new Set(profileLinks.map(normaliseUrl));
+  // L opens the first LinkedIn link
+  const linkedInIndex = profileLinks.findIndex((u) => hostLabel(u) === 'LinkedIn');
   const foundLinks = sortedFoundLinks((person.webFacts?.links ?? []).filter((l) => l.confidence === 'high' && l.kind !== 'linkedin' && !givenSet.has(normaliseUrl(l.url))));
   // Everything with BlueDot as one list, newest first: registrations by round start,
   // applications, grants and calls by their own dates. Undated items go last.
@@ -782,8 +787,8 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?
         )}
         {(profileLinks.length > 0 || foundLinks.length > 0) && (
           <div className="flex flex-wrap gap-2 pt-1">
-            {profileLinks.map((u) => (
-              <Button key={u} variant="outline-black" url={u} target="_blank">{hostLabel(u)} ↗</Button>
+            {profileLinks.map((u, i) => (
+              <Button key={u} variant="outline-black" url={u} target="_blank">{hostLabel(u)}{i === linkedInIndex ? <Key k="L" /> : ' ↗'}</Button>
             ))}
             {foundLinks.map((l) => (
               <Button key={l.url} variant="outline-black" url={openUrl(l.url)} target="_blank"><AiMark />{foundLinkLabel(l)} ↗</Button>
@@ -818,7 +823,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?
           {projects.map((p, i) => (
             <Button key={p.id} variant="primary" size="small" url={p.url} target="_blank" title={p.title}>
               {projects.length > 1 && p.title ? `Project: ${p.title}` : 'Project'}
-              {i === 0 && <kbd className="ml-2 rounded-sm border border-current/50 px-1 text-size-xxs">P</kbd>}
+              {i === 0 && <Key k="P" />}
             </Button>
           ))}
         </div>

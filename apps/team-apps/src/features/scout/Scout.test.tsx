@@ -455,14 +455,14 @@ test('must look is one queue per course, newest round first, and ends on "Must l
   await screen.findByTestId('choose-must-look-Technical AI Safety');
   expect(screen.queryByTestId('choose-round-sample-Technical AI Safety')).toBeNull();
   expect(screen.getByText('2 to review →')).toBeTruthy();
-  expect(screen.getByText('1 strong yes · 1 high facilitator feedback')).toBeTruthy();
-  expect(pickRecap([older, newer, { ...older, id: 'recNoReason', pickReason: undefined }])).toBe('1 strong yes · 1 high facilitator feedback · 1 other');
+  expect(screen.getByText('1 high facilitator feedback · 1 strong yes')).toBeTruthy();
+  expect(pickRecap([older, newer, { ...older, id: 'recNoReason', pickReason: undefined }])).toBe('1 high facilitator feedback · 1 strong yes · 1 other');
   fireEvent.click(screen.getByTestId('choose-must-look-Technical AI Safety'));
   await screen.findByText(/0 of 2 reviewed/);
-  await screen.findByText('Alex Morgan');
+  await screen.findByText('Sam Chen');
   await waitFor(() => expect(screen.getByRole('button', { name: 'Invite' }).hasAttribute('disabled')).toBe(false));
   fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
-  await screen.findByText('Sam Chen');
+  await screen.findByText('Alex Morgan');
   await waitFor(() => expect(screen.getByRole('button', { name: 'Don’t invite' }).hasAttribute('disabled')).toBe(false));
   fireEvent.click(screen.getByRole('button', { name: 'Don’t invite' }));
   await screen.findByRole('heading', { name: /Shortlist cleared/ });

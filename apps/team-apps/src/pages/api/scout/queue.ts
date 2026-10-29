@@ -14,6 +14,7 @@ export default makeApiRoute({
       id: z.string(), course: z.enum(COURSES),
       name: z.string().optional(), email: z.string().optional(), roundId: z.string().optional(), roundName: z.string(), roundEnd: z.string().optional(), opinion: z.string().optional(),
       hasCertificate: z.boolean(), hasReport: z.boolean(), mustLook: z.boolean(), pickReason: z.enum(PICK_REASONS).optional(),
+      topScore: z.number().optional(), topReasoning: z.number().optional(),
     })),
     invitedThisWeek: z.record(z.object({ total: z.number(), viaApp: z.number() })).optional(),
     leadCourses: z.array(z.enum(COURSES)).optional(),

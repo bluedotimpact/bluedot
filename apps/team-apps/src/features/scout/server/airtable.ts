@@ -408,16 +408,15 @@ const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certi
 // here shows as "other". Exported for tests.
 export const pickReasonOf = (fields: AirtableRecord['fields']): PickReason | undefined => {
   if (strList(fields[REG.reportTakes]).some((take) => take.toLowerCase() === 'strong yes')) return 'endorsement';
+  if ((topScoreOf(fields) ?? 0) >= 9 || topReasoningOf(fields) === 5) return 'top score';
   if (str(fields[REG.opinion])?.toLowerCase() === 'strong yes') return 'strong yes';
-  if ((topScoreOf(fields) ?? 0) >= 9 || numbers(fields[REG.facilitatorReasoning]).includes(5)) return 'top score';
   return undefined;
 };
 
 const numbers = (v: unknown): number[] => (Array.isArray(v) ? v.filter((x): x is number => typeof x === 'number') : []);
-const topScoreOf = (fields: AirtableRecord['fields']): number | undefined => {
-  const ratings = numbers(fields[REG.facilitatorRatings]);
-  return ratings.length > 0 ? Math.max(...ratings) : undefined;
-};
+const highest = (v: unknown): number | undefined => (numbers(v).length > 0 ? Math.max(...numbers(v)) : undefined);
+const topScoreOf = (fields: AirtableRecord['fields']) => highest(fields[REG.facilitatorRatings]);
+const topReasoningOf = (fields: AirtableRecord['fields']) => highest(fields[REG.facilitatorReasoning]);
 
 // Emails with an approved CTG or a completed eval call; call status "Reject" means no call happened.
 const fetchAlreadySupportedEmails = async (): Promise<Set<string>> => {
@@ -507,6 +506,7 @@ export const fetchQueue = async (wanted: readonly Course[] = COURSES, part: Queu
       mustLook: !!r.fields[REG.mustLook],
       pickReason: r.fields[REG.mustLook] ? pickReasonOf(r.fields) : undefined,
       topScore: topScoreOf(r.fields),
+      topReasoning: topReasoningOf(r.fields),
     });
   }
 

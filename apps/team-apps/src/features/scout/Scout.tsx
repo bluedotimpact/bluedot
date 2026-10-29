@@ -877,7 +877,7 @@ const isLinkedIn = (u: string) => {
 const iconButton = 'flex size-11 items-center justify-center rounded-surface text-secondary hover:bg-tint hover:text-primary disabled:opacity-50';
 
 const KeyHints: React.FC<{ back: string }> = ({ back }) => (
-  <p className="mt-2 text-size-xs text-secondary"><kbd>Space</kbd> next section · <kbd>L</kbd> LinkedIn · <kbd>P</kbd> project · <kbd>Z</kbd> undo · <kbd>Esc</kbd> {back}</p>
+  <p className="mt-2 text-size-xs text-secondary"><kbd>Space</kbd> next section · <kbd>Esc</kbd> {back}</p>
 );
 
 const SessionDecisions: React.FC<{ decisions: Entry[] }> = ({ decisions }) => {

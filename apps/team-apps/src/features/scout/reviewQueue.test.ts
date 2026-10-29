@@ -47,24 +47,22 @@ test('must look is one queue per course, newest round first, keeping the view or
   expect(backlogFor(items, 'Biosecurity').map((r) => r.id)).toEqual(['recAugBacklog']);
 });
 
-test('the shortlist runs completers first, then endorsements, strong yes, 10s, 9s, each newest round first', () => {
+test('the shortlist runs endorsements, 10s, reasoning 5s, 9s, strong yes, each newest round first, then completers first', () => {
+  const aug = (id: string, extra: Partial<QueueItem> = {}): QueueItem => ({ ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id, ...extra });
+  const sep = (id: string, extra: Partial<QueueItem> = {}): QueueItem => ({ ...item('sep', 'Biosecurity (2026 Sep W37) - Intensive', '2026-09-14', true), id, ...extra });
   const items: QueueItem[] = [
-    { ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugStrong', pickReason: 'strong yes' },
-    // An older endorsed person with a 10 still sits behind the newer endorsed one: the score only orders the high-feedback group
-    {
-      ...item('sep', 'Biosecurity (2026 Sep W37) - Intensive', '2026-09-14', true), id: 'recSepEndorsed', pickReason: 'endorsement', topScore: 10,
-    },
-    {
-      ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugNine', pickReason: 'top score', topScore: 9,
-    },
-    {
-      ...item('sep', 'Biosecurity (2026 Sep W37) - Intensive', '2026-09-14', true), id: 'recSepTen', pickReason: 'top score', topScore: 10,
-    },
-    {
-      ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugEndorsedNoCert', pickReason: 'endorsement', hasCertificate: false,
-    },
-    { ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugEndorsed', pickReason: 'endorsement' },
-    { ...item('sep', 'Biosecurity (2026 Sep W37) - Intensive', '2026-09-14', true), id: 'recSepOther' },
+    aug('recAugStrong', { pickReason: 'strong yes' }),
+    sep('recSepStrong', { pickReason: 'strong yes' }),
+    sep('recSepEndorsed', { pickReason: 'endorsement', topScore: 10 }),
+    aug('recAugNine', { pickReason: 'top score', topScore: 9 }),
+    sep('recSepNineReasoning', { pickReason: 'top score', topScore: 9, topReasoning: 5 }),
+    sep('recSepTen', { pickReason: 'top score', topScore: 10 }),
+    aug('recAugReasoning', { pickReason: 'top score', topScore: 8, topReasoning: 5 }),
+    aug('recAugEndorsedNoCert', { pickReason: 'endorsement', hasCertificate: false }),
+    aug('recAugEndorsed', { pickReason: 'endorsement' }),
+    sep('recSepOther'),
   ];
-  expect(mustLookFor(items, 'Biosecurity').map((r) => r.id)).toEqual(['recAugEndorsed', 'recSepEndorsed', 'recAugStrong', 'recSepTen', 'recAugNine', 'recSepOther', 'recAugEndorsedNoCert']);
+  expect(mustLookFor(items, 'Biosecurity').map((r) => r.id)).toEqual([
+    'recAugEndorsed', 'recAugEndorsedNoCert', 'recSepEndorsed', 'recSepTen', 'recAugReasoning', 'recSepNineReasoning', 'recAugNine', 'recAugStrong', 'recSepStrong', 'recSepOther',
+  ]);
 });
