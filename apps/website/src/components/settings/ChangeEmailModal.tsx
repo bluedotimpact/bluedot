@@ -6,6 +6,7 @@ import {
   Modal,
   P,
 } from '@bluedot/ui';
+import { suggestEmailFix } from '@bluedot/utils';
 import { TRPCClientError } from '@trpc/client';
 import { useEffect, useState } from 'react';
 import { newEmailSchema } from '../../lib/schemas/user/changeEmail.schema';
@@ -23,6 +24,7 @@ type ChangeEmailModalProps = {
 const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
   const [newEmail, setNewEmail] = useState('');
   const [validationError, setValidationError] = useState('');
+  const [suggestedEmail, setSuggestedEmail] = useState<string | null>(null);
 
   const requestEmailChange = trpc.users.requestOwnEmailChange.useMutation();
   const { reset: resetMutation } = requestEmailChange;
@@ -31,9 +33,22 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
     if (isOpen) {
       setNewEmail('');
       setValidationError('');
+      setSuggestedEmail(null);
       resetMutation();
     }
   }, [isOpen, resetMutation]);
+
+  const updateEmail = (value: string) => {
+    setNewEmail(value);
+    setSuggestedEmail(null);
+    if (validationError) {
+      setValidationError('');
+    }
+
+    if (requestEmailChange.isError) {
+      resetMutation();
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,23 +99,31 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
               Your email won't change until you click it.
             </P>
             <Field label="New email" required error={inlineError}>
-              <Input
-                autoFocus
-                type="email"
-                value={newEmail}
-                onChange={(e) => {
-                  setNewEmail(e.target.value);
-                  if (validationError) {
-                    setValidationError('');
-                  }
-
-                  if (requestEmailChange.isError) {
-                    resetMutation();
-                  }
-                }}
-                placeholder="Enter new email address"
-                disabled={requestEmailChange.isPending}
-              />
+              <div>
+                <Input
+                  autoFocus
+                  type="email"
+                  value={newEmail}
+                  onChange={(e) => updateEmail(e.target.value)}
+                  onBlur={() => setSuggestedEmail(suggestEmailFix(newEmail))}
+                  placeholder="Enter new email address"
+                  disabled={requestEmailChange.isPending}
+                />
+                <p aria-live="polite" className="text-size-xs leading-normal text-secondary">
+                  {suggestedEmail && (
+                    <>
+                      Did you mean{' '}
+                      <Button variant="link" size="small" className="inline-flex" onClick={() => updateEmail(suggestedEmail)}>
+                        {/* One child, so Button's flex gap doesn't split the address */}
+                        <span>
+                          {suggestedEmail.slice(0, suggestedEmail.lastIndexOf('@') + 1)}
+                          <strong>{suggestedEmail.slice(suggestedEmail.lastIndexOf('@') + 1)}</strong>
+                        </span>
+                      </Button>?
+                    </>
+                  )}
+                </p>
+              </div>
             </Field>
 
             <div className="flex gap-3 justify-end pt-4">
