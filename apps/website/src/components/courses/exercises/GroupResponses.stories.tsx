@@ -77,3 +77,19 @@ export const MultipleRounds: Story = {
     ],
   },
 };
+
+export const MultipleChoice: Story = {
+  args: {
+    correctAnswer: 'It offers meaningful safety improvements but faces fundamental limitations',
+    groups: [{
+      id: '1',
+      name: 'Group 01',
+      totalParticipants: 4,
+      responses: [
+        { name: 'Alice Thompson', response: 'It offers meaningful safety improvements but faces fundamental limitations' },
+        { name: 'Ben Rivera', response: 'It provides complete protection against all types of harmful AI behaviours' },
+        { name: 'Priya Sharma', response: 'It offers meaningful safety improvements but faces fundamental limitations' },
+      ],
+    }],
+  },
+};

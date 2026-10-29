@@ -14,6 +14,7 @@ import {
   isNotNull,
   isNull,
   meetPersonTable,
+  ne,
   or,
   roundTable,
 } from '@bluedot/db';
@@ -125,6 +126,11 @@ export const exercisesRouter = router({
       // 1. Find course
       const course = await getCourseBySlugOrThrow(input.courseSlug);
 
+      const exercise = await db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' });
+      if (exercise?.courseId && exercise.courseId !== course.id) {
+        return null;
+      }
+
       const user = await getUserFromAuthOrThrow(ctx.auth);
 
       // 2. Find all of caller's active registrations for this course
@@ -223,6 +229,10 @@ export const exercisesRouter = router({
         return null;
       }
 
+      // A multiple-choice answer only counts as completed when it's correct, so filtering on
+      // completedAt would hide every wrong answer from the facilitator
+      const isMultipleChoice = exercise?.type === 'Multiple choice';
+
       const exerciseResponses = await db.pg
         .select({
           userId: exerciseResponsePgTable.pg.userId,
@@ -232,7 +242,9 @@ export const exercisesRouter = router({
         .where(and(
           eq(exerciseResponsePgTable.pg.exerciseId, input.exerciseId),
           arrayOverlaps(exerciseResponsePgTable.pg.userId, participantUserIds),
-          isNotNull(exerciseResponsePgTable.pg.completedAt),
+          isMultipleChoice
+            ? ne(exerciseResponsePgTable.pg.response, '')
+            : isNotNull(exerciseResponsePgTable.pg.completedAt),
         ));
 
       const responseByUserId = new Map(exerciseResponses

@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useState } from 'react';
 import { Select, Button } from '@bluedot/ui';
-import { FaUser } from 'react-icons/fa6';
+import { FaCheck, FaUser, FaXmark } from 'react-icons/fa6';
 // TODO remove this import cycle
 
 import { parseIntensityFromRoundName, parseWeekFromRoundName } from '../../../lib/utils';
@@ -31,10 +31,12 @@ const getGroupLabel = (group: GroupData): string => {
 
 export type GroupResponsesProps = {
   groups: GroupData[];
+  correctAnswer?: string;
 };
 
 const GroupResponses: React.FC<GroupResponsesProps> = ({
   groups,
+  correctAnswer,
 }) => {
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
 
@@ -73,6 +75,7 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
             key={`${r.name}-${i}`}
             name={r.name}
             response={r.response}
+            isCorrect={correctAnswer === undefined ? undefined : r.response.trim() === correctAnswer.trim()}
           />
         ))}
       </div>
@@ -83,7 +86,8 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
 const ResponseBlock: React.FC<{
   name: string;
   response: string;
-}> = ({ name, response }) => {
+  isCorrect?: boolean;
+}> = ({ name, response, isCorrect }) => {
   const canTruncate = response.length > 640 || response.split('\n').length > TRUNCATION_LINES;
   const [expanded, setExpanded] = useState(!canTruncate);
 
@@ -94,6 +98,18 @@ const ResponseBlock: React.FC<{
           <FaUser className="size-3 text-accent" />
         </div>
         <span className="font-semibold text-size-xs text-primary">{name}</span>
+        {isCorrect === true && (
+          <>
+            <FaCheck aria-hidden="true" className="size-3.5 text-success-fg" />
+            <span className="sr-only">Correct</span>
+          </>
+        )}
+        {isCorrect === false && (
+          <>
+            <FaXmark aria-hidden="true" className="size-3.5 text-error-fg" />
+            <span className="sr-only">Incorrect</span>
+          </>
+        )}
       </div>
       <div className="border-l-2 border-accent-subtle pl-4 ml-3">
         <div className="relative">

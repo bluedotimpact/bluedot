@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useCallback, useRef, useState } from 'react';
 import {
-  cn, ProgressDots, ToggleSwitch, useAuthStore,
+  cn, ProgressDots, Tag, ToggleSwitch, useAuthStore,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { FaCheck } from 'react-icons/fa6';
@@ -164,6 +164,7 @@ const Exercise: React.FC<ExerciseProps> = ({
       return (
         <GroupResponses
           groups={facilitatorGroupResponses?.groups ?? []}
+          correctAnswer={exerciseData.type === 'Multiple choice' && exerciseData.answer?.trim() ? exerciseData.answer : undefined}
         />
       );
     }
@@ -241,7 +242,12 @@ const Exercise: React.FC<ExerciseProps> = ({
         {/* Conditional padding: GroupResponses needs edge-to-edge for its tinted panel */}
         <div className={cn('container-lined bg-raised flex flex-col gap-5', !showGroupResponses && 'p-8')}>
           <div className={cn('flex flex-col gap-2', showGroupResponses && 'px-8 pt-8')}>
-            <p className="bluedot-h4 not-prose">{exerciseData.title}</p>
+            <div className="flex flex-wrap items-center gap-3">
+              <p className="bluedot-h4 not-prose">{exerciseData.title}</p>
+              {facilitatorGroupResponses && (exerciseData.type === 'Free text' || exerciseData.type === 'Multiple choice') && (
+                <Tag shape="pill">{exerciseData.type}</Tag>
+              )}
+            </div>
             {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
             <MarkdownExtendedRenderer>{exerciseData.description || ''}</MarkdownExtendedRenderer>
           </div>

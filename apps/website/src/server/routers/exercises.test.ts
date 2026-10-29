@@ -626,6 +626,75 @@ describe('exercises.getGroupExerciseResponses', () => {
     expect(result!.groups[0]!.responses).toHaveLength(0);
   });
 
+  test('returns multiple-choice responses that are not completed, so wrong answers show', async () => {
+    await seedFacilitatorFlow();
+    await testDb.insert(exerciseTable, {
+      id: 'ex-1',
+      type: 'Multiple choice',
+      answer: 'Right option',
+    });
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'resp-1',
+      userId: ['up-user'],
+      exerciseId: 'ex-1',
+      response: 'Wrong option',
+      completedAt: null,
+    });
+
+    const result = await caller.exercises.getGroupExerciseResponses({
+      courseSlug: 'test-course',
+      exerciseId: 'ex-1',
+    });
+
+    expect(result!.groups[0]!.responses).toEqual([{ name: 'Alice', response: 'Wrong option' }]);
+  });
+
+  test('excludes multiple-choice responses cleared by "Try again"', async () => {
+    await seedFacilitatorFlow();
+    await testDb.insert(exerciseTable, {
+      id: 'ex-1',
+      type: 'Multiple choice',
+      answer: 'Right option',
+    });
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'resp-1',
+      userId: ['up-user'],
+      exerciseId: 'ex-1',
+      response: '',
+      completedAt: null,
+    });
+
+    const result = await caller.exercises.getGroupExerciseResponses({
+      courseSlug: 'test-course',
+      exerciseId: 'ex-1',
+    });
+
+    expect(result!.groups[0]!.responses).toHaveLength(0);
+  });
+
+  test('returns null when the exercise belongs to a different course', async () => {
+    await seedFacilitatorFlow();
+    await testDb.insert(exerciseTable, {
+      id: 'ex-1',
+      courseId: 'other-course',
+      type: 'Free text',
+    });
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'resp-1',
+      userId: ['up-user'],
+      exerciseId: 'ex-1',
+      response: 'An answer',
+      completedAt: new Date().toISOString(),
+    });
+
+    const result = await caller.exercises.getGroupExerciseResponses({
+      courseSlug: 'test-course',
+      exerciseId: 'ex-1',
+    });
+
+    expect(result).toBeNull();
+  });
+
   test('falls back to "Anonymous" when participant has no name', async () => {
     await seedCourse();
     await testDb.insert(courseRegistrationTable, {

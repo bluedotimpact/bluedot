@@ -119,6 +119,14 @@ describe('Exercise', () => {
     expect(screen.getByText('Alice')).toBeInTheDocument();
     expect(screen.getByText('1 Response')).toBeInTheDocument();
     expect(screen.getByText('1 Pending')).toBeInTheDocument();
+    expect(screen.getByText('Free text')).toBeInTheDocument();
+  });
+
+  test('does not show the exercise type tag to participants', async () => {
+    render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
+
+    expect(await screen.findByText('Reflection')).toBeInTheDocument();
+    expect(screen.queryByText('Free text')).not.toBeInTheDocument();
   });
 
   test('completion checkbox is enabled when exercise has a saved response', async () => {
