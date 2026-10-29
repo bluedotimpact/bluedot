@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import {
-  render, screen, fireEvent,
+  render, screen, fireEvent, within,
 } from '@testing-library/react';
 import {
   describe, expect, test, vi,
@@ -88,8 +88,8 @@ describe('GroupResponses', () => {
       groups={makeGroups({ responses: [{ name: 'Alice', response: 'Right' }, { name: 'Bob', response: 'Wrong' }] })}
       correctAnswer="Right"
     />);
-    expect(screen.getByText('Correct')).toBeInTheDocument();
-    expect(screen.getByText('Incorrect')).toBeInTheDocument();
+    expect(within(screen.getByText('Alice').parentElement!).getByText('Correct')).toBeInTheDocument();
+    expect(within(screen.getByText('Bob').parentElement!).getByText('Incorrect')).toBeInTheDocument();
   });
 
   test('does not mark free-text responses', () => {
