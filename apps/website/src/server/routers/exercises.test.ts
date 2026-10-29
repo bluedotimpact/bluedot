@@ -672,6 +672,29 @@ describe('exercises.getGroupExerciseResponses', () => {
     expect(result!.groups[0]!.responses).toHaveLength(0);
   });
 
+  test('returns null when the exercise belongs to a different course', async () => {
+    await seedFacilitatorFlow();
+    await testDb.insert(exerciseTable, {
+      id: 'ex-1',
+      courseId: 'other-course',
+      type: 'Free text',
+    });
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'resp-1',
+      userId: ['up-user'],
+      exerciseId: 'ex-1',
+      response: 'An answer',
+      completedAt: new Date().toISOString(),
+    });
+
+    const result = await caller.exercises.getGroupExerciseResponses({
+      courseSlug: 'test-course',
+      exerciseId: 'ex-1',
+    });
+
+    expect(result).toBeNull();
+  });
+
   test('falls back to "Anonymous" when participant has no name', async () => {
     await seedCourse();
     await testDb.insert(courseRegistrationTable, {

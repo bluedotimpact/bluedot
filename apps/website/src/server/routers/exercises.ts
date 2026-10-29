@@ -126,6 +126,11 @@ export const exercisesRouter = router({
       // 1. Find course
       const course = await getCourseBySlugOrThrow(input.courseSlug);
 
+      const exercise = await db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' });
+      if (exercise?.courseId && exercise.courseId !== course.id) {
+        return null;
+      }
+
       const user = await getUserFromAuthOrThrow(ctx.auth);
 
       // 2. Find all of caller's active registrations for this course
@@ -226,7 +231,6 @@ export const exercisesRouter = router({
 
       // A multiple-choice answer only counts as completed when it's correct, so filtering on
       // completedAt would hide every wrong answer from the facilitator
-      const exercise = await db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' });
       const isMultipleChoice = exercise?.type === 'Multiple choice';
 
       const exerciseResponses = await db.pg
