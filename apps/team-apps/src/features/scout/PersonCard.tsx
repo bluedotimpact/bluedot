@@ -726,6 +726,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?
   const reasons = mustLook ? mustLookReasons(person) : [];
   const otherCourses = otherCourseDecisions(person);
   const currentRecord = person.history.find((h) => h.isCurrent)?.recordUrl;
+  const projects = person.projects.filter((p) => p.url);
   // LinkedIn sometimes lives only on the application record, so merge both sources
   const profileLinks = [...new Map([person.profileUrl, person.application?.profileUrl, person.application?.otherProfileUrl]
     .filter((u): u is string => !!u)
@@ -807,16 +808,21 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?
         <TimelineList>{timeline.map((item) => item.node)}</TimelineList>
       </Section>
 
-      <div className="flex flex-wrap items-end justify-between gap-2">
-        <GroupLabel spaced>
-          This round · {roundLabel}
-          {currentRecord && <A href={currentRecord} target="_blank" className="ml-3 normal-case tracking-normal">Course record ↗</A>}
-        </GroupLabel>
-        {/* Titles tell several projects apart; one project stays a short button */}
-        {person.projects.filter((p) => p.url).map((p, _, all) => (
-          <Button key={p.id} variant="outline-black" size="small" url={p.url} target="_blank" title={p.title}>{all.length > 1 && p.title ? `Project: ${p.title}` : 'Project'} ↗</Button>
-        ))}
-      </div>
+      <GroupLabel spaced>
+        This round · {roundLabel}
+        {currentRecord && <A href={currentRecord} target="_blank" className="ml-3 normal-case tracking-normal">Course record ↗</A>}
+      </GroupLabel>
+      {projects.length > 0 && (
+        <div className="flex flex-wrap gap-2 px-1">
+          {/* Titles tell several projects apart; P opens the first */}
+          {projects.map((p, i) => (
+            <Button key={p.id} variant="primary" size="small" url={p.url} target="_blank" title={p.title}>
+              {projects.length > 1 && p.title ? `Project: ${p.title}` : 'Project'}
+              {i === 0 && <kbd className="ml-2 rounded-sm border border-current/50 px-1 text-size-xxs">P</kbd>}
+            </Button>
+          ))}
+        </div>
+      )}
       <Section
         title="Application"
         empty={!app}

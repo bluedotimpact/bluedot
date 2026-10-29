@@ -460,6 +460,7 @@ const Scout = () => {
   const nextRound = round && !mustLook ? roundsFor(remaining.filter((item) => !item.mustLook), round.course).find((item) => roundKey(item) !== roundKey(round)) : undefined;
   // Everyone left in the queue has been skipped once: say so instead of silently showing the first skip again
   const allSkipped = scopeItems.length > 0 && scopeItems.every((item) => skipOrder.includes(item.id)) && retries.every((r) => !scopeItems.some((item) => item.id === r.id));
+  const projectUrl = allSkipped ? undefined : person?.projects.find((p) => p.url)?.url;
   const linkedInUrl = allSkipped ? undefined : [person?.profileUrl, person?.application?.profileUrl, person?.application?.otherProfileUrl].find((u) => u !== undefined && isLinkedIn(u));
   const cardOpen = lookup !== undefined || (round !== undefined && !allSkipped && current !== undefined);
   const thisWeek = weekOf();
@@ -672,6 +673,9 @@ const Scout = () => {
         l: () => {
           if (linkedInUrl) window.open(linkedInUrl, '_blank', 'noopener');
         },
+        p: () => {
+          if (projectUrl) window.open(projectUrl, '_blank', 'noopener');
+        },
         z: undo,
         Escape: () => {
           if (lookup) closeLookup();
@@ -687,7 +691,7 @@ const Scout = () => {
 
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [ask, skip, undo, confirmNote, confirmation, goalPopup, promptOpen, loading, queueError, linkedInUrl, cardOpen, lookup, round, closeLookup, leaveRound]);
+  }, [ask, skip, undo, confirmNote, confirmation, goalPopup, promptOpen, loading, queueError, linkedInUrl, projectUrl, cardOpen, lookup, round, closeLookup, leaveRound]);
 
   const controlsDisabled = confirmation !== undefined || goalPopup || promptOpen;
   const dismissAlert = (id: string) => setAlerts((state) => state.filter((alert) => alert.id !== id));
@@ -873,7 +877,7 @@ const isLinkedIn = (u: string) => {
 const iconButton = 'flex size-11 items-center justify-center rounded-surface text-secondary hover:bg-tint hover:text-primary disabled:opacity-50';
 
 const KeyHints: React.FC<{ back: string }> = ({ back }) => (
-  <p className="mt-2 text-size-xs text-secondary"><kbd>Space</kbd> next section · <kbd>L</kbd> LinkedIn · <kbd>Z</kbd> undo · <kbd>Esc</kbd> {back}</p>
+  <p className="mt-2 text-size-xs text-secondary"><kbd>Space</kbd> next section · <kbd>L</kbd> LinkedIn · <kbd>P</kbd> project · <kbd>Z</kbd> undo · <kbd>Esc</kbd> {back}</p>
 );
 
 const SessionDecisions: React.FC<{ decisions: Entry[] }> = ({ decisions }) => {
