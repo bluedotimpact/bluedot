@@ -83,6 +83,21 @@ describe('GroupResponses', () => {
     expect(screen.getAllByText('Group B').length).toBeGreaterThan(0);
   });
 
+  test('marks multiple-choice responses correct or incorrect', () => {
+    render(<GroupResponses
+      groups={makeGroups({ responses: [{ name: 'Alice', response: 'Right' }, { name: 'Bob', response: 'Wrong' }] })}
+      correctAnswer="Right"
+    />);
+    expect(screen.getByText('Correct')).toBeInTheDocument();
+    expect(screen.getByText('Incorrect')).toBeInTheDocument();
+  });
+
+  test('does not mark free-text responses', () => {
+    render(<GroupResponses groups={makeGroups()} />);
+    expect(screen.queryByText('Correct')).not.toBeInTheDocument();
+    expect(screen.queryByText('Incorrect')).not.toBeInTheDocument();
+  });
+
   test('short responses do not show "Show more"', () => {
     render(<GroupResponses groups={makeGroups()} />);
     expect(screen.queryByText('Show more')).not.toBeInTheDocument();

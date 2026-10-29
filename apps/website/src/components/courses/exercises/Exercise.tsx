@@ -164,6 +164,7 @@ const Exercise: React.FC<ExerciseProps> = ({
       return (
         <GroupResponses
           groups={facilitatorGroupResponses?.groups ?? []}
+          correctAnswer={exerciseData.type === 'Multiple choice' ? (exerciseData.answer ?? '') : undefined}
         />
       );
     }
