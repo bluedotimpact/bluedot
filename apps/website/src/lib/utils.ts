@@ -216,11 +216,11 @@ export const buildApplicationUrl = (
   // Forward the distinct id only for logged-out visitors. Logged-in users are identified to
   // PostHog (by keycloak sub), and there is no need to capture their id: their registration
   // gets linked to their account instead.
+  const { auth } = useAuthStore.getState();
   const distinctId = posthog.get_distinct_id?.();
-  if (distinctId && !useAuthStore.getState().auth) urlObj.searchParams.set('prefill_PostHog Distinct ID', distinctId);
+  if (distinctId && !auth) urlObj.searchParams.set('prefill_PostHog Distinct ID', distinctId);
 
-  const email = useAuthStore.getState().auth?.email;
-  if (email) urlObj.searchParams.set('prefill_Email', email);
+  if (auth?.email) urlObj.searchParams.set('prefill_Email', auth.email);
 
   // URLSearchParams encodes spaces as '+', but miniextensions requires '%20'
   return urlObj.toString()
