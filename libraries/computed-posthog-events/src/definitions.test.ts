@@ -636,7 +636,11 @@ describe('resource_completed', () => {
     const [event] = ph.events.filter((e) => e.event === 'resource_completed');
     expect(event!.properties).toMatchObject({ unit_resource_id: 'ur1', resource_name: 'Shared reading' });
     expect(event!.properties).not.toHaveProperty('unit_id');
+    expect(event!.properties).not.toHaveProperty('unit_name');
+    expect(event!.properties).not.toHaveProperty('unit_number');
     expect(event!.properties).not.toHaveProperty('course_id');
+    expect(event!.properties).not.toHaveProperty('course_name');
+    expect(event!.properties).not.toHaveProperty('course_slug');
   });
 
   test('keeps the unit when the resource is in two chunks of the same unit', async () => {
