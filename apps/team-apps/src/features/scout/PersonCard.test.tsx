@@ -86,18 +86,21 @@ test('other courses list invites and passes from their other registrations, not 
   expect(otherCourseDecisions({ ...person, history, calls: [{ id: 'recCallSample0001', status: 'Call complete' }] })[0]).toBe('invited from Biosecurity on 12 Oct 2026');
 });
 
-test('openNextSection walks the top-level sections one at a time: closes the open one, opens the next, then starts over', () => {
+test('Space walks the top-level sections from the first, one at a time, and starts over after the last', () => {
   render(<PersonCard person={person} showName />);
   const tops = () => [...document.querySelectorAll('details')].filter((d) => !d.parentElement?.closest('details'));
   const openIndexes = () => tops().map((d, i) => (d.open ? i : -1)).filter((i) => i >= 0);
-  expect(tops().length).toBeGreaterThanOrEqual(2);
-  const [first] = openIndexes();
-  expect(first).toBeDefined();
-  openNextSection(document);
-  expect(openIndexes()).toEqual(first! + 1 < tops().length ? [first! + 1] : []);
-  tops().forEach((d) => {
-    d.open = false;
-  });
+  const count = tops().length;
+  expect(count).toBeGreaterThanOrEqual(2);
+  // A section open by default doesn't move the start: the first press opens the first section
+  expect(openIndexes().length).toBeGreaterThan(0);
+  for (let i = 0; i < count; i += 1) {
+    openNextSection(document);
+    expect(openIndexes()).toEqual([i]);
+  }
+
+  // After the last section it starts over, whatever was opened by hand
+  tops()[0]!.open = true;
   openNextSection(document);
   expect(openIndexes()).toEqual([0]);
 });

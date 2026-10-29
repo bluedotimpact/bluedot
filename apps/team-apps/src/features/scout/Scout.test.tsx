@@ -506,6 +506,16 @@ test('a one-person round shows the pass-done screen after one skip; L opens Link
   open.mockRestore();
 });
 
+test('the arrows still work after a click leaves a button or section focused', async () => {
+  mockFetch.mockImplementation(async (path, init) => (init?.method === 'POST' ? response({ ok: true }) : read(path)));
+  await start();
+  const skipButton = screen.getByRole('button', { name: 'Skip' });
+  skipButton.focus();
+  fireEvent.keyDown(skipButton, { key: 'ArrowRight' });
+  expect(await screen.findByRole('button', { name: 'Undo' })).toBeTruthy();
+  await screen.findByText('Sam Chen');
+});
+
 test('L only opens a link whose host really is LinkedIn', async () => {
   const open = vi.spyOn(window, 'open').mockImplementation(() => null);
   const lookalike = { ...samplePeople[0]!, profileUrl: 'https://example.org/?site=linkedin.com' };
@@ -530,6 +540,11 @@ test('Enter confirms the note box for an endorsed person', async () => {
   await start();
   fireEvent.keyDown(document.body, { key: 'ArrowRight' });
   await screen.findByRole('dialog');
+  // Enter on a focused Cancel is the button's own, so nothing is confirmed
+  const cancel = screen.getByRole('button', { name: 'Cancel' });
+  cancel.focus();
+  fireEvent.keyDown(cancel, { key: 'Enter' });
+  expect(screen.getByRole('dialog')).toBeTruthy();
   fireEvent.keyDown(document.body, { key: 'Enter' });
   await screen.findByText('Sam Chen');
   await passUndo();
@@ -622,8 +637,11 @@ test('search opens one registration, a decision on it returns to the start and r
   render(<Scout />);
   fireEvent.click(await screen.findByRole('button', { name: 'Search participants' }));
   const box = await screen.findByLabelText('Find a participant in the queue');
+  expect(document.activeElement).toBe(box);
   fireEvent.change(box, { target: { value: 'jordan' } });
-  fireEvent.click(await screen.findByTestId('search-result-recScoutSample003'));
+  await screen.findByTestId('search-result-recScoutSample003');
+  // Enter opens the top result
+  fireEvent.submit(box);
   await screen.findByText('Jordan Patel');
   expect(screen.queryByRole('button', { name: 'Skip' })).toBeNull();
   expect(routerReplace).toHaveBeenLastCalledWith({ pathname: '/scout', query: { person: 'recScoutSample003' } }, undefined, { shallow: true });
