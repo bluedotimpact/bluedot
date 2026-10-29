@@ -15,7 +15,7 @@ import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
 import { openNextSection } from './sectionNav';
 import {
-  courses, mustLookFor, roundKey, roundLabel, roundsFor, endorsements, endorsers,
+  courses, isLinkedIn, mustLookFor, roundKey, roundLabel, roundsFor, endorsements, endorsers,
 } from './reviewQueue';
 import { panel } from './reviewStyles';
 import type {
@@ -865,19 +865,10 @@ const Scout = () => {
   );
 };
 
-const isLinkedIn = (u: string) => {
-  try {
-    const { protocol, hostname } = new URL(u);
-    return (protocol === 'https:' || protocol === 'http:') && (hostname === 'linkedin.com' || hostname.endsWith('.linkedin.com'));
-  } catch {
-    return false;
-  }
-};
-
 const iconButton = 'flex size-11 items-center justify-center rounded-surface text-secondary hover:bg-tint hover:text-primary disabled:opacity-50';
 
 const KeyHints: React.FC<{ back: string }> = ({ back }) => (
-  <p className="mt-2 text-size-xs text-secondary"><kbd>Space</kbd> next section · <kbd>L</kbd> LinkedIn · <kbd>P</kbd> project · <kbd>Z</kbd> undo · <kbd>Esc</kbd> {back}</p>
+  <p className="mt-2 text-size-xs text-secondary"><kbd>Space</kbd> next section · <kbd>Esc</kbd> {back}</p>
 );
 
 const SessionDecisions: React.FC<{ decisions: Entry[] }> = ({ decisions }) => {

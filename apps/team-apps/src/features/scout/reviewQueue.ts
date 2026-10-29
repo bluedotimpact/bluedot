@@ -1,5 +1,5 @@
 import {
-  COURSES, PICK_REASONS, type Course, type Person, type QueueItem,
+  COURSES, type Course, type Person, type QueueItem,
 } from './types';
 
 export const courses: readonly Course[] = ['Technical AI Safety Project', ...COURSES.filter((course) => course !== 'Technical AI Safety Project')];
@@ -20,14 +20,21 @@ export const roundPickerLabel = (item: QueueItem, now = new Date()) => {
   return `Ended ${date} (${roundLabel(item)})`;
 };
 
-// The course's shortlist: completers first, then by PICK_REASONS (10s before 9s), then most recently
-// finished round
-const tier = (item: QueueItem) => (item.pickReason ? PICK_REASONS.indexOf(item.pickReason) : PICK_REASONS.length);
-// Only the high-feedback group is ordered by score; elsewhere the score is incidental
-const score = (item: QueueItem) => (item.pickReason === 'top score' ? item.topScore ?? 0 : 0);
+// The course's shortlist: endorsements, then 10s, reasoning 5s, 9s, then strong yes. Within each,
+// the most recently finished round first, then completers first
+const tier = (item: QueueItem) => {
+  if (item.pickReason === 'endorsement') return 0;
+  if (item.pickReason === 'top score') {
+    if ((item.topScore ?? 0) >= 10) return 1;
+    return item.topReasoning === 5 ? 2 : 3;
+  }
+
+  return item.pickReason === 'strong yes' ? 4 : 5;
+};
+
 export const mustLookFor = (items: QueueItem[], course: string) => items
   .filter((item) => item.course === course && item.mustLook)
-  .sort((a, b) => Number(b.hasCertificate) - Number(a.hasCertificate) || tier(a) - tier(b) || score(b) - score(a) || (b.roundEnd ?? '').localeCompare(a.roundEnd ?? ''));
+  .sort((a, b) => tier(a) - tier(b) || (b.roundEnd ?? '').localeCompare(a.roundEnd ?? '') || Number(b.hasCertificate) - Number(a.hasCertificate));
 
 // The backlog is everyone else, still picked round by round
 export const backlogFor = (items: QueueItem[], course: string) => items.filter((item) => item.course === course && !item.mustLook);
@@ -48,3 +55,12 @@ export const roundsFor = (items: QueueItem[], course: string) => {
   return [...rounds.values()].sort((a, b) => (b.roundEnd ?? '').localeCompare(a.roundEnd ?? ''));
 };
 
+// The card's L hint and the L shortcut both use this, so they always agree
+export const isLinkedIn = (u: string) => {
+  try {
+    const { protocol, hostname } = new URL(u);
+    return (protocol === 'https:' || protocol === 'http:') && (hostname === 'linkedin.com' || hostname.endsWith('.linkedin.com'));
+  } catch {
+    return false;
+  }
+};
