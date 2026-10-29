@@ -113,6 +113,20 @@ describe('ChangeEmailModal', () => {
     expectNoEmailError();
   });
 
+  test('User is offered a fix for a mistyped email domain after leaving the field, and can apply it', () => {
+    renderModal();
+
+    typeEmail('new@gmial.con');
+    expect(screen.queryByText(/did you mean/i)).not.toBeInTheDocument();
+
+    fireEvent.blur(emailInput());
+    // jsdom puts a space around the bolded domain in the accessible name; browsers don't
+    fireEvent.click(screen.getByRole('button', { name: /^new@\s?gmail\.com$/ }));
+
+    expect(emailInput()).toHaveValue('new@gmail.com');
+    expect(screen.queryByText(/did you mean/i)).not.toBeInTheDocument();
+  });
+
   test('User sees an in-flight state while the request runs, and no success view yet', async () => {
     let resolveSend: () => void;
     vi.mocked(sendEmailChangeVerification).mockReturnValue(new Promise((resolve) => {
