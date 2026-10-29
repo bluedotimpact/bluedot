@@ -1,6 +1,7 @@
 export { validateEnv } from './validateEnv';
 export { slackAlert } from './slackNotifications';
 export { chunk } from './array';
+export { suggestEmailFix } from './emailSuggestion';
 
 export {
   MINUTES_IN_UNIT,
