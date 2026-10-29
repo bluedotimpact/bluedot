@@ -15,7 +15,7 @@ import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
 import { openNextSection } from './sectionNav';
 import {
-  courses, mustLookFor, roundKey, roundLabel, roundsFor, endorsements, endorsers,
+  courses, isLinkedIn, mustLookFor, roundKey, roundLabel, roundsFor, endorsements, endorsers,
 } from './reviewQueue';
 import { panel } from './reviewStyles';
 import type {
@@ -863,15 +863,6 @@ const Scout = () => {
       </div>
     </div>
   );
-};
-
-const isLinkedIn = (u: string) => {
-  try {
-    const { protocol, hostname } = new URL(u);
-    return (protocol === 'https:' || protocol === 'http:') && (hostname === 'linkedin.com' || hostname.endsWith('.linkedin.com'));
-  } catch {
-    return false;
-  }
 };
 
 const iconButton = 'flex size-11 items-center justify-center rounded-surface text-secondary hover:bg-tint hover:text-primary disabled:opacity-50';

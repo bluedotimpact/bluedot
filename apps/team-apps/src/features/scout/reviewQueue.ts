@@ -55,3 +55,12 @@ export const roundsFor = (items: QueueItem[], course: string) => {
   return [...rounds.values()].sort((a, b) => (b.roundEnd ?? '').localeCompare(a.roundEnd ?? ''));
 };
 
+// The card's L hint and the L shortcut both use this, so they always agree
+export const isLinkedIn = (u: string) => {
+  try {
+    const { protocol, hostname } = new URL(u);
+    return (protocol === 'https:' || protocol === 'http:') && (hostname === 'linkedin.com' || hostname.endsWith('.linkedin.com'));
+  } catch {
+    return false;
+  }
+};

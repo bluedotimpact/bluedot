@@ -6,7 +6,7 @@ import { FaChevronRight } from 'react-icons/fa6';
 import {
   type EvaluationCall, type FacilitatorFeedback, type GrantApplication, type OtherApplication, type Application, type Person, type Project, type RapidGrant, type Registration, type Session, type WebFacts, type WebLink, type WebSource,
 } from './types';
-import { endorsers, topScores } from './reviewQueue';
+import { endorsers, isLinkedIn, topScores } from './reviewQueue';
 
 // The CRM interface page course leads already use to prepare calls ("Their CRM record")
 const CRM_BASE_ID = 'apppOzz9fPg59PxLa';
@@ -739,7 +739,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?
   // is never added here (unreadable, and usually the one they gave).
   const givenSet = new Set(profileLinks.map(normaliseUrl));
   // L opens the first LinkedIn link
-  const linkedInIndex = profileLinks.findIndex((u) => hostLabel(u) === 'LinkedIn');
+  const linkedInIndex = profileLinks.findIndex(isLinkedIn);
   const foundLinks = sortedFoundLinks((person.webFacts?.links ?? []).filter((l) => l.confidence === 'high' && l.kind !== 'linkedin' && !givenSet.has(normaliseUrl(l.url))));
   // Everything with BlueDot as one list, newest first: registrations by round start,
   // applications, grants and calls by their own dates. Undated items go last.
