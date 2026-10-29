@@ -9,6 +9,7 @@
 
 <@layout.registrationLayout
   displayFooter=true
+  script="dist/emailSuggestion.js"
   displayMessage=!messagesPerField.existsError("firstName", "lastName", "email", "username", "password", "password-confirm")
   ;
   section
@@ -48,15 +49,28 @@
           />
         </div>
       </div>
-      <@input.kw
-        autocomplete="email"
-        invalid=messagesPerField.existsError("email")
-        label=msg("email")
-        message=kcSanitize(messagesPerField.get("email"))
-        name="email"
-        type="email"
-        value=(register.formData.email)!''
-      />
+      <div x-data="emailSuggestion">
+        <@input.kw
+          @blur="check"
+          @input="suggestion = null"
+          autocomplete="email"
+          invalid=messagesPerField.existsError("email")
+          label=msg("email")
+          message=kcSanitize(messagesPerField.get("email"))
+          name="email"
+          type="email"
+          value=(register.formData.email)!''
+        />
+        <p class="text-secondary-600 text-sm" aria-live="polite">
+          <template x-if="suggestion">
+            <span class="block mt-2">
+              Did you mean
+              <button class="text-bluedot-black underline" type="button" @click="apply">
+                <span x-text="suggestionLocalPart"></span><strong x-text="suggestionDomain"></strong></button>?
+            </span>
+          </template>
+        </p>
+      </div>
       <#if !realm.registrationEmailAsUsername>
         <@input.kw
           autocomplete="username"
