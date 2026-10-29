@@ -113,7 +113,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
                   {suggestedEmail && (
                     <>
                       Did you mean{' '}
-                      <Button variant="link" size="small" className="inline-flex" onClick={() => updateEmail(suggestedEmail)}>
+                      <Button variant="link" size="small" className="inline-flex" disabled={requestEmailChange.isPending} onClick={() => updateEmail(suggestedEmail)}>
                         {/* One child, so Button's flex gap doesn't split the address */}
                         <span>
                           {suggestedEmail.slice(0, suggestedEmail.lastIndexOf('@') + 1)}
