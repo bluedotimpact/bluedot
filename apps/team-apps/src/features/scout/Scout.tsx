@@ -512,6 +512,7 @@ const Scout = () => {
     setSkipOrder([]);
     setNotice(undefined);
     setSessionNote(undefined);
+    setLastMove(undefined);
   };
 
   const chooseMustLook = (course: Course) => {
@@ -797,6 +798,7 @@ const Scout = () => {
                 <Button variant="outline-black" size="small" disabled={controlsDisabled || skipOrder.length === 0} onClick={() => {
                   setSkipOrder((state) => state.slice(0, -1));
                   setNotice(undefined);
+                  setLastMove(undefined);
                 }}>Undo skip</Button>
               </div>
               <div className="flex flex-wrap items-center justify-between gap-2">

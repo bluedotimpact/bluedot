@@ -71,8 +71,12 @@ const Disclosure: React.FC<{
   const [open, setOpen] = useState(defaultOpen);
   return (
     <details open={open} onToggle={(e) => setOpen(e.currentTarget.open)}>
-      {/* A mouse click doesn't keep focus here, so Space goes on walking the sections */}
-      <summary onMouseDown={(e) => e.preventDefault()} className={cn('min-h-11 cursor-pointer select-none list-none rounded-surface marker:hidden [&::-webkit-details-marker]:hidden hover:bg-tint focus:outline-none focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-focus', summaryClassName)}>
+      {/* A mouse click leaves nothing focused, so Space goes on walking the sections; links inside keep their own click */}
+      <summary onMouseDown={(e) => {
+        if (e.target instanceof Element && e.target.closest('a')) return;
+        e.preventDefault();
+        if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+      }} className={cn('min-h-11 cursor-pointer select-none list-none rounded-surface marker:hidden [&::-webkit-details-marker]:hidden hover:bg-tint focus:outline-none focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-focus', summaryClassName)}>
         <span className="flex items-center gap-2 min-w-0 flex-wrap">
           <FaChevronRight aria-hidden className={cn('size-2.5 shrink-0 text-primary/55 transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
           {summary}
