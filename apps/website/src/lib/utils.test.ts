@@ -373,6 +373,16 @@ describe('buildApplicationUrl', () => {
     }
   });
 
+  it('appends prefill_Email (URL-encoded) when logged in', () => {
+    useAuthStore.setState({ auth: { expiresAt: Date.now() + 3600_000, email: 'jane+apply@example.com' } as never });
+    try {
+      expect(buildApplicationUrl('https://example.com/apply', { utm_source: 'twitter' }))
+        .toBe('https://example.com/apply?prefill_Source=twitter&prefill_Email=jane%2Bapply%40example.com');
+    } finally {
+      useAuthStore.setState({ auth: null });
+    }
+  });
+
   it('appends session id and anonymous distinct id together', () => {
     mockGetSessionId.mockReturnValue('sess-123');
     mockGetDistinctId.mockReturnValue('anon-abc');
