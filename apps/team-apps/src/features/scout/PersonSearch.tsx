@@ -20,9 +20,15 @@ export const PersonSearch = ({
   const active = query.trim().length >= 2;
   return (
     <section aria-label="Find a participant" className="flex flex-col gap-2">
-      <Field label="Find a participant in the queue">
-        <SearchInput value={query} onChange={onQueryChange} placeholder="Name or email" />
-      </Field>
+      {/* Enter opens the top result */}
+      <form onSubmit={(event) => {
+        event.preventDefault();
+        if (results[0]) onSelect(results[0]);
+      }}>
+        <Field label="Find a participant in the queue">
+          <SearchInput value={query} onChange={onQueryChange} placeholder="Name or email" autoFocus />
+        </Field>
+      </form>
       {active && results.length === 0 && <p className="text-size-xs text-secondary">Nobody in the queue matches that.</p>}
       {results.length > 0 && (
         <ul className="flex flex-col gap-1">

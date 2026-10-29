@@ -10,7 +10,7 @@ import { FaArrowsRotate, FaMagnifyingGlass } from 'react-icons/fa6';
 import { authFetch } from '../../lib/client/api';
 import { useNavigationState } from '../../lib/client/navigation';
 import { isLocalPreview } from '../../lib/preview';
-import { ReviewEvidence } from './ReviewEvidence';
+import { ReviewEvidence, type Move } from './ReviewEvidence';
 import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
 import { openNextSection } from './sectionNav';
@@ -169,6 +169,8 @@ const Scout = () => {
   const [inFlight, setInFlight] = useState<Record<string, Entry>>({});
   const [staged, setStaged] = useState<Staged>();
   const stagedRef = useRef<Staged>();
+  // What moved the last person on, so the next card slides in the same way
+  const [lastMove, setLastMove] = useState<Move>();
   const stageTimer = useRef<ReturnType<typeof setTimeout>>();
   const writeChain = useRef<Promise<void>>(Promise.resolve());
   const [secondsLeft, setSecondsLeft] = useState(UNDO_SECONDS);
@@ -256,6 +258,7 @@ const Scout = () => {
   const stage = useCallback((entry: Entry) => {
     // Only the latest decision can be undone: a new one saves the previous one now
     flush();
+    setLastMove(entry.decision);
     const held: Staged = { ...entry, until: Date.now() + (UNDO_SECONDS * 1000) };
     stagedRef.current = held;
     setStaged(held);
@@ -274,6 +277,7 @@ const Scout = () => {
     clearTimeout(stageTimer.current);
     stagedRef.current = undefined;
     setStaged(undefined);
+    setLastMove(undefined);
     if (pending.fromLookup) {
       setLookup(pending.item);
       setPersonInUrl(pending.item.id);
@@ -508,6 +512,7 @@ const Scout = () => {
     setSkipOrder([]);
     setNotice(undefined);
     setSessionNote(undefined);
+    setLastMove(undefined);
   };
 
   const chooseMustLook = (course: Course) => {
@@ -619,6 +624,7 @@ const Scout = () => {
     setSkipOrder((state) => [...state.filter((id) => id !== current.id), current.id]);
     setRetries((state) => state.filter((r) => r.id !== current.id).map((r) => (r.after === current.id ? { ...r, after: undefined } : r)));
     setNotice(undefined);
+    setLastMove('skip');
   }, [current, lookup, allSkipped, confirmation, promptOpen]);
 
   const ask = useCallback((decision: Decision) => {
@@ -652,9 +658,9 @@ const Scout = () => {
       if (target?.isContentEditable === true || target?.closest('input, textarea, select')) return;
       // The goal popup takes every key, so an Enter meant for it can never act on the next person
       if (goalPopup) return;
-      // Enter confirms the open box; Esc is handled by the box itself
+      // Enter confirms the open box, unless a button in it (Cancel, close) has focus; Esc is handled by the box itself
       if (confirmation !== undefined) {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && !target?.closest('button, a, summary')) {
           event.preventDefault();
           confirmNote();
         }
@@ -662,8 +668,9 @@ const Scout = () => {
         return;
       }
 
-      // Esc still works with a button focused, e.g. right after clicking Skip; the other keys yield to the control
-      if (event.key !== 'Escape' && target?.closest('button, a, summary')) return;
+      // A clicked control keeps focus, so only the keys it uses itself go to it; the arrows, L, P and Z always work
+      if (event.key === 'Enter' && target?.closest('button, a, summary')) return;
+      if (event.key === ' ' && target?.closest('button, summary')) return;
       if (promptOpen || loading || queueError !== undefined) return;
       const actions: Record<string, () => void> = {
         ArrowRight: () => ask('invite'),
@@ -782,7 +789,7 @@ const Scout = () => {
               </div>
             </section>
           )}
-          {!allSkipped && (current ? <ReviewEvidence key={current.id} item={current} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(current.id)} actions={
+          {!allSkipped && (current ? <ReviewEvidence key={current.id} item={current} person={person} enteredBy={lastMove} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(current.id)} actions={
             <div className="sticky bottom-0 flex flex-col gap-3 rounded-b-overlay border-t border-subtle bg-canvas p-4">
               <div className="flex flex-wrap items-center gap-3 text-size-xs text-secondary">
                 {isLead && <span className={`font-medium ${weeklyInvites >= WEEKLY_INVITE_GOAL ? 'text-success-fg' : 'text-primary'}`}>{Math.min(weeklyInvites, WEEKLY_INVITE_GOAL)} / {WEEKLY_INVITE_GOAL} this week</span>}
@@ -791,6 +798,7 @@ const Scout = () => {
                 <Button variant="outline-black" size="small" disabled={controlsDisabled || skipOrder.length === 0} onClick={() => {
                   setSkipOrder((state) => state.slice(0, -1));
                   setNotice(undefined);
+                  setLastMove(undefined);
                 }}>Undo skip</Button>
               </div>
               <div className="flex flex-wrap items-center justify-between gap-2">
