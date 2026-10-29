@@ -5,6 +5,7 @@ export default defineConfig({
     rollupOptions: {
       input: [
         'theme/index.ts',
+        'theme/data/emailSuggestion.ts',
         'theme/data/recoveryCodes.ts',
         'theme/data/webAuthnAuthenticate.ts',
         'theme/data/webAuthnRegister.ts',
