@@ -7,6 +7,7 @@ import {
   PiGraduationCap,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
+import { DISCUSSION_TIMES_FAQ } from './discussionTimes';
 import { COURSE_COLORS } from '../../../lib/courseColors';
 import TeamSize from '../../shared/TeamSize';
 
@@ -121,6 +122,7 @@ export const createTechnicalAiSafetyProjectContent = (
         ),
         answerText: 'We designed this course as a follow-up to the Technical AI Safety course. We will be prioritising graduates from the course, but we\'ll also consider applicants who can demonstrate equivalent knowledge of technical AI safety concepts.',
       },
+      DISCUSSION_TIMES_FAQ,
       {
         id: 'funding',
         question: 'Do you provide funding for compute?',

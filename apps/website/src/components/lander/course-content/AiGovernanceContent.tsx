@@ -7,6 +7,7 @@ import {
   PiPath,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
+import { DISCUSSION_TIMES_ANSWER, DISCUSSION_TIMES_FAQ } from './discussionTimes';
 import { COURSE_COLORS } from '../../../lib/courseColors';
 
 const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-link';
@@ -122,7 +123,7 @@ export const createAiGovernanceContent = (
 
   scheduleList: {
     title: 'Dates and format',
-    intro: 'Choose a six-day intensive or a six-week part-time cohort. Both cover the same material: around 6–7 hours per day or week, including preparation and live discussion.',
+    intro: `Choose a six-day intensive or a six-week part-time cohort. Both cover the same material: around 6–7 hours per day or week, including preparation and live discussion. ${DISCUSSION_TIMES_ANSWER}`,
     courseSlug,
     applicationUrl: applicationUrlWithUtm,
     hoursPerUnit: '6–7',
@@ -172,11 +173,7 @@ export const createAiGovernanceContent = (
         question: 'Which countries does the course cover?',
         answer: 'The course draws heavily on US examples, alongside the UK, EU, China, and international coordination. You will examine how institutions and political context affect what can work in different jurisdictions.',
       },
-      {
-        id: 'discussion-times',
-        question: 'When are the live discussions?',
-        answer: 'We run discussions across a range of time zones. You will share your availability so we can match you with a group. Choose a cohort whose dates work for you, and allow time to complete the readings and exercises before each discussion.',
-      },
+      DISCUSSION_TIMES_FAQ,
       {
         id: 'vs-fellowships',
         question: 'How is this different from fellowships in the field?',
