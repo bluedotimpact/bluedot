@@ -1,25 +1,36 @@
 import {
-  and, calendarConnectionTable, eq, inArray, isNull, ne, sql, userTable, type CalendarConnection,
+  and, calendarConnectionTable, eq, inArray, isNull, ne, sql, userTable, type CalendarConnection, type CalendarProvider,
 } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
 import { decryptRefreshToken, encryptRefreshToken } from './calendarConnect';
 import db from './db';
 import {
   GoogleCalendarAccessError, GoogleInvalidGrantError, getGooglePrimaryBusy, refreshGoogleAccessToken, revokeGoogleToken,
-  type BusyInterval, type GoogleTokenExchange,
+  type BusyInterval,
 } from './googleCalendar';
+import {
+  MicrosoftCalendarAccessError, MicrosoftInvalidGrantError, getMicrosoftDefaultBusy, refreshMicrosoftAccessToken,
+} from './microsoftCalendar';
 
 const BUSY_CONCURRENCY = 5;
 
+/** What a provider's sign-in gives us, whichever provider it is */
+export type ProviderTokenExchange = {
+  refreshToken: string;
+  scopes: string[];
+  accountId: string;
+  email: string;
+};
+
 /**
- * Saves a Google connection for this BlueDot user.
+ * Saves a Google or Microsoft connection for this BlueDot user.
  * With a Slack member from a signed link, that member is claimed for all of this user's calendars, and taken off any other
  * user's calendars (the newest link wins). Without one, the new calendar inherits whatever Slack member the user's
  * other calendars have, or none, in which case Dot-to-Dot matches the user by account email.
  */
-export async function saveGoogleConnection({
-  userId, linkedSlackUserId, timeZone, exchange,
-}: { userId: string; linkedSlackUserId: string | null; timeZone: string | null; exchange: GoogleTokenExchange }): Promise<void> {
+export async function saveConnection({
+  provider, userId, linkedSlackUserId, timeZone, exchange,
+}: { provider: CalendarProvider; userId: string; linkedSlackUserId: string | null; timeZone: string | null; exchange: ProviderTokenExchange }): Promise<void> {
   const slackUserId = linkedSlackUserId ?? await getSlackUserIdForUser(userId);
   const values = {
     slackUserId,
@@ -46,7 +57,7 @@ export async function saveGoogleConnection({
     await tx
       .insert(calendarConnectionTable.pg)
       .values({
-        userId, provider: 'google', providerAccountId: exchange.accountId, ...values,
+        userId, provider, providerAccountId: exchange.accountId, ...values,
       })
       .onConflictDoUpdate({
         target: [calendarConnectionTable.pg.userId, calendarConnectionTable.pg.provider, calendarConnectionTable.pg.providerAccountId],
@@ -75,6 +86,8 @@ async function getSlackUserIdForUser(userId: string): Promise<string | null> {
 /**
  * Deletes the given connections, and revokes each Google grant unless another row still uses it.
  * Google grants are per Google account, so revoking one would break the same account connected by another BlueDot user.
+ * Microsoft has no per-app revoke (only "sign out everywhere"), so for Outlook we only delete the stored token. The page
+ * tells people they can also remove BlueDot's access in their Microsoft account.
  */
 export async function deleteConnections(connections: CalendarConnection[]): Promise<number> {
   if (connections.length === 0) return 0;
@@ -82,6 +95,7 @@ export async function deleteConnections(connections: CalendarConnection[]): Prom
   await db.pg.delete(calendarConnectionTable.pg).where(inArray(calendarConnectionTable.pg.id, connections.map((c) => c.id)));
 
   await Promise.all(connections.map(async (connection) => {
+    if (connection.provider !== 'google') return;
     const [stillUsed] = await db.pg
       .select({ id: calendarConnectionTable.pg.id })
       .from(calendarConnectionTable.pg)
@@ -117,7 +131,7 @@ export type BusyUser = {
   connected: boolean;
   timeZone: string | null;
   email: string | null;
-  // Every address we know for them: their BlueDot account email(s) and each connected Google account. Dot-to-Dot
+  // Every address we know for them: their BlueDot account email(s) and each connected Google or Microsoft account. Dot-to-Dot
   // invites all of them, so the chat shows up in whichever calendar they actually use.
   emails: string[];
   busy: BusyInterval[];
@@ -217,8 +231,9 @@ type ConnectionBusyResult = { ok: true; busy: BusyInterval[] } | { ok: false; er
 async function fetchConnectionBusy({ connection, timeMin, timeMax }: { connection: CalendarConnection; timeMin: string; timeMax: string }): Promise<ConnectionBusyResult> {
   const label = `${connection.providerAccountEmail} (${connection.provider})`;
   try {
-    const accessToken = await refreshGoogleAccessToken(decryptRefreshToken(connection.encryptedRefreshToken));
-    const busy = await getGooglePrimaryBusy({ accessToken, timeMin, timeMax });
+    const busy = connection.provider === 'microsoft'
+      ? await fetchMicrosoftBusy({ connection, timeMin, timeMax })
+      : await getGooglePrimaryBusy({ accessToken: await refreshGoogleAccessToken(decryptRefreshToken(connection.encryptedRefreshToken)), timeMin, timeMax });
     if (connection.lastError) {
       await db.pg.update(calendarConnectionTable.pg)
         .set({ lastError: null, lastErrorAt: null })
@@ -227,10 +242,11 @@ async function fetchConnectionBusy({ connection, timeMin, timeMax }: { connectio
 
     return { ok: true, busy };
   } catch (error) {
-    if (error instanceof GoogleInvalidGrantError || error instanceof GoogleCalendarAccessError) {
+    const invalidGrant = error instanceof GoogleInvalidGrantError || error instanceof MicrosoftInvalidGrantError;
+    if (invalidGrant || error instanceof GoogleCalendarAccessError || error instanceof MicrosoftCalendarAccessError) {
       // Needs the member to reconnect, so record it where /account can show it. updatedAt stays "when they last connected".
       await db.pg.update(calendarConnectionTable.pg)
-        .set({ lastError: error instanceof GoogleInvalidGrantError ? 'invalid_grant' : error.message, lastErrorAt: new Date().toISOString() })
+        .set({ lastError: invalidGrant ? 'invalid_grant' : error.message, lastErrorAt: new Date().toISOString() })
         .where(eq(calendarConnectionTable.pg.id, connection.id));
       return { ok: false, error: `${label}: ${error.message}. They need to reconnect it at bluedot.org/account/calendars.` };
     }
@@ -238,6 +254,19 @@ async function fetchConnectionBusy({ connection, timeMin, timeMax }: { connectio
     logger.warn(`[CalendarConnect] Busy lookup failed for connection ${connection.id}`, error);
     return { ok: false, error: `${label}: lookup failed (${error instanceof Error ? error.message : String(error)})` };
   }
+}
+
+/** Microsoft rotates refresh tokens, so store the new one before reading the calendar. */
+async function fetchMicrosoftBusy({ connection, timeMin, timeMax }: { connection: CalendarConnection; timeMin: string; timeMax: string }): Promise<BusyInterval[]> {
+  const { accessToken, refreshToken } = await refreshMicrosoftAccessToken(decryptRefreshToken(connection.encryptedRefreshToken));
+  if (refreshToken) {
+    // updatedAt stays "when they last connected", which the busy endpoint uses to pick the newest calendar
+    await db.pg.update(calendarConnectionTable.pg)
+      .set({ encryptedRefreshToken: encryptRefreshToken(refreshToken) })
+      .where(eq(calendarConnectionTable.pg.id, connection.id));
+  }
+
+  return getMicrosoftDefaultBusy({ accessToken, timeMin, timeMax });
 }
 
 /** Sorts and merges overlapping or touching intervals. */

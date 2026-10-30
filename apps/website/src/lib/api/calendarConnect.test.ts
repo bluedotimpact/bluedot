@@ -118,9 +118,9 @@ test('secretsMatch compares regardless of length', () => {
   expect(secretsMatch('', 'abc')).toBe(false);
 });
 
-test('the state cookie is httpOnly, Lax and scoped to the callback', () => {
+test('the state cookie is httpOnly, Lax and scoped to the Calendar Connect API', () => {
   const cookie = stateCookie({ nonce: 'n' });
   expect(cookie).toContain('HttpOnly');
   expect(cookie).toContain('SameSite=Lax');
-  expect(cookie).toContain('Path=/api/calendar-connections/google/callback');
+  expect(cookie).toContain('Path=/api/calendar-connections;');
 });

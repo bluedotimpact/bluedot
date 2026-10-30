@@ -1,9 +1,10 @@
+import type { CalendarProvider } from '@bluedot/db';
 import { getHeadersWithValidToken } from '../utils/trpc';
 
-/** Asks the server for a Google consent URL (which also sets the state cookie), then sends the browser there. */
-export async function startGoogleCalendarConnect({ connectToken }: { connectToken: string | null }): Promise<void> {
+/** Asks the server for the provider's consent URL (which also sets the state cookie), then sends the browser there. */
+export async function startCalendarConnect({ provider, connectToken }: { provider: CalendarProvider; connectToken: string | null }): Promise<void> {
   const headers = await getHeadersWithValidToken();
-  const response = await fetch('/api/calendar-connections/google/start', {
+  const response = await fetch(`/api/calendar-connections/${provider}/start`, {
     method: 'POST',
     headers: { ...headers, 'Content-Type': 'application/json' },
     body: JSON.stringify({

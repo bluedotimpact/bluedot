@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
-import { verifyConnectTokenFromEnv } from '../../lib/api/calendarConnect';
+import { isMicrosoftConfigured, verifyConnectTokenFromEnv } from '../../lib/api/calendarConnect';
 import { disconnectConnection, listConnectionsForUser } from '../../lib/api/calendarConnections';
 import { clearPairWithoutCalendar, getPairWithoutCalendar, setPairWithoutCalendar } from '../../lib/api/calendarPairWithoutCalendar';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
@@ -17,6 +17,9 @@ export const calendarConnectionsRouter = router({
       needsReconnect: Boolean(connection.lastError),
     }));
   }),
+
+  // Which providers can be connected in this environment. Google is always set up; Outlook needs its own app credentials.
+  providers: protectedProcedure.query(() => ({ google: true, microsoft: isMicrosoftConfigured() })),
 
   checkConnectLink: protectedProcedure
     .input(z.object({ token: z.string().max(2000) }))

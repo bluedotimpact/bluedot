@@ -1,12 +1,16 @@
+import type { CalendarProvider } from '@bluedot/db';
 import { Button } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 
 export type CalendarConnectionSummary = {
   id: string;
+  provider: CalendarProvider;
   email: string;
   connectedAt: string;
   needsReconnect: boolean;
 };
+
+const PROVIDER_NAMES: Record<CalendarProvider, string> = { google: 'Google Calendar', microsoft: 'Outlook Calendar' };
 
 /** The person's connected calendars, each with Disconnect. Used on /account and /account/calendars. */
 const CalendarConnectionList = ({ connections }: { connections: CalendarConnectionSummary[] }) => (
@@ -28,7 +32,7 @@ const ConnectionRow = ({ connection }: { connection: CalendarConnectionSummary }
       <div className="flex min-w-0 flex-col gap-1">
         <p className="text-size-sm font-semibold text-primary break-words">{connection.email}</p>
         <p className="text-size-xs text-secondary">
-          Google Calendar · Connected {formatDate(connection.connectedAt)}
+          {PROVIDER_NAMES[connection.provider]} · Connected {formatDate(connection.connectedAt)}
         </p>
         {connection.needsReconnect && (
           <p className="text-size-xs text-warning-fg">

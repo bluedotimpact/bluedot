@@ -97,7 +97,7 @@ export const posthogEmittedEventsTable = pgTable('posthog_emitted_events', {
   sentAt: timestamp({ mode: 'string', withTimezone: true }).defaultNow().notNull(),
 });
 
-export type CalendarProvider = 'google';
+export type CalendarProvider = 'google' | 'microsoft';
 
 /**
  * Calendars that BlueDot users have connected so Dot-to-Dot can find times when both people in a pair are free.
@@ -112,7 +112,7 @@ export const calendarConnectionTable = deprecationSafePgTable('calendar_connecti
     // Points at userTable: the BlueDot account that connected the calendar
     userId: text().notNull(),
     provider: text().$type<CalendarProvider>().notNull(),
-    // The provider's stable account id (Google's `sub`), which survives the account changing its email
+    // The provider's stable account id (the `sub` from Google or Microsoft), which survives the account changing its email
     providerAccountId: text().notNull(),
     providerAccountEmail: text().notNull(),
     // Encrypted by the application before insert. Never store a plaintext token here.

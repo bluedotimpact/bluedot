@@ -5,7 +5,7 @@ import {
 import {
   createCaller, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
 } from '../../__tests__/dbTestUtils';
-import { createFakeGoogle, type FakeGoogle } from '../../__tests__/fakeGoogle';
+import { TEST_CALENDAR_ENV, createFakeGoogle, type FakeGoogle } from '../../__tests__/fakeGoogle';
 import { encryptRefreshToken } from '../../lib/api/calendarConnect';
 
 vi.mock('../../lib/api/env', async () => ({ default: (await import('../../__tests__/fakeGoogle')).TEST_CALENDAR_ENV }));
@@ -27,12 +27,14 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-const seed = (row: { id: string; userId?: string; slackUserId?: string; providerAccountId?: string; refreshToken?: string; lastError?: string }) => testDb.pg
+const seed = (row: {
+  id: string; userId?: string; slackUserId?: string; provider?: 'google' | 'microsoft'; providerAccountId?: string; refreshToken?: string; lastError?: string;
+}) => testDb.pg
   .insert(calendarConnectionTable.pg).values({
     id: row.id,
     slackUserId: row.slackUserId ?? 'U1',
     userId: row.userId ?? 'test-user',
-    provider: 'google',
+    provider: row.provider ?? 'google',
     providerAccountId: row.providerAccountId ?? `sub-${row.id}`,
     providerAccountEmail: `${row.id}@gmail.example`,
     encryptedRefreshToken: encryptRefreshToken(row.refreshToken ?? `rt-${row.id}`),
@@ -61,6 +63,22 @@ describe('calendarConnections.list', () => {
   });
 });
 
+describe('calendarConnections.providers', () => {
+  test('offers Outlook only when its app credentials are set', async () => {
+    const caller = createCaller(testAuthContextLoggedIn);
+    await expect(caller.calendarConnections.providers()).resolves.toEqual({ google: true, microsoft: true });
+
+    const saved = TEST_CALENDAR_ENV.MICROSOFT_CALENDAR_CLIENT_SECRET;
+    // @ts-expect-error removing a key the type says is there
+    delete TEST_CALENDAR_ENV.MICROSOFT_CALENDAR_CLIENT_SECRET;
+    try {
+      await expect(caller.calendarConnections.providers()).resolves.toEqual({ google: true, microsoft: false });
+    } finally {
+      TEST_CALENDAR_ENV.MICROSOFT_CALENDAR_CLIENT_SECRET = saved;
+    }
+  });
+});
+
 describe('calendarConnections.checkConnectLink', () => {
   test('reports whether a link is genuine and unexpired', async () => {
     vi.useFakeTimers({ now: Date.parse('2026-10-19T15:00:00Z'), toFake: ['Date'] });
@@ -76,6 +94,13 @@ describe('calendarConnections.disconnect', () => {
     await createCaller(testAuthContextLoggedIn).calendarConnections.disconnect({ id: 'mine' });
     expect(await ids()).toEqual([]);
     expect(google.revokedTokens).toEqual(['rt-mine']);
+  });
+
+  test('deletes an Outlook connection without calling Google, since Microsoft has no per-app revoke', async () => {
+    await seed({ id: 'outlook', provider: 'microsoft' });
+    await createCaller(testAuthContextLoggedIn).calendarConnections.disconnect({ id: 'outlook' });
+    expect(await ids()).toEqual([]);
+    expect(google.revokedTokens).toEqual([]);
   });
 
   test('can\'t touch someone else\'s connection', async () => {
