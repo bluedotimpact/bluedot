@@ -11,6 +11,14 @@ const FUNDED_ORGANIZATIONS: PublicRapidGrant[] = [
   { projectTitle: 'Golemet', projectSummary: 'Research on collusion between AI agents.' },
   { projectTitle: 'Foldguard', projectSummary: 'DNA synthesis screening.', link: 'https://foldguard.bio/' },
   { projectTitle: 'Formation Research', projectSummary: 'Research on lock-in and concentration of power.', link: 'https://www.formationresearch.org/' },
+  { projectTitle: 'Compute Visibility Institute', projectSummary: 'Mapping advanced computing infrastructure using satellite imagery and open-source research.', link: 'https://computegov.com/' },
+  { projectTitle: 'Plures', projectSummary: 'Building AI governance capacity in middle-power countries.', link: 'https://plures.org/' },
+  { projectTitle: 'Convergent Robotics', projectSummary: 'Safety evaluations and mitigations for intelligent robots.', link: 'https://convergentrobotics.org/index.html' },
+  { projectTitle: 'Sonata Labs', projectSummary: 'Evaluating AI agents on long-running, real-world tasks.', link: 'https://sonatalabs.ai/' },
+  { projectTitle: 'Physical AI Safety Institute', projectSummary: 'Growing research on interpreting, aligning and controlling robot foundation models.', link: 'https://paisi.ai/' },
+  { projectTitle: 'Lyptus Research', projectSummary: 'Research on dangerous AI capabilities and alignment.', link: 'https://lyptusresearch.org/' },
+  { projectTitle: 'SEAR Labs', projectSummary: '' },
+  { projectTitle: 'Propensity Labs', projectSummary: 'Research and tools for understanding and steering AI model behavior.', link: 'https://www.propensitylabs.ai/' },
 ].map((organization) => ({ ...organization, granteeName: '', amountUsd: null }));
 
 const FundedOrganizationsSection = () => {
