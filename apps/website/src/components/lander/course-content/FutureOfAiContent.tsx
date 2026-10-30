@@ -19,7 +19,7 @@ export const createFutureOfAiContent = (
 ): CourseLanderContent => ({
   meta: {
     title: 'Future of AI Course | BlueDot Impact',
-    description: 'Understand what\'s coming. Join the conversation. Get informed about AI\'s trajectory and society\'s biggest choices in just 2 hours. No technical background needed.',
+    description: 'Understand what\'s coming. Join the conversation. Get informed about AI\'s trajectory and society\'s biggest choices in just 90 minutes. No technical background needed.',
   },
 
   hero: {
@@ -71,7 +71,7 @@ export const createFutureOfAiContent = (
     benefits: [
       {
         icon: PiClock,
-        title: 'Get informed in 2 hours',
+        title: 'Get informed in 90 minutes',
         description: 'No degree required. This course replaces weeks of confusing articles with clear explanations of what\'s actually happening with AI and where it\'s headed.',
       },
       {
@@ -128,7 +128,7 @@ export const createFutureOfAiContent = (
       {
         id: 'duration',
         question: 'How long does it take?',
-        answer: 'About 2 hours total. You can complete it in one sitting or come back across multiple sessions - your progress is saved.',
+        answer: 'About 90 minutes total. You can complete it in one sitting or come back across multiple sessions - your progress is saved.',
       },
       {
         id: 'certificate',

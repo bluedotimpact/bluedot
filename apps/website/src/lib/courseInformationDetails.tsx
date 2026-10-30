@@ -120,7 +120,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
       {
         icon: PiClock,
         label: 'Commitment',
-        description: 'Self-paced. Complete the 2-hour course whenever suits you. Interactive content with reflection prompts throughout.',
+        description: 'Self-paced. Complete the 90-minute course whenever suits you. Interactive content with reflection prompts throughout.',
       },
       {
         icon: PiDesktop,

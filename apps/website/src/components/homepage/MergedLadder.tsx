@@ -78,7 +78,7 @@ const FoaiRungCard = () => (
           Free, self-paced, no application. Finish in an evening with a clearer picture of frontier AI and how to help.
         </P>
         <div className="flex flex-wrap gap-2 mt-1">
-          {['2 hours', 'Free', 'No application'].map((tag) => (
+          {['90 minutes', 'Free', 'No application'].map((tag) => (
             <span
               key={tag}
               className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-surface-on-dark-subtle border border-border-on-dark backdrop-blur-[10px] text-on-dark"
