@@ -3,7 +3,9 @@ import {
 } from 'vitest';
 import { userTable } from '@bluedot/db';
 import { setupTestDb, testDb } from '../../__tests__/dbTestUtils';
-import { sendEmailChangeRequestedNotice, sendEmailChangeVerification, updateCustomerIoEmail } from './customerio';
+import {
+  sendEmailChangeRequestedNotice, sendEmailChangeVerification, sendFormSubmissionCopy, updateCustomerIoEmail,
+} from './customerio';
 import env from './env';
 
 vi.mock('./env', () => ({
@@ -577,5 +579,37 @@ describe('sendEmailChangeRequestedNotice', () => {
     }
 
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+});
+
+describe('sendFormSubmissionCopy', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  test('triggers the transactional message with the subject and html as message data', async () => {
+    const fetchMock = vi.fn(async () => jsonResponse(200, { delivery_id: 'd1' }));
+    vi.stubGlobal('fetch', fetchMock);
+
+    await sendFormSubmissionCopy({ to: ' Ada@Example.com ', subject: 'Copy of your responses: Test form', html: '<p>Thanks</p>' });
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, init] = fetchMock.mock.calls[0]! as unknown as [string, { method: string; body: string }];
+    expect(url).toBe('https://api-eu.customer.io/v1/send/email');
+    expect(init.method).toBe('POST');
+    expect(JSON.parse(init.body)).toEqual({
+      transactional_message_id: 'form_submission_copy',
+      to: 'ada@example.com',
+      identifiers: { email: 'ada@example.com' },
+      send_to_unsubscribed: true,
+      message_data: { subject: 'Copy of your responses: Test form', html: '<p>Thanks</p>' },
+    });
+  });
+
+  test('throws when the send fails', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(400, { meta: { error: 'bad' } })));
+
+    await expect(sendFormSubmissionCopy({ to: 'ada@example.com', subject: 's', html: 'h' }))
+      .rejects.toThrow('HTTP 400');
   });
 });

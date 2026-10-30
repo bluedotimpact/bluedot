@@ -70,3 +70,11 @@ export async function getFieldOptions(baseId: string, tableId: string, fieldId: 
 
   return field.options.choices.map(({ id, name }) => ({ id, name }));
 }
+
+export async function getTableFieldNames(baseId: string, tableId: string): Promise<Record<string, string>> {
+  const tables = await getBaseSchema(baseId);
+  const table = tables.find((t) => t.id === tableId);
+  if (!table) throw new Error(`Table ${tableId} not found in base ${baseId}`);
+
+  return Object.fromEntries(table.fields.map(({ id, name }) => [id, name]));
+}
