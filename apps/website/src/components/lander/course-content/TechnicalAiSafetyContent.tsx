@@ -10,6 +10,7 @@ import {
   PiUsersThree,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
+import { DISCUSSION_TIMES_ANSWER, DISCUSSION_TIMES_FAQ } from './discussionTimes';
 import { COURSE_COLORS } from '../../../lib/courseColors';
 import TeamSize from '../../shared/TeamSize';
 
@@ -199,6 +200,7 @@ export const createTechnicalAiSafetyContent = (
 
   scheduleList: {
     title: 'Schedule',
+    intro: DISCUSSION_TIMES_ANSWER,
     courseSlug,
     applicationUrl: applicationUrlWithUtm,
   },
@@ -228,6 +230,7 @@ export const createTechnicalAiSafetyContent = (
         ),
         answerText: 'It\'s not required, but strongly recommended. The AGI Strategy course provides essential context that this course builds on. While you can start here directly, you\'ll get more value if you understand how technical safety fits into the broader landscape of making AI go well.',
       },
+      DISCUSSION_TIMES_FAQ,
       {
         id: 'bluedot',
         question: 'Who is BlueDot Impact?',

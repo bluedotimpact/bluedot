@@ -1,4 +1,5 @@
 import { type CourseLanderContent } from '../CourseLander';
+import { DISCUSSION_TIMES_ANSWER, DISCUSSION_TIMES_FAQ } from './discussionTimes';
 import { COURSE_COLORS } from '../../../lib/courseColors';
 
 export const AGI_STRATEGY_COLORS = COURSE_COLORS['agi-strategy'];
@@ -61,6 +62,7 @@ export const createAgiStrategyContent = (
 
   scheduleList: {
     title: 'Schedule',
+    intro: DISCUSSION_TIMES_ANSWER,
     courseSlug,
     applicationUrl: applicationUrlWithUtm,
   },
@@ -158,11 +160,7 @@ export const createAgiStrategyContent = (
         question: 'What\'s the difference between intensive and part-time?',
         answer: 'Same content, different pace. Intensive is 5 days at ~5h/day, for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5h/week, for people fitting this around other commitments. Both end in the same place.',
       },
-      {
-        id: 'timezones',
-        question: 'What time zones do you run cohorts in?',
-        answer: 'We run discussions across a wide range of timezones. You\'ll tell us your availability and we\'ll put you in a group that works for your current schedule.',
-      },
+      DISCUSSION_TIMES_FAQ,
       {
         id: 'direction',
         question: 'What if I don\'t know which direction I want to go?',

@@ -1252,6 +1252,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             >
               Schedule
             </h3>
+            <p
+              class="bluedot-p not-prose"
+            >
+              There is no fixed time. We run many groups across time zones. Once you apply, you will provide your availability and we will try our best to match you with a group that fits your schedule.
+            </p>
           </div>
           <div
             class="flex flex-col gap-3"
@@ -1504,7 +1509,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
     <script
       type="application/ld+json"
     >
-      {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What background do I need?","acceptedAnswer":{"@type":"Answer","text":"We don't care about your CV. We care about what you'll do next. Recent cohorts have included people from policy, engineering, law, medicine, operations, and academia. What they shared was drive and a bias toward action."}},{"@type":"Question","name":"Is this course for beginners?","acceptedAnswer":{"@type":"Answer","text":"It's for people new to working on AI safety, not new to thinking hard. If you've been reading and thinking, and are ready to act, this is where you start."}},{"@type":"Question","name":"What's the difference between intensive and part-time?","acceptedAnswer":{"@type":"Answer","text":"Same content, different pace. Intensive is 5 days at ~5h/day, for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5h/week, for people fitting this around other commitments. Both end in the same place."}},{"@type":"Question","name":"What time zones do you run cohorts in?","acceptedAnswer":{"@type":"Answer","text":"We run discussions across a wide range of timezones. You'll tell us your availability and we'll put you in a group that works for your current schedule."}},{"@type":"Question","name":"What if I don't know which direction I want to go?","acceptedAnswer":{"@type":"Answer","text":"That's what the course is for. You'll leave with a view on which problems matter most and which path fits your skills: technical research, governance, biosecurity, or building something new. Figuring that out is the work."}},{"@type":"Question","name":"Is there funding available?","acceptedAnswer":{"@type":"Answer","text":"Yes. See bluedot.org/grants for current grants and how to apply."}},{"@type":"Question","name":"Will I get a certificate?","acceptedAnswer":{"@type":"Answer","text":"Yes. Participants who complete the course receive a digital certificate they can share on LinkedIn or with employers."}},{"@type":"Question","name":"Is it really free?","acceptedAnswer":{"@type":"Answer","text":"Yes."}},{"@type":"Question","name":"Who is BlueDot Impact?","acceptedAnswer":{"@type":"Answer","text":"BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events around the world, and back people starting new organisations. We've trained over 10,000 people since 2022. Our alumni now work at Anthropic, DeepMind, UK AISI, and have founded new organisations working on a safe transition to advanced AI."}}]}
+      {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What background do I need?","acceptedAnswer":{"@type":"Answer","text":"We don't care about your CV. We care about what you'll do next. Recent cohorts have included people from policy, engineering, law, medicine, operations, and academia. What they shared was drive and a bias toward action."}},{"@type":"Question","name":"Is this course for beginners?","acceptedAnswer":{"@type":"Answer","text":"It's for people new to working on AI safety, not new to thinking hard. If you've been reading and thinking, and are ready to act, this is where you start."}},{"@type":"Question","name":"What's the difference between intensive and part-time?","acceptedAnswer":{"@type":"Answer","text":"Same content, different pace. Intensive is 5 days at ~5h/day, for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5h/week, for people fitting this around other commitments. Both end in the same place."}},{"@type":"Question","name":"When are the live discussions?","acceptedAnswer":{"@type":"Answer","text":"There is no fixed time. We run many groups across time zones. Once you apply, you will provide your availability and we will try our best to match you with a group that fits your schedule."}},{"@type":"Question","name":"What if I don't know which direction I want to go?","acceptedAnswer":{"@type":"Answer","text":"That's what the course is for. You'll leave with a view on which problems matter most and which path fits your skills: technical research, governance, biosecurity, or building something new. Figuring that out is the work."}},{"@type":"Question","name":"Is there funding available?","acceptedAnswer":{"@type":"Answer","text":"Yes. See bluedot.org/grants for current grants and how to apply."}},{"@type":"Question","name":"Will I get a certificate?","acceptedAnswer":{"@type":"Answer","text":"Yes. Participants who complete the course receive a digital certificate they can share on LinkedIn or with employers."}},{"@type":"Question","name":"Is it really free?","acceptedAnswer":{"@type":"Answer","text":"Yes."}},{"@type":"Question","name":"Who is BlueDot Impact?","acceptedAnswer":{"@type":"Answer","text":"BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events around the world, and back people starting new organisations. We've trained over 10,000 people since 2022. Our alumni now work at Anthropic, DeepMind, UK AISI, and have founded new organisations working on a safe transition to advanced AI."}}]}
     </script>
     <section
       class="w-full bg-canvas"
@@ -1675,7 +1680,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="rounded-surface border bg-raised overflow-hidden p-0"
             >
               <button
-                aria-controls="faq-answer-timezones"
+                aria-controls="faq-answer-discussion-times"
                 aria-expanded="false"
                 class="ease flex w-full cursor-pointer items-center gap-8 px-8 text-left transition-all duration-300 py-6 hover:bg-tint"
                 type="button"
@@ -1683,7 +1688,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <span
                   class="text-primary flex-grow text-size-md leading-snug font-semibold"
                 >
-                  What time zones do you run cohorts in?
+                  When are the live discussions?
                 </span>
                 <svg
                   aria-hidden="true"
@@ -1703,7 +1708,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </button>
               <div
                 class="ease grid transition-[grid-template-rows] duration-300 grid-rows-[0fr]"
-                id="faq-answer-timezones"
+                id="faq-answer-discussion-times"
               >
                 <div
                   class="overflow-hidden"
@@ -1714,7 +1719,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     <p
                       class="bluedot-p not-prose text-secondary text-size-md"
                     >
-                      We run discussions across a wide range of timezones. You'll tell us your availability and we'll put you in a group that works for your current schedule.
+                      There is no fixed time. We run many groups across time zones. Once you apply, you will provide your availability and we will try our best to match you with a group that fits your schedule.
                     </p>
                   </div>
                 </div>

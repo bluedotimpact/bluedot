@@ -8,6 +8,7 @@ import {
   PiWrench,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
+import { DISCUSSION_TIMES_ANSWER, DISCUSSION_TIMES_FAQ } from './discussionTimes';
 import { COURSE_COLORS } from '../../../lib/courseColors';
 
 export const BIOSECURITY_COLORS = COURSE_COLORS.biosecurity;
@@ -106,6 +107,7 @@ export const createBioSecurityContent = (
 
   scheduleList: {
     title: 'Schedule',
+    intro: DISCUSSION_TIMES_ANSWER,
     courseSlug,
     applicationUrl: applicationUrlWithUtm,
   },
@@ -180,6 +182,7 @@ export const createBioSecurityContent = (
         question: 'What\'s the difference between intensive and part-time?',
         answer: 'Same content, different pace. Intensive is ~6 days at ~5h/day, for people who can clear a week and want to move fast. Part-time is ~6 weeks at ~5h/week, for people fitting this around other commitments. Both end in the same place.',
       },
+      DISCUSSION_TIMES_FAQ,
       {
         id: 'funding',
         question: 'Is there funding available?',
