@@ -7,7 +7,7 @@ import {
 } from '@bluedot/ui';
 import {
   type TimeAvailabilityMap,
-  formatOffsetFromMinutesToString, parseOffsetFromStringToMinutes,
+  offsets, formatOffsetFromMinutesToString, parseOffsetFromStringToMinutes,
   weeklyTimeAvToIntervals, shiftIntervals, gridToUtcIntervalString, utcIntervalStringToGrid,
 } from '@bluedot/utils';
 import { type SubmitRequest } from '../api/public/submit';
@@ -146,9 +146,11 @@ const getDefaultFormValues = (searchParams: URLSearchParams): FormFieldData => {
   const email = searchParams.get('email') ?? '';
   const comment = searchParams.get('prefill_comment') ?? '';
 
-  // Use prefilled timezone if provided, otherwise use browser timezone
+  // The prefilled timezone comes from a free-text Airtable field, so only use it if it's one of our options
   const prefillTimezone = searchParams.get('prefill_timezone');
-  const timezone = prefillTimezone ?? formatOffsetFromMinutesToString(new Date().getTimezoneOffset());
+  const timezone = prefillTimezone && offsets.includes(prefillTimezone)
+    ? prefillTimezone
+    : formatOffsetFromMinutesToString(new Date().getTimezoneOffset());
 
   // Parse prefilled intervals (stored in UTC) and convert to local time
   const prefillIntervalsUTC = searchParams.get('prefill_intervals');
